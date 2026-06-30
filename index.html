@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KRAFT·Vibe — Kraft Paper Covers, Bags & Return Gifts · Udumalpet</title>
+<link rel="icon" type="image/svg+xml" href="logo.svg">
 <meta name="description" content="Branded kraft paper covers and bags at plain-cover price, plus custom return gift bags. Made local in Udumalpet, delivered to your shop.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -213,6 +214,31 @@ footer a{color:#c8b79f}footer a:hover{color:var(--paper)}
 
 @media(max-width:860px){.industry-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:540px){.industry-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* "Sizes & MOQ" button on cards */
+.more{margin-top:14px;display:inline-flex;align-items:center;gap:7px;font-family:'DM Mono',monospace;font-size:12.5px;letter-spacing:.5px;font-weight:500;
+  background:transparent;border:1.6px solid var(--ink);color:var(--ink);padding:8px 14px;border-radius:2px;cursor:pointer;transition:.18s}
+.more:hover{background:var(--ink);color:var(--paper);gap:11px}
+
+/* product detail modal */
+.pm-ov{position:fixed;inset:0;background:rgba(38,34,25,.62);z-index:200;display:none;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(3px)}
+.pm-ov.on{display:flex;animation:pmf .2s ease}
+@keyframes pmf{from{opacity:0}to{opacity:1}}
+.pm{background:var(--paper);max-width:660px;width:100%;max-height:90vh;overflow-y:auto;border-radius:10px;border:1.5px solid var(--kraft);box-shadow:0 30px 70px rgba(40,25,10,.4);animation:pmu .28s cubic-bezier(.2,.7,.2,1)}
+@keyframes pmu{from{transform:translateY(20px);opacity:.6}to{transform:none;opacity:1}}
+.pm-img{position:relative;height:210px;background:radial-gradient(circle at 50% 38%,#dcc098,#c2925a 72%,#a87b46);overflow:hidden}
+.pm-img img{width:100%;height:100%;object-fit:cover}
+.pm-img .pill{position:absolute;top:12px;left:12px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;background:var(--eco);color:#fff;padding:4px 10px;border-radius:2px}
+.pm-close{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;background:rgba(38,34,25,.8);color:#fff;border:0;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1}
+.pm-close:hover{background:var(--stamp)}
+.pm-body{padding:22px 24px 26px}
+.pm-body h3{font-size:28px;letter-spacing:.4px}
+.pm-body .blurb{color:var(--ink-soft);font-size:15px;margin:8px 0 16px}
+.spec{width:100%;border-collapse:collapse}
+.spec th{text-align:left;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--kraft-deep);padding:10px 14px 10px 0;border-bottom:1px dashed rgba(156,103,53,.4);width:40%;vertical-align:top;font-weight:500;white-space:nowrap}
+.spec td{padding:10px 0;border-bottom:1px dashed rgba(156,103,53,.4);font-size:14.5px;color:var(--ink)}
+.pm-cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.pm-note{font-family:'DM Mono',monospace;font-size:11px;color:var(--kraft-deep);margin-top:12px;letter-spacing:.3px}
 </style>
 </head>
 <body>
@@ -223,14 +249,13 @@ footer a{color:#c8b79f}footer a:hover{color:var(--paper)}
 <header class="nav">
   <div class="nav-in">
     <a class="brand" href="#top" aria-label="KRAFT·Vibe — Kraft Paper, Udumalpet">
-      <svg class="mark" viewBox="0 0 48 48" fill="none">
-        <path d="M9 16h30l-2.4 27a3 3 0 01-3 2.7H14.4a3 3 0 01-3-2.7L9 16z" fill="#c2925a" stroke="#2c4d34" stroke-width="2.6"/>
-        <path d="M17 16c0-6 2.6-10 7-10s7 4 7 10" fill="none" stroke="#2c4d34" stroke-width="2.6"/>
-        <g stroke="#2c4d34" stroke-width="1.3" fill="none" opacity=".9" stroke-linecap="round">
-          <path d="M16 24l2.4 2.4M18.4 24l-2.4 2.4M29.6 24l2.4 2.4M32 24l-2.4 2.4"/>
-          <path d="M24 28v8M21.4 31l2.6 1.6 2.6-1.6"/>
-          <rect x="21.4" y="22.4" width="5.2" height="4.4" rx=".6"/>
-        </g>
+      <svg class="mark" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <path d="M12 16H36L33.6 41.6A3 3 0 0 1 30.6 44.4H17.4A3 3 0 0 1 14.4 41.6L12 16Z" fill="#c2925a" stroke="#1f3d28" stroke-width="2.6" stroke-linejoin="round"/>
+        <path d="M18 16C18 9 20.4 6 24 6S30 9 30 16" fill="none" stroke="#1f3d28" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M24 42V30" stroke="#2c4d34" stroke-width="2.2" stroke-linecap="round"/>
+        <path d="M24 33C24 27.8 19.6 25 15 25C17.6 28.8 20.8 32 24 33Z" fill="#2c4d34"/>
+        <path d="M24 36C24 31.2 28.4 28.6 33 28.6C30.6 32.4 27.2 35 24 36Z" fill="#3a6344"/>
+        <circle cx="24" cy="20.5" r="1.9" fill="#9c1824"/>
       </svg>
       <b>KRAFT<span class="dot">·</span><span class="vibe">Vibe</span></b>
     </a>
@@ -291,17 +316,17 @@ footer a{color:#c8b79f}footer a:hover{color:var(--paper)}
       <div class="gitem reveal">
         <div class="ph"><span class="pill">Bestseller</span>
           <img src="https://loremflickr.com/600/450/kraft,paper,bag/all?lock=11" alt="Kraft paper covers" loading="lazy"></div>
-        <div class="gcap"><h3>Kraft Covers</h3><p>Flat &amp; V-bottom covers, 1 kg to 5 kg. Sold by kg or piece. Plain or printed.</p></div>
+        <div class="gcap"><h3>Kraft Covers</h3><p>Flat &amp; V-bottom covers, 1 kg to 5 kg. Sold by kg or piece. Plain or printed.</p><button class="more" onclick="openProd('kraftcovers')">Sizes &amp; MOQ →</button></div>
       </div>
       <div class="gitem reveal">
         <div class="ph"><span class="pill alt">Branded</span>
           <img src="https://loremflickr.com/600/450/paper,shopping,bag/all?lock=22" alt="Branded handle bags" loading="lazy"></div>
-        <div class="gcap"><h3>Handle Bags</h3><p>Square-bottom bags with handles — premium carry for textiles &amp; boutiques. Single-colour print.</p></div>
+        <div class="gcap"><h3>Handle Bags</h3><p>Square-bottom bags with handles — premium carry for textiles &amp; boutiques. Single-colour print.</p><button class="more" onclick="openProd('handlebags')">Sizes &amp; MOQ →</button></div>
       </div>
       <div class="gitem reveal">
         <div class="ph"><span class="pill">Custom</span>
           <img src="https://loremflickr.com/600/450/printing,press/all?lock=33" alt="Custom printing" loading="lazy"></div>
-        <div class="gcap"><h3>Custom Printing</h3><p>Low minimum — even 50–100 pieces. Any design, your logo, name and address. No huge factory minimums.</p></div>
+        <div class="gcap"><h3>Custom Printing</h3><p>Low minimum — even 50–100 pieces. Any design, your logo, name and address. No huge factory minimums.</p><button class="more" onclick="openProd('custom')">Details &amp; MOQ →</button></div>
       </div>
     </div>
   </div>
@@ -320,22 +345,22 @@ footer a{color:#c8b79f}footer a:hover{color:var(--paper)}
         <div class="gitem reveal">
           <div class="ph"><span class="pill">Affordable</span>
             <img src="https://loremflickr.com/600/450/gift,bag/all?lock=44" alt="Paper return gift bags" loading="lazy"></div>
-          <div class="gcap"><h3>Paper Return Bags</h3><p>Kraft bags printed with the family name and a thank-you. Quick, affordable, function-ready.</p></div>
+          <div class="gcap"><h3>Paper Return Bags</h3><p>Kraft bags printed with the family name and a thank-you. Quick, affordable, function-ready.</p><button class="more" onclick="openProd('paperreturn')">Sizes &amp; MOQ →</button></div>
         </div>
         <div class="gitem reveal">
           <div class="ph"><span class="pill alt">Premium</span>
             <img src="https://loremflickr.com/600/450/jute,bag/all?lock=55" alt="Cloth and jute return gift bags" loading="lazy"></div>
-          <div class="gcap"><h3>Cloth &amp; Jute Bags</h3><p>Reusable potli, jute and cotton bags, custom printed. A favourite for weddings and thamboolam.</p></div>
+          <div class="gcap"><h3>Cloth &amp; Jute Bags</h3><p>Reusable potli, jute and cotton bags, custom printed. A favourite for weddings and thamboolam.</p><button class="more" onclick="openProd('jute')">Sizes &amp; MOQ →</button></div>
         </div>
         <div class="gitem reveal">
           <div class="ph"><span class="pill">Ready-to-give</span>
             <img src="https://loremflickr.com/600/450/wedding,favor/all?lock=66" alt="Combo return gift packing" loading="lazy"></div>
-          <div class="gcap"><h3>Combo Packing</h3><p>Return gift item + your branded bag + haldi-kumkum, packed and ready to hand to guests.</p></div>
+          <div class="gcap"><h3>Combo Packing</h3><p>Return gift item + your branded bag + haldi-kumkum, packed and ready to hand to guests.</p><button class="more" onclick="openProd('combo')">Details &amp; MOQ →</button></div>
         </div>
         <div class="gitem reveal">
           <div class="ph"><span class="pill alt">Festive</span>
             <img src="https://loremflickr.com/600/450/wedding,decoration,india/all?lock=77" alt="Festive function gift bags" loading="lazy"></div>
-          <div class="gcap"><h3>Wedding &amp; Function Sets</h3><p>Bulk sets with date, names and theme colours — matched to your invitation. Order early, delivered on time.</p></div>
+          <div class="gcap"><h3>Wedding &amp; Function Sets</h3><p>Bulk sets with date, names and theme colours — matched to your invitation. Order early, delivered on time.</p><button class="more" onclick="openProd('wedding')">Details &amp; MOQ →</button></div>
         </div>
       </div>
     </div>
@@ -425,11 +450,60 @@ footer a{color:#c8b79f}footer a:hover{color:var(--paper)}
   </div>
 </footer>
 
+<!-- product detail modal -->
+<div class="pm-ov" id="pmov"><div class="pm" id="pm"></div></div>
+
 <a class="fab" href="https://wa.me/917904505226?text=Hi%2C%20I%20would%20like%20product%20details" target="_blank" rel="noopener" aria-label="WhatsApp">
   <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-8.6 15l-1.3 4.8 4.9-1.3A10 10 0 1012 2zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.8-.6-3-1.3-5-4.4-5.1-4.6-.2-.2-1.3-1.7-1.3-3.2s.8-2.3 1.1-2.6c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l.9 2.1c.1.2.1.4 0 .6l-.4.6c-.2.2-.3.4-.1.7.2.3.9 1.4 1.9 2.3 1.3 1.1 2.3 1.5 2.6 1.6.3.1.5.1.7-.1l.8-1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.4.1.2.1.8-.1 1.4z"/></svg>
 </a>
 
 <script>
+  /* ===== product details ===== edit sizes / MOQ / price here anytime ===== */
+  const WA='917904505226';
+  const PRODUCTS={
+    kraftcovers:{title:'Kraft Covers',pill:'Bestseller',img:'https://loremflickr.com/700/420/kraft,paper,bag/all?lock=11',
+      blurb:'Strong kraft paper covers for everyday shop use — plain, or printed with your shop name at the same price.',
+      specs:[['Sizes','¼ kg · ½ kg · 1 kg · 2 kg · 5 kg (flat & V-bottom)'],['Paper','80–100 GSM kraft'],['MOQ – plain','Sold by kg — no minimum'],['MOQ – printed','50–100 pieces'],['Printing','1–2 colour: shop name, logo, address'],['Lead time','Sample 1–2 days · bulk 4–6 days'],['Price','From ₹1.30 / piece (printed near plain-cover price)']]},
+    handlebags:{title:'Handle Bags',pill:'Branded',img:'https://loremflickr.com/700/420/paper,shopping,bag/all?lock=22',
+      blurb:'Square-bottom kraft bags with handles — a premium carry for textiles, boutiques and gifting.',
+      specs:[['Sizes','S 8×10 in · M 10×13 in · L 13×16 in (custom on request)'],['Paper','120–150 GSM'],['Handles','Twisted paper or flat'],['MOQ','100 pieces (printed)'],['Printing','1–3 colour'],['Lead time','Sample 2–3 days · bulk 6–8 days'],['Price','From ₹6 / piece (size & print based)']]},
+    custom:{title:'Custom Printing',pill:'Custom',img:'https://loremflickr.com/700/420/printing,press/all?lock=33',
+      blurb:'Your logo, name and address printed on covers and bags — low minimums and we design it for you free.',
+      specs:[['Applies to','Covers · handle bags · return bags'],['MOQ','As low as 50–100 pieces'],['Colours','1–3 colours'],['Design','Free design help — share a logo or idea'],['Proof','Free printed sample before bulk'],['Lead time','Sample 1–2 days']]},
+    paperreturn:{title:'Paper Return Bags',pill:'Affordable',img:'https://loremflickr.com/700/420/gift,bag/all?lock=44',
+      blurb:'Kraft return-gift bags printed with the family name and a thank-you — quick, affordable and function-ready.',
+      specs:[['Sizes','Small & medium gift sizes'],['Paper','120 GSM'],['MOQ','50–100 pieces'],['Printing','Family name, date, thank-you, theme colour'],['Lead time','3–5 days']]},
+    jute:{title:'Cloth & Jute Bags',pill:'Premium',img:'https://loremflickr.com/700/420/jute,bag/all?lock=55',
+      blurb:'Reusable potli, jute and cotton bags, custom printed — a favourite for weddings and thamboolam.',
+      specs:[['Types','Jute · cotton · potli'],['Sizes','Small & medium'],['MOQ','50 pieces'],['Printing','Screen-print logo or names'],['Lead time','5–8 days']]},
+    combo:{title:'Combo Packing',pill:'Ready-to-give',img:'https://loremflickr.com/700/420/wedding,favor/all?lock=66',
+      blurb:'Return-gift item + your branded bag + haldi-kumkum, packed and ready to hand to guests.',
+      specs:[['Includes','Gift item + branded bag + haldi-kumkum'],['MOQ','On request (by function size)'],['Packing','Assembled & ready to hand'],['Lead time','5–10 days']]},
+    wedding:{title:'Wedding & Function Sets',pill:'Festive',img:'https://loremflickr.com/700/420/wedding,decoration,india/all?lock=77',
+      blurb:'Bulk return-gift sets matched to your invitation — names, date and theme colours.',
+      specs:[['Includes','Names · date · theme colours'],['MOQ','100+ pieces'],['Match','To your invitation / theme'],['Lead time','Order 1–2 weeks early']]}
+  };
+  function openProd(k){
+    const p=PRODUCTS[k];if(!p)return;
+    const rows=p.specs.map(s=>`<tr><th>${s[0]}</th><td>${s[1]}</td></tr>`).join('');
+    const wa=`https://wa.me/${WA}?text=`+encodeURIComponent(`Hi, I want details about ${p.title} — sizes, MOQ and price please.`);
+    document.getElementById('pm').innerHTML=`
+      <div class="pm-img"><span class="pill">${p.pill}</span><button class="pm-close" onclick="closeProd()" aria-label="Close">×</button><img src="${p.img}" alt="${p.title}"></div>
+      <div class="pm-body">
+        <h3>${p.title}</h3><p class="blurb">${p.blurb}</p>
+        <table class="spec"><tbody>${rows}</tbody></table>
+        <div class="pm-cta">
+          <a class="btn wa" href="${wa}" target="_blank" rel="noopener">WhatsApp for this</a>
+          <a class="btn ghost" href="tel:+${WA}">Call ${'+91 79045 05226'}</a>
+        </div>
+        <p class="pm-note">Sizes & prices are indicative — message us for an exact quote for your shop.</p>
+      </div>`;
+    document.getElementById('pmov').classList.add('on');document.body.style.overflow='hidden';
+  }
+  function closeProd(){document.getElementById('pmov').classList.remove('on');document.body.style.overflow='';}
+  document.getElementById('pmov').addEventListener('click',e=>{if(e.target.id==='pmov')closeProd();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeProd();});
+
   const mb=document.getElementById('menuBtn'),nl=document.getElementById('navlinks');
   mb.addEventListener('click',()=>nl.classList.toggle('open'));
   nl.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>nl.classList.remove('open')));

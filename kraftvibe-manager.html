@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>KRAFT·Vibe — Business Manager</title>
+<link rel="icon" type="image/svg+xml" href="logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -22,7 +23,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
 /* header */
 header{position:sticky;top:0;z-index:30;background:var(--ink);color:var(--paper);padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
-header .logo{font-family:'Anton';font-size:21px;letter-spacing:1px}
+header .logo{display:flex;align-items:center;gap:9px}
+header .logo .bmark{width:36px;height:36px;flex:none}
+header .logo .logo-tx{font-family:'Anton';font-size:21px;letter-spacing:1px;line-height:1}
 header .logo .dot{color:#e06a55}
 header .logo small{display:block;font-family:'DM Mono';font-size:9px;letter-spacing:2px;color:#cdbca5;margin-top:1px}
 header .hbtns{display:flex;gap:6px}
@@ -133,6 +136,14 @@ main{max-width:1000px;margin:0 auto;padding:16px}
 
 <!-- ===== PASSWORD LOCK ===== change GATE_PASS below to your own password ===== -->
 <div id="gate" style="position:fixed;inset:0;z-index:999;background:#262219;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;padding:24px;text-align:center">
+  <svg viewBox="0 0 48 48" fill="none" width="58" height="58" aria-hidden="true">
+    <path d="M12 16H36L33.6 41.6A3 3 0 0 1 30.6 44.4H17.4A3 3 0 0 1 14.4 41.6L12 16Z" fill="#c2925a" stroke="#1f3d28" stroke-width="2.6" stroke-linejoin="round"/>
+    <path d="M18 16C18 9 20.4 6 24 6S30 9 30 16" fill="none" stroke="#1f3d28" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M24 42V30" stroke="#2c4d34" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M24 33C24 27.8 19.6 25 15 25C17.6 28.8 20.8 32 24 33Z" fill="#2c4d34"/>
+    <path d="M24 36C24 31.2 28.4 28.6 33 28.6C30.6 32.4 27.2 35 24 36Z" fill="#3a6344"/>
+    <circle cx="24" cy="20.5" r="1.9" fill="#e06a55"/>
+  </svg>
   <div style="font-family:Anton,sans-serif;color:#fff;font-size:28px;letter-spacing:1px">KRAFT<span style="color:#e06a55">·</span>VIBE</div>
   <div style="color:#cdbca5;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px">BUSINESS MANAGER · PRIVATE</div>
   <input id="gatePass" type="password" placeholder="Enter password" autocomplete="current-password"
@@ -153,7 +164,17 @@ main{max-width:1000px;margin:0 auto;padding:16px}
 </script>
 
 <header>
-  <div class="logo">KRAFT<span class="dot">·</span>VIBE<small>BUSINESS MANAGER</small></div>
+  <div class="logo">
+    <svg class="bmark" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+      <path d="M12 16H36L33.6 41.6A3 3 0 0 1 30.6 44.4H17.4A3 3 0 0 1 14.4 41.6L12 16Z" fill="#c2925a" stroke="#1f3d28" stroke-width="2.6" stroke-linejoin="round"/>
+      <path d="M18 16C18 9 20.4 6 24 6S30 9 30 16" fill="none" stroke="#1f3d28" stroke-width="2.6" stroke-linecap="round"/>
+      <path d="M24 42V30" stroke="#2c4d34" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M24 33C24 27.8 19.6 25 15 25C17.6 28.8 20.8 32 24 33Z" fill="#2c4d34"/>
+      <path d="M24 36C24 31.2 28.4 28.6 33 28.6C30.6 32.4 27.2 35 24 36Z" fill="#3a6344"/>
+      <circle cx="24" cy="20.5" r="1.9" fill="#e06a55"/>
+    </svg>
+    <div class="logo-tx">KRAFT<span class="dot">·</span>VIBE<small>BUSINESS MANAGER</small></div>
+  </div>
   <div class="hbtns">
     <button onclick="exportData()">⬇ Backup</button>
     <button onclick="document.getElementById('importFile').click()">⬆ Restore</button>
