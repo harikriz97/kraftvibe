@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 150" width="520" height="150" font-family="Anton, sans-serif">
+  <!-- bag -->
+  <g transform="translate(8,18)">
+    <path d="M14 38h92l-7 100a6 6 0 01-6 5.6H27A6 6 0 0121 138L14 38z" fill="#c2925a" stroke="#262219" stroke-width="5"/>
+    <path d="M34 38c0-13 6-22 26-22s26 9 26 22" fill="none" stroke="#262219" stroke-width="5"/>
+    <g fill="none" stroke="#262219" stroke-width="2.2" opacity=".85" stroke-linecap="round">
+      <path d="M40 62l6 6 6-6M58 70l6 6 6-6M76 62l6 6 6-6"/>
+      <path d="M46 92l4 4 4-4M68 92l4 4 4-4"/>
+      <path d="M58 108v18M52 116l6 4 6-4"/>
+    </g>
+  </g>
+  <!-- wordmark -->
+  <text x="150" y="98" font-size="74" letter-spacing="1" fill="#262219">KRAFT<tspan fill="#9c1824">·</tspan><tspan fill="#9c1824">Vibe</tspan></text>
+</svg>

@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KRAFT·Vibe — Kraft Paper Covers, Bags & Return Gifts · Udumalpet</title>
+<meta name="description" content="Branded kraft paper covers and bags at plain-cover price, plus custom return gift bags. Made local in Udumalpet, delivered to your shop.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#ece0cb; --paper2:#e4d6bd; --kraft:#c2925a; --kraft-deep:#9c6735;
+  --ink:#262219; --ink-soft:#5c4a37; --stamp:#9c1824; --eco:#2c4d34; --cream:#f8f0e2;
+  --maxw:1140px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',system-ui,sans-serif;color:var(--ink);background:var(--paper);
+  background-image:
+    radial-gradient(circle at 20% 10%, rgba(156,103,53,.06), transparent 40%),
+    radial-gradient(circle at 85% 70%, rgba(156,103,53,.05), transparent 45%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+h1,h2,h3{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.5px;line-height:.98;text-transform:uppercase}
+a{color:inherit;text-decoration:none}
+.eyebrow{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--kraft-deep);display:inline-flex;align-items:center;gap:8px}
+.eyebrow::before{content:"";width:9px;height:9px;background:var(--stamp);display:inline-block;transform:rotate(-8deg)}
+
+header.nav{position:sticky;top:0;z-index:50;background:rgba(236,224,203,.86);backdrop-filter:blur(8px);border-bottom:1.5px solid rgba(156,103,53,.28)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;padding:13px 22px;max-width:var(--maxw);margin:0 auto}
+.brand{display:flex;align-items:center;gap:11px}
+.brand .mark{width:38px;height:38px;flex:none}
+.brand{transition:transform .25s ease}
+.brand:hover{transform:translateY(-1px)}
+.brand .mark{width:40px;height:40px;flex:none;transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+.brand:hover .mark{transform:rotate(-6deg) scale(1.06)}
+.brand b{font-family:'Anton',sans-serif;font-size:23px;letter-spacing:1px;text-transform:uppercase;line-height:1;color:var(--eco)}
+.brand b .dot{color:var(--stamp)}
+.brand b .vibe{color:var(--stamp)}
+.nav-links{display:flex;gap:26px;align-items:center}
+.nav-links a{font-size:14.5px;font-weight:500;color:var(--ink-soft)}
+.nav-links a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14.5px;padding:11px 20px;border-radius:2px;border:2px solid var(--ink);background:var(--ink);color:var(--paper);transition:.18s;cursor:pointer}
+.btn:hover{background:transparent;color:var(--ink)}
+.btn.wa{background:var(--eco);border-color:var(--eco);color:#fff}
+.btn.wa:hover{background:transparent;color:var(--eco)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:var(--paper)}
+.logo-img{height:42px;width:auto;display:block}
+.menu-btn{display:none;background:none;border:0;cursor:pointer;padding:6px}
+.menu-btn span{display:block;width:24px;height:2.5px;background:var(--ink);margin:5px 0}
+
+.hero{padding:62px 0 56px;position:relative;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
+.hero h1{font-size:clamp(40px,6.2vw,74px);margin:16px 0 0}
+.hero h1 .hl{color:var(--stamp)}
+.hero .sub{font-size:clamp(16px,2vw,19px);color:var(--ink-soft);max-width:34ch;margin:20px 0 28px}
+.hero .cta-row{display:flex;gap:13px;flex-wrap:wrap}
+.hero .micro{font-family:'DM Mono',monospace;font-size:12px;color:var(--kraft-deep);margin-top:22px;letter-spacing:.5px}
+.hero .micro b{color:var(--ink)}
+.bags{display:flex;gap:18px;justify-content:center;align-items:flex-end}
+.bagcard{text-align:center}
+.bagcard .lbl{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin-top:12px;color:var(--ink-soft)}
+.bagcard.b .lbl{color:var(--stamp);font-weight:500}
+.bagcard svg{filter:drop-shadow(0 10px 18px rgba(80,50,20,.22))}
+.bagcard.b{animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.swap{font-family:'Anton';color:var(--kraft-deep);font-size:26px;align-self:center;padding-bottom:30px}
+
+.strip{background:var(--ink);color:var(--paper);padding:16px 0}
+.strip-in{display:flex;gap:38px;flex-wrap:wrap;justify-content:center;font-family:'DM Mono',monospace;font-size:13px;letter-spacing:1px;text-transform:uppercase}
+.strip-in span{display:flex;align-items:center;gap:9px}
+.strip-in span::before{content:"";width:7px;height:7px;background:var(--eco);transform:rotate(45deg)}
+
+section{padding:66px 0}
+.sec-head{max-width:62ch;margin-bottom:36px}
+.sec-head h2{font-size:clamp(28px,4vw,46px);margin:14px 0 0}
+.sec-head p{color:var(--ink-soft);font-size:16.5px;margin-top:14px}
+
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.gitem{background:var(--cream);border:1.5px solid rgba(156,103,53,.3);border-radius:4px;overflow:hidden;transition:.2s}
+.gitem:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(90,55,20,.14)}
+.ph{position:relative;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 50% 38%, #dcc098, #c2925a 70%, #b07d49);border-bottom:1.5px solid rgba(156,103,53,.3)}
+.ph svg{width:54%;height:54%;filter:drop-shadow(0 12px 16px rgba(70,42,15,.3))}
+.ph .pill{position:absolute;top:12px;left:12px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;background:var(--eco);color:#fff;padding:3px 9px;border-radius:2px}
+.ph .pill.alt{background:var(--stamp)}
+.ph .note{position:absolute;bottom:10px;right:12px;font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:.5px;color:rgba(44,32,23,.55)}
+.gcap{padding:18px 20px 22px}
+.gcap h3{font-size:21px;letter-spacing:.4px}
+.gcap p{color:var(--ink-soft);font-size:14.5px;margin-top:8px}
+
+.alt-sec{background:var(--paper2)}
+
+.why-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px 40px}
+.why-item{display:flex;gap:16px;padding:18px 0;border-bottom:1.5px dashed rgba(156,103,53,.4)}
+.why-item .num{font-family:'Anton';font-size:30px;color:var(--kraft);line-height:1;flex:none;width:48px}
+.why-item h3{font-size:18px;letter-spacing:.3px}
+.why-item p{color:var(--ink-soft);font-size:14.5px;margin-top:5px}
+
+.serve-tags{display:flex;flex-wrap:wrap;gap:11px}
+.serve-tags li{list-style:none;font-family:'DM Mono',monospace;font-size:13.5px;letter-spacing:.5px;background:var(--cream);border:1.5px solid var(--kraft);color:var(--ink);padding:10px 17px;border-radius:2px}
+
+.steps-wrap{background:var(--ink);color:var(--paper)}
+.steps-wrap .eyebrow{color:#d9b88a}
+.steps-wrap .eyebrow::before{background:var(--eco)}
+.steps-wrap h2{color:var(--paper)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:36px}
+.step{border-top:3px solid var(--eco);padding-top:18px}
+.step .n{font-family:'Anton';font-size:15px;letter-spacing:2px;color:var(--eco)}
+.step h3{font-size:22px;margin:8px 0 8px;color:var(--paper)}
+.step p{color:#cdbca5;font-size:14.5px}
+
+.bigcta{background:var(--stamp);color:#fff;text-align:center}
+.bigcta h2{font-size:clamp(30px,5vw,52px);color:#fff;max-width:20ch;margin:0 auto 8px}
+.bigcta p{font-size:17px;opacity:.92;margin-bottom:26px}
+.bigcta .btn.wa{background:#fff;color:var(--stamp);border-color:#fff}
+.bigcta .btn.wa:hover{background:transparent;color:#fff}
+.bigcta .btn.ghost{color:#fff;border-color:#fff}
+.bigcta .btn.ghost:hover{background:#fff;color:var(--stamp)}
+
+footer{background:var(--ink);color:#c8b79f;padding:40px 0 26px}
+.foot-grid{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:flex-start}
+footer .brand b{color:var(--paper)}
+footer a{color:#c8b79f}footer a:hover{color:var(--paper)}
+.foot-col h4{font-family:'DM Mono';font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:#d9b88a;margin-bottom:10px;font-weight:500}
+.foot-col p,.foot-col a{display:block;font-size:14px;margin-bottom:6px}
+.foot-bot{border-top:1px solid rgba(255,255,255,.12);margin-top:28px;padding-top:16px;font-family:'DM Mono';font-size:11.5px;letter-spacing:.5px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+.fab{position:fixed;right:18px;bottom:18px;z-index:60;width:56px;height:56px;border-radius:50%;background:var(--eco);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 22px rgba(40,70,20,.4);animation:pulse 2.4s infinite}
+.fab svg{width:30px;height:30px;fill:#fff}
+@keyframes pulse{0%,100%{box-shadow:0 8px 22px rgba(40,70,20,.4)}50%{box-shadow:0 8px 30px rgba(40,70,20,.65)}}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+
+@media(max-width:860px){
+  .nav-links{position:fixed;inset:62px 0 auto 0;flex-direction:column;background:var(--paper);padding:18px 22px;gap:16px;border-bottom:1.5px solid rgba(156,103,53,.3);transform:translateY(-130%);transition:.28s;align-items:flex-start}
+  .nav-links.open{transform:none}
+  .menu-btn{display:block}
+  .hero-grid{grid-template-columns:1fr;gap:30px}
+  .hero .sub{max-width:none}.bags{order:-1}
+  .gallery{grid-template-columns:1fr 1fr}
+  .why-grid{grid-template-columns:1fr}.steps{grid-template-columns:1fr}
+}
+@media(max-width:540px){.gallery{grid-template-columns:1fr}.strip-in{gap:18px;font-size:11.5px}.nav-cta-desktop{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+
+/* ===== visual effects ===== */
+/* button shine sweep */
+.btn{position:relative;overflow:hidden}
+.btn::after{content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);transition:left .6s ease}
+.btn:hover::after{left:140%}
+
+/* floating decorative blobs in hero */
+.hero::before,.hero::after{content:"";position:absolute;border-radius:50%;filter:blur(8px);z-index:0;pointer-events:none}
+.hero::before{width:320px;height:320px;top:-90px;right:-60px;background:radial-gradient(circle,rgba(156,103,53,.18),transparent 70%);animation:floaty 9s ease-in-out infinite}
+.hero::after{width:240px;height:240px;bottom:-70px;left:-50px;background:radial-gradient(circle,rgba(44,77,52,.14),transparent 70%);animation:floaty 11s ease-in-out infinite reverse}
+.hero-grid{position:relative;z-index:1}
+@keyframes floaty{0%,100%{transform:translate(0,0)}50%{transform:translate(18px,-22px)}}
+
+/* hero bags gentle float */
+.bagcard svg{transition:transform .3s ease}
+.bagcard.b{animation:rise .9s cubic-bezier(.2,.7,.2,1) both, float 5s ease-in-out 1s infinite}
+.bagcard:not(.b){animation:float 6s ease-in-out infinite}
+.bags:hover .bagcard svg{transform:translateY(-4px) scale(1.03)}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.swap{animation:nudge 1.8s ease-in-out infinite}
+@keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
+
+/* marquee strip */
+.marquee{overflow:hidden}
+.marquee .track{display:flex;gap:38px;width:max-content;align-items:center;animation:scroll 24s linear infinite;
+  font-family:'DM Mono',monospace;font-size:13px;letter-spacing:1px;text-transform:uppercase}
+.marquee:hover .track{animation-play-state:paused}
+.marquee .track span{display:flex;align-items:center;gap:9px;white-space:nowrap}
+.marquee .track span::before{content:"";width:7px;height:7px;background:var(--eco);transform:rotate(45deg);flex:none}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* gallery image zoom + shine */
+.ph svg{transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+.gitem:hover .ph svg{transform:scale(1.08) rotate(-1.5deg)}
+.ph img,.ind-ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .55s cubic-bezier(.2,.7,.2,1)}
+.gitem:hover .ph img{transform:scale(1.09)}
+.ind-card:hover .ind-ph img{transform:scale(1.12)}
+.ph .pill,.ph .note{z-index:2}
+.gitem .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 40%,rgba(255,255,255,.25),transparent 60%);transform:translateX(-100%);transition:transform .7s ease}
+.gitem:hover .ph::after{transform:translateX(100%)}
+.gcap h3{transition:color .2s ease}
+.gitem:hover .gcap h3{color:var(--stamp)}
+
+/* animated underline accent under section h2 */
+.sec-head h2{position:relative;display:inline-block}
+.sec-head h2::after{content:"";position:absolute;left:0;bottom:-10px;height:4px;width:0;background:var(--stamp);transition:width .7s ease}
+.sec-head.in h2::after,.sec-head h2:hover::after{width:64px}
+
+/* industry photo gallery */
+.industry-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+.ind-card{background:var(--cream);border:1.5px solid rgba(156,103,53,.3);border-radius:6px;overflow:hidden;transition:.22s}
+.ind-card:hover{transform:translateY(-5px);box-shadow:0 16px 30px rgba(90,55,20,.16)}
+.ind-ph{position:relative;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 50% 35%,#dcc098,#c2925a 72%,#a87b46)}
+.ind-ph svg{width:46%;height:46%;fill:none;stroke:#2c2017;stroke-width:1.6;transition:transform .4s ease}
+.ind-card:hover .ind-ph svg{transform:scale(1.12)}
+.ind-ph .note{position:absolute;bottom:7px;right:8px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.5px;color:rgba(44,32,23,.5);text-transform:uppercase}
+.ind-card b{display:block;text-align:center;font-family:'DM Mono',monospace;font-size:11.5px;letter-spacing:.5px;padding:10px 6px;color:var(--ink);font-weight:500}
+
+/* return-gift gallery band */
+.rg-band{background:linear-gradient(180deg,var(--paper2),var(--cream));border:1.5px solid rgba(156,103,53,.32);border-radius:14px;padding:30px 26px 34px;margin-top:8px}
+.rg-band .rg-ribbon{display:inline-flex;align-items:center;gap:8px;background:var(--stamp);color:#fff;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;border-radius:2px;margin-bottom:14px}
+
+@media(max-width:860px){.industry-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:540px){.industry-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<!-- ===== EDIT: replace 919000000000 with your WhatsApp number (country code + number, no +) everywhere ===== -->
+<!-- ===== IMAGES: each .ph block holds a sample illustration. Replace with <img src="your-photo.jpg" alt="" style="width:100%;height:100%;object-fit:cover"> when you have real product photos ===== -->
+
+<header class="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top" aria-label="KRAFT·Vibe — Kraft Paper, Udumalpet">
+      <svg class="mark" viewBox="0 0 48 48" fill="none">
+        <path d="M9 16h30l-2.4 27a3 3 0 01-3 2.7H14.4a3 3 0 01-3-2.7L9 16z" fill="#c2925a" stroke="#2c4d34" stroke-width="2.6"/>
+        <path d="M17 16c0-6 2.6-10 7-10s7 4 7 10" fill="none" stroke="#2c4d34" stroke-width="2.6"/>
+        <g stroke="#2c4d34" stroke-width="1.3" fill="none" opacity=".9" stroke-linecap="round">
+          <path d="M16 24l2.4 2.4M18.4 24l-2.4 2.4M29.6 24l2.4 2.4M32 24l-2.4 2.4"/>
+          <path d="M24 28v8M21.4 31l2.6 1.6 2.6-1.6"/>
+          <rect x="21.4" y="22.4" width="5.2" height="4.4" rx=".6"/>
+        </g>
+      </svg>
+      <b>KRAFT<span class="dot">·</span><span class="vibe">Vibe</span></b>
+    </a>
+    <nav class="nav-links" id="navlinks">
+      <a href="#kraft">Kraft Paper</a>
+      <a href="#returngift">Return Gifts</a>
+      <a href="#why">Why Us</a>
+      <a href="#how">How It Works</a>
+      <a class="btn wa nav-cta-desktop" href="https://wa.me/919000000000?text=Hi%2C%20I%20saw%20your%20website%20and%20want%20product%20details" target="_blank" rel="noopener">WhatsApp Us</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<a id="top"></a>
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Made Local · Udumalpet</span>
+      <h1>Branded kraft.<br><span class="hl">Plain</span> price.</h1>
+      <p class="sub">Custom-printed kraft paper covers and bags for your shop — at the price of a plain cover. Manufactured locally, delivered to your door.</p>
+      <div class="cta-row">
+        <a class="btn wa" href="https://wa.me/919000000000?text=Hi%2C%20I%20would%20like%20free%20sample%20covers%20for%20my%20shop" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.6 15l-1.3 4.8 4.9-1.3A10 10 0 1012 2zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.8-.6-3-1.3-5-4.4-5.1-4.6-.2-.2-1.3-1.7-1.3-3.2s.8-2.3 1.1-2.6c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l.9 2.1c.1.2.1.4 0 .6l-.4.6c-.2.2-.3.4-.1.7.2.3.9 1.4 1.9 2.3 1.3 1.1 2.3 1.5 2.6 1.6.3.1.5.1.7-.1l.8-1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.4.1.2.1.8-.1 1.4z"/></svg>
+          Get Free Samples
+        </a>
+        <a class="btn ghost" href="tel:+919000000000">Call Now</a>
+      </div>
+      <p class="micro"><b>Plastic-ban ready</b> &nbsp;·&nbsp; <b>Low minimum</b> custom print &nbsp;·&nbsp; <b>Free local</b> delivery</p>
+    </div>
+    <div class="bags">
+      <div class="bagcard">
+        <svg width="120" height="150" viewBox="0 0 120 150"><path d="M14 38h92l-7 100a6 6 0 01-6 5.6H27A6 6 0 0121 138L14 38z" fill="#c2925a" stroke="#2c2017" stroke-width="3"/><path d="M34 38c0-13 6-22 26-22s26 9 26 22" fill="none" stroke="#2c2017" stroke-width="3"/></svg>
+        <div class="lbl">Plain</div>
+      </div>
+      <div class="swap">→</div>
+      <div class="bagcard b">
+        <svg width="120" height="150" viewBox="0 0 120 150"><path d="M14 38h92l-7 100a6 6 0 01-6 5.6H27A6 6 0 0121 138L14 38z" fill="#c2925a" stroke="#2c2017" stroke-width="3"/><path d="M34 38c0-13 6-22 26-22s26 9 26 22" fill="none" stroke="#2c2017" stroke-width="3"/><rect x="33" y="66" width="54" height="44" rx="2" fill="#b23a1e" opacity=".92"/><text x="60" y="86" text-anchor="middle" fill="#fff" font-family="Anton" font-size="13" letter-spacing="1">YOUR</text><text x="60" y="101" text-anchor="middle" fill="#fff" font-family="Anton" font-size="13" letter-spacing="1">SHOP</text></svg>
+        <div class="lbl">Branded — Same Price</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="strip"><div class="marquee"><div class="track">
+  <span>Kraft Covers</span><span>Handle Bags</span><span>Custom Printing</span><span>Return Gift Bags</span><span>Eco · Plastic-Free</span><span>Branded at Plain Price</span><span>Free Local Delivery</span><span>Low Minimum Order</span>
+  <span>Kraft Covers</span><span>Handle Bags</span><span>Custom Printing</span><span>Return Gift Bags</span><span>Eco · Plastic-Free</span><span>Branded at Plain Price</span><span>Free Local Delivery</span><span>Low Minimum Order</span>
+</div></div></div>
+
+<section id="kraft">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Kraft Paper Products</span>
+      <h2>Covers &amp; bags, with your name on them</h2>
+      <p>Strong, eco-friendly kraft paper covers and bags in every size — plain or printed with your shop branding. Built for bakeries, sweet shops, textiles, hotels and grocery.</p>
+    </div>
+    <div class="gallery">
+      <div class="gitem reveal">
+        <div class="ph"><span class="pill">Bestseller</span>
+          <img src="https://loremflickr.com/600/450/kraft,paper,bag/all?lock=11" alt="Kraft paper covers" loading="lazy"></div>
+        <div class="gcap"><h3>Kraft Covers</h3><p>Flat &amp; V-bottom covers, 1 kg to 5 kg. Sold by kg or piece. Plain or printed.</p></div>
+      </div>
+      <div class="gitem reveal">
+        <div class="ph"><span class="pill alt">Branded</span>
+          <img src="https://loremflickr.com/600/450/paper,shopping,bag/all?lock=22" alt="Branded handle bags" loading="lazy"></div>
+        <div class="gcap"><h3>Handle Bags</h3><p>Square-bottom bags with handles — premium carry for textiles &amp; boutiques. Single-colour print.</p></div>
+      </div>
+      <div class="gitem reveal">
+        <div class="ph"><span class="pill">Custom</span>
+          <img src="https://loremflickr.com/600/450/printing,press/all?lock=33" alt="Custom printing" loading="lazy"></div>
+        <div class="gcap"><h3>Custom Printing</h3><p>Low minimum — even 50–100 pieces. Any design, your logo, name and address. No huge factory minimums.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt-sec" id="returngift">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Return Gifts</span>
+      <h2>Make every function memorable</h2>
+      <p>Custom return gift bags for weddings, baby showers, birthdays and house-warmings — with the family name, date or photo. Choose paper or premium cloth, or a ready-to-hand combo.</p>
+    </div>
+    <div class="rg-band reveal">
+      <span class="rg-ribbon">★ Return Gift Gallery</span>
+      <div class="gallery">
+        <div class="gitem reveal">
+          <div class="ph"><span class="pill">Affordable</span>
+            <img src="https://loremflickr.com/600/450/gift,bag/all?lock=44" alt="Paper return gift bags" loading="lazy"></div>
+          <div class="gcap"><h3>Paper Return Bags</h3><p>Kraft bags printed with the family name and a thank-you. Quick, affordable, function-ready.</p></div>
+        </div>
+        <div class="gitem reveal">
+          <div class="ph"><span class="pill alt">Premium</span>
+            <img src="https://loremflickr.com/600/450/jute,bag/all?lock=55" alt="Cloth and jute return gift bags" loading="lazy"></div>
+          <div class="gcap"><h3>Cloth &amp; Jute Bags</h3><p>Reusable potli, jute and cotton bags, custom printed. A favourite for weddings and thamboolam.</p></div>
+        </div>
+        <div class="gitem reveal">
+          <div class="ph"><span class="pill">Ready-to-give</span>
+            <img src="https://loremflickr.com/600/450/wedding,favor/all?lock=66" alt="Combo return gift packing" loading="lazy"></div>
+          <div class="gcap"><h3>Combo Packing</h3><p>Return gift item + your branded bag + haldi-kumkum, packed and ready to hand to guests.</p></div>
+        </div>
+        <div class="gitem reveal">
+          <div class="ph"><span class="pill alt">Festive</span>
+            <img src="https://loremflickr.com/600/450/wedding,decoration,india/all?lock=77" alt="Festive function gift bags" loading="lazy"></div>
+          <div class="gcap"><h3>Wedding &amp; Function Sets</h3><p>Bulk sets with date, names and theme colours — matched to your invitation. Order early, delivered on time.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="why">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Why KRAFT·Vibe</span>
+      <h2>Your brand. No extra cost.</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-item reveal"><div class="num">01</div><div><h3>Branded at plain price</h3><p>Your shop name printed on every cover — at the same rate as a plain one. Free advertising on every sale.</p></div></div>
+      <div class="why-item reveal"><div class="num">02</div><div><h3>Local &amp; delivered</h3><p>Manufactured right here in Udumalpet and delivered to your shop. No middleman, no waiting.</p></div></div>
+      <div class="why-item reveal"><div class="num">03</div><div><h3>Low minimum order</h3><p>No 10,000-piece minimums like big factories. Even small shops can get custom-printed covers.</p></div></div>
+      <div class="why-item reveal"><div class="num">04</div><div><h3>Plastic-ban ready</h3><p>A fully eco paper alternative that keeps you compliant — and looks good to your customers.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt-sec" id="serve">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="eyebrow">Who We Serve</span><h2>Every shop that hands out a cover</h2></div>
+    <div class="industry-grid reveal">
+      <div class="ind-card"><div class="ind-ph"><img src="https://loremflickr.com/400/400/bakery,cake/all?lock=101" alt="Bakery" loading="lazy"></div><b>Bakeries &amp; Cakes</b></div>
+      <div class="ind-card"><div class="ind-ph"><img src="https://loremflickr.com/400/400/indian,sweets/all?lock=102" alt="Sweet shop" loading="lazy"></div><b>Sweet Shops</b></div>
+      <div class="ind-card"><div class="ind-ph"><img src="https://loremflickr.com/400/400/saree,textile,shop/all?lock=103" alt="Textiles" loading="lazy"></div><b>Textiles &amp; Boutiques</b></div>
+      <div class="ind-card"><div class="ind-ph"><img src="https://loremflickr.com/400/400/restaurant,food/all?lock=104" alt="Restaurant" loading="lazy"></div><b>Hotels &amp; Restaurants</b></div>
+      <div class="ind-card"><div class="ind-ph"><img src="https://loremflickr.com/400/400/supermarket,grocery/all?lock=105" alt="Supermarket" loading="lazy"></div><b>Supermarkets</b></div>
+      <div class="ind-card"><div class="ind-ph"><img src="https://loremflickr.com/400/400/pharmacy,medicine/all?lock=106" alt="Pharmacy" loading="lazy"></div><b>Pharmacies</b></div>
+      <div class="ind-card"><div class="ind-ph"><img src="https://loremflickr.com/400/400/jewellery,gold/all?lock=107" alt="Jewellery" loading="lazy"></div><b>Jewellery</b></div>
+      <div class="ind-card"><div class="ind-ph"><img src="https://loremflickr.com/400/400/gift,shop/all?lock=108" alt="Gift shop" loading="lazy"></div><b>Gift &amp; Fancy</b></div>
+      <div class="ind-card"><div class="ind-ph"><img src="https://loremflickr.com/400/400/shoes,store/all?lock=109" alt="Footwear" loading="lazy"></div><b>Footwear</b></div>
+      <div class="ind-card"><div class="ind-ph"><img src="https://loremflickr.com/400/400/tea,cup/all?lock=110" alt="Tea shop" loading="lazy"></div><b>Tea Shops</b></div>
+    </div>
+  </div>
+</section>
+
+<section class="steps-wrap" id="how">
+  <div class="wrap">
+    <div class="sec-head reveal" style="margin-bottom:0"><span class="eyebrow">How It Works</span><h2>From sample to delivery in 3 steps</h2></div>
+    <div class="steps">
+      <div class="step reveal"><div class="n">STEP 01</div><h3>Send your need</h3><p>Message us your size, quantity and shop name or design. No design ready? We'll create one for you.</p></div>
+      <div class="step reveal"><div class="n">STEP 02</div><h3>Free sample</h3><p>We print a sample cover with your branding and show it to you. Approve it when you're happy.</p></div>
+      <div class="step reveal"><div class="n">STEP 03</div><h3>Bulk &amp; delivery</h3><p>We produce your order and deliver it to your shop. Reordering takes just one message.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="bigcta">
+  <div class="wrap">
+    <span class="eyebrow" style="color:#fff;justify-content:center">Start Today</span>
+    <h2>Get free sample covers for your shop</h2>
+    <p>One message and a sample reaches your shop.</p>
+    <div class="cta-row" style="justify-content:center;display:flex;gap:13px;flex-wrap:wrap">
+      <a class="btn wa" href="https://wa.me/919000000000?text=Hi%2C%20I%20would%20like%20free%20sample%20covers%20for%20my%20shop" target="_blank" rel="noopener">WhatsApp Us</a>
+      <a class="btn ghost" href="tel:+919000000000">Call +91 90000 00000</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div style="max-width:270px">
+        <div class="brand" style="margin-bottom:10px">
+          <b style="font-family:Anton;font-size:24px;letter-spacing:1px;color:var(--paper);text-transform:uppercase">KRAFT<span style="color:#e06a55">·</span>VIBE</b>
+        </div>
+        <p style="font-size:14px">Eco kraft paper covers, bags and custom return gifts. Made local in Udumalpet, delivered to your shop.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Products</h4>
+        <a href="#kraft">Kraft covers</a><a href="#kraft">Handle bags</a><a href="#kraft">Custom printing</a><a href="#returngift">Return gift bags</a>
+      </div>
+      <div class="foot-col">
+        <h4>Contact</h4>
+        <a href="https://wa.me/919000000000" target="_blank" rel="noopener">WhatsApp: +91 90000 00000</a>
+        <a href="tel:+919000000000">Call: +91 90000 00000</a>
+        <p>Udumalpet, Tiruppur District, Tamil Nadu</p>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 KRAFT·Vibe · Udumalpet</span>
+      <span>Branded covers · Plain price · Delivered</span>
+    </div>
+  </div>
+</footer>
+
+<a class="fab" href="https://wa.me/919000000000?text=Hi%2C%20I%20would%20like%20product%20details" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-8.6 15l-1.3 4.8 4.9-1.3A10 10 0 1012 2zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.8-.6-3-1.3-5-4.4-5.1-4.6-.2-.2-1.3-1.7-1.3-3.2s.8-2.3 1.1-2.6c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l.9 2.1c.1.2.1.4 0 .6l-.4.6c-.2.2-.3.4-.1.7.2.3.9 1.4 1.9 2.3 1.3 1.1 2.3 1.5 2.6 1.6.3.1.5.1.7-.1l.8-1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.4.1.2.1.8-.1 1.4z"/></svg>
+</a>
+
+<script>
+  const mb=document.getElementById('menuBtn'),nl=document.getElementById('navlinks');
+  mb.addEventListener('click',()=>nl.classList.toggle('open'));
+  nl.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>nl.classList.remove('open')));
+  const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

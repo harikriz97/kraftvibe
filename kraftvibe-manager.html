@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>KRAFT·Vibe — Business Manager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#ece0cb;--paper2:#e4d6bd;--kraft:#c2925a;--kraft-deep:#9c6735;
+  --ink:#262219;--ink-soft:#5c4a37;--stamp:#9c1824;--eco:#2c4d34;--cream:#f8f0e2;
+  --line:rgba(156,103,53,.3);--ok:#2c4d34;--warn:#c8851a;--due:#9c1824;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'DM Sans',system-ui,sans-serif;color:var(--ink);background:var(--paper);line-height:1.5;padding-bottom:74px}
+h1,h2,h3{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.4px;text-transform:uppercase;line-height:1}
+.mono{font-family:'DM Mono',monospace}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+
+/* header */
+header{position:sticky;top:0;z-index:30;background:var(--ink);color:var(--paper);padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
+header .logo{font-family:'Anton';font-size:21px;letter-spacing:1px}
+header .logo .dot{color:#e06a55}
+header .logo small{display:block;font-family:'DM Mono';font-size:9px;letter-spacing:2px;color:#cdbca5;margin-top:1px}
+header .hbtns{display:flex;gap:6px}
+header .hbtns button{background:rgba(255,255,255,.12);color:var(--paper);border-radius:6px;padding:7px 10px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:5px}
+header .hbtns button:hover{background:rgba(255,255,255,.22)}
+
+/* tabs (desktop top) */
+.tabs{display:flex;gap:2px;background:var(--paper2);overflow-x:auto;border-bottom:1.5px solid var(--line);position:sticky;top:55px;z-index:20}
+.tabs button{padding:12px 15px;font-size:13.5px;font-weight:600;color:var(--ink-soft);white-space:nowrap;border-bottom:3px solid transparent}
+.tabs button.on{color:var(--ink);border-bottom-color:var(--stamp);background:var(--paper)}
+
+main{max-width:1000px;margin:0 auto;padding:16px}
+.view{display:none}.view.on{display:block}
+.vhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:10px;flex-wrap:wrap}
+.vhead h2{font-size:23px}
+.vhead .sub{font-family:'DM Mono';font-size:11px;color:var(--kraft-deep);letter-spacing:1px;text-transform:uppercase}
+
+.btn{background:var(--ink);color:var(--paper);border-radius:7px;padding:10px 16px;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:7px}
+.btn:hover{opacity:.9}
+.btn.eco{background:var(--eco)}.btn.red{background:var(--stamp)}
+.btn.sm{padding:7px 12px;font-size:12.5px;border-radius:6px}
+.btn.out{background:transparent;border:1.6px solid var(--ink);color:var(--ink)}
+
+/* cards / KPI */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:18px}
+.kpi{background:var(--cream);border:1.5px solid var(--line);border-radius:10px;padding:14px}
+.kpi .n{font-family:'Anton';font-size:30px;line-height:1}
+.kpi .l{font-family:'DM Mono';font-size:10.5px;letter-spacing:.5px;text-transform:uppercase;color:var(--ink-soft);margin-top:5px}
+.kpi.due .n{color:var(--due)}.kpi.warn .n{color:var(--warn)}.kpi.eco .n{color:var(--eco)}
+
+.panel{background:var(--cream);border:1.5px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:16px}
+.panel .ph{padding:11px 15px;border-bottom:1.5px solid var(--line);font-family:'Anton';font-size:15px;display:flex;justify-content:space-between;align-items:center}
+
+/* list rows */
+.row{padding:12px 15px;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:center}
+.row:last-child{border-bottom:none}
+.row .av{width:38px;height:38px;border-radius:9px;background:var(--kraft);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Anton';font-size:16px;flex:none}
+.row .meta{flex:1;min-width:0}
+.row .meta .t{font-weight:700;font-size:15px}
+.row .meta .s{font-size:12.5px;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .acts{display:flex;gap:6px;flex:none}
+.ic{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--line);background:#fff}
+.ic svg{width:17px;height:17px}
+.ic.wa{background:var(--eco);border-color:var(--eco)}.ic.wa svg{fill:#fff}
+.ic.call{background:var(--ink);border-color:var(--ink)}.ic.call svg{fill:var(--paper)}
+.ic.ed svg{fill:var(--ink-soft)}.ic.del svg{fill:var(--stamp)}
+
+.pill{font-family:'DM Mono';font-size:10px;letter-spacing:.5px;text-transform:uppercase;padding:2px 8px;border-radius:20px;font-weight:500}
+.pill.prospect{background:#e7dcc8;color:var(--ink-soft)}
+.pill.sample{background:#f0e2c0;color:var(--warn)}
+.pill.customer{background:#d6e4d8;color:var(--eco)}
+.pill.lost{background:#ecd6d3;color:var(--stamp)}
+.pill.due{background:var(--due);color:#fff}.pill.soon{background:var(--warn);color:#fff}.pill.ok{background:#d6e4d8;color:var(--eco)}
+.pill.pending{background:#f0e2c0;color:var(--warn)}.pill.delivered{background:#d6e4d8;color:var(--eco)}.pill.paid{background:var(--eco);color:#fff}
+.pill.low{background:var(--due);color:#fff}
+
+.search{width:100%;padding:11px 14px;border:1.5px solid var(--line);border-radius:8px;background:#fff;font-size:14px;font-family:inherit;margin-bottom:12px}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.filters button{font-family:'DM Mono';font-size:11.5px;padding:6px 11px;border-radius:20px;border:1.5px solid var(--line);background:#fff;color:var(--ink-soft)}
+.filters button.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.empty{padding:30px 15px;text-align:center;color:var(--ink-soft);font-size:14px}
+
+/* table */
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+.tbl th{text-align:left;padding:10px 12px;background:var(--paper2);font-family:'DM Mono';font-size:10.5px;letter-spacing:.5px;text-transform:uppercase;color:var(--ink-soft);position:sticky;top:0}
+.tbl td{padding:10px 12px;border-bottom:1px solid var(--line)}
+.tbl .num{text-align:right;font-variant-numeric:tabular-nums}
+.scroll{overflow-x:auto}
+
+/* modal */
+.ov{position:fixed;inset:0;background:rgba(38,34,25,.55);z-index:50;display:none;align-items:flex-end;justify-content:center}
+.ov.on{display:flex}
+.modal{background:var(--paper);width:100%;max-width:520px;border-radius:16px 16px 0 0;max-height:92vh;overflow-y:auto;padding:20px 18px calc(20px + env(safe-area-inset-bottom))}
+@media(min-width:560px){.ov{align-items:center}.modal{border-radius:16px}}
+.modal h3{font-size:20px;margin-bottom:14px}
+.fg{margin-bottom:12px}
+.fg label{display:block;font-size:12px;font-family:'DM Mono';letter-spacing:.5px;text-transform:uppercase;color:var(--ink-soft);margin-bottom:4px}
+.fg input,.fg select,.fg textarea{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:8px;background:#fff;font-size:15px;font-family:inherit;color:var(--ink)}
+.fg textarea{resize:vertical;min-height:60px}
+.frow{display:flex;gap:10px}.frow .fg{flex:1}
+.mbtns{display:flex;gap:9px;margin-top:8px}.mbtns .btn{flex:1;justify-content:center}
+
+/* bottom nav (mobile) */
+.bnav{position:fixed;bottom:0;left:0;right:0;background:var(--ink);display:none;z-index:30;padding-bottom:env(safe-area-inset-bottom)}
+.bnav .row2{display:flex;overflow-x:auto}
+.bnav button{flex:1;min-width:62px;padding:9px 4px 8px;color:#cdbca5;display:flex;flex-direction:column;align-items:center;gap:3px;font-family:'DM Mono';font-size:9.5px;letter-spacing:.3px}
+.bnav button svg{width:20px;height:20px;fill:#cdbca5}
+.bnav button.on{color:#fff}.bnav button.on svg{fill:#e06a55}
+
+.toast{position:fixed;bottom:84px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:11px 18px;border-radius:24px;font-size:13.5px;font-weight:600;z-index:60;opacity:0;transition:.25s;pointer-events:none}
+.toast.on{opacity:1}
+
+@media(max-width:700px){
+  .tabs{display:none}.bnav{display:block}
+  .kpis{grid-template-columns:1fr 1fr}
+  header{position:sticky}
+}
+/* print invoice */
+@media print{
+  body *{visibility:hidden}
+  #invoicePrint,#invoicePrint *{visibility:visible}
+  #invoicePrint{position:absolute;inset:0;padding:30px;background:#fff}
+  .noprint{display:none!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== PASSWORD LOCK ===== change GATE_PASS below to your own password ===== -->
+<div id="gate" style="position:fixed;inset:0;z-index:999;background:#262219;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;padding:24px;text-align:center">
+  <div style="font-family:Anton,sans-serif;color:#fff;font-size:28px;letter-spacing:1px">KRAFT<span style="color:#e06a55">·</span>VIBE</div>
+  <div style="color:#cdbca5;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px">BUSINESS MANAGER · PRIVATE</div>
+  <input id="gatePass" type="password" placeholder="Enter password" autocomplete="current-password"
+    style="margin-top:6px;padding:12px 14px;border-radius:8px;border:0;font-size:16px;width:min(280px,80vw);text-align:center">
+  <button onclick="tryUnlock()" style="background:#2c4d34;color:#fff;border:0;border-radius:8px;padding:12px 24px;font-weight:700;font-size:15px;cursor:pointer">Unlock</button>
+  <div id="gateErr" style="color:#e06a55;font-size:13px;height:16px"></div>
+</div>
+<script>
+  const GATE_PASS='kraftvibe2026'; /* <-- CHANGE THIS to your own password */
+  if(localStorage.getItem('kv_unlocked')==='1'){document.getElementById('gate').style.display='none';}
+  function tryUnlock(){
+    if(document.getElementById('gatePass').value===GATE_PASS){
+      localStorage.setItem('kv_unlocked','1');
+      document.getElementById('gate').style.display='none';
+    }else{document.getElementById('gateErr').textContent='Wrong password';}
+  }
+  document.getElementById('gatePass').addEventListener('keydown',e=>{if(e.key==='Enter')tryUnlock();});
+</script>
+
+<header>
+  <div class="logo">KRAFT<span class="dot">·</span>VIBE<small>BUSINESS MANAGER</small></div>
+  <div class="hbtns">
+    <button onclick="exportData()">⬇ Backup</button>
+    <button onclick="document.getElementById('importFile').click()">⬆ Restore</button>
+    <button onclick="openSettings()">⚙</button>
+    <input type="file" id="importFile" accept="application/json" style="display:none" onchange="importData(this)">
+  </div>
+</header>
+
+<nav class="tabs" id="tabs"></nav>
+
+<main>
+  <!-- DASHBOARD -->
+  <section class="view on" id="v-dash">
+    <div class="vhead"><h2>Dashboard</h2><span class="sub" id="today"></span></div>
+    <div class="kpis">
+      <div class="kpi"><div class="n" id="k-leads">0</div><div class="l">Leads</div></div>
+      <div class="kpi eco"><div class="n" id="k-cust">0</div><div class="l">Customers</div></div>
+      <div class="kpi due"><div class="n" id="k-due">0</div><div class="l">Reorders due</div></div>
+      <div class="kpi warn"><div class="n" id="k-sales">₹0</div><div class="l">Sales month</div></div>
+    </div>
+    <div class="panel">
+      <div class="ph">Reorder reminders <button class="btn sm out" onclick="go('remind')">View all</button></div>
+      <div id="dash-remind"></div>
+    </div>
+    <div class="panel">
+      <div class="ph">Low stock <span class="pill low" id="lowcount">0</span></div>
+      <div id="dash-low"></div>
+    </div>
+  </section>
+
+  <!-- LEADS -->
+  <section class="view" id="v-leads">
+    <div class="vhead"><h2>Leads</h2><button class="btn" onclick="editCust()">+ Add</button></div>
+    <input class="search" id="leadSearch" placeholder="Search lead or area…" oninput="renderLeads()">
+    <div class="filters" id="leadFilters"></div>
+    <div class="panel" id="leadList"></div>
+  </section>
+
+  <!-- CUSTOMERS -->
+  <section class="view" id="v-cust">
+    <div class="vhead"><h2>Customers</h2><span class="sub">converted leads</span></div>
+    <input class="search" id="custSearch" placeholder="Search customer or area…" oninput="renderCust()">
+    <div class="panel" id="custList"></div>
+  </section>
+
+  <!-- REMINDERS -->
+  <section class="view" id="v-remind">
+    <div class="vhead"><h2>Reorder Reminders</h2><span class="sub">based on order cycle</span></div>
+    <div class="panel" id="remindList"></div>
+  </section>
+
+  <!-- ORDERS -->
+  <section class="view" id="v-order">
+    <div class="vhead"><h2>Orders</h2><button class="btn" onclick="editOrder()">+ New order</button></div>
+    <div class="panel scroll"><table class="tbl" id="orderTbl"></table></div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section class="view" id="v-prod">
+    <div class="vhead"><h2>Products &amp; Sizes</h2><button class="btn" onclick="editProd()">+ Add</button></div>
+    <div class="panel scroll"><table class="tbl" id="prodTbl"></table></div>
+  </section>
+
+  <!-- INVENTORY -->
+  <section class="view" id="v-inv">
+    <div class="vhead"><h2>Inventory</h2><button class="btn" onclick="editInv()">+ Add item</button></div>
+    <div class="panel scroll"><table class="tbl" id="invTbl"></table></div>
+  </section>
+
+  <!-- PURCHASES -->
+  <section class="view" id="v-purch">
+    <div class="vhead"><h2>Purchases</h2><button class="btn" onclick="editPurch()">+ Add</button></div>
+    <div class="panel scroll"><table class="tbl" id="purchTbl"></table></div>
+  </section>
+
+  <!-- BILLING -->
+  <section class="view" id="v-bill">
+    <div class="vhead"><h2>Billing</h2><button class="btn" onclick="newBill()">+ New invoice</button></div>
+    <div class="panel scroll"><table class="tbl" id="billTbl"></table></div>
+  </section>
+</main>
+
+<nav class="bnav"><div class="row2" id="bnav"></div></nav>
+
+<div class="ov" id="ov"><div class="modal" id="modal"></div></div>
+<div class="toast" id="toast"></div>
+<div id="invoicePrint" style="display:none"></div>
+
+<script>
+/* ---------- storage ---------- */
+const KEY='kraftvibe_data_v2';
+let mem=null;
+function load(){
+  try{const r=localStorage.getItem(KEY);if(r)return JSON.parse(r);}catch(e){}
+  return mem;
+}
+function save(){
+  try{localStorage.setItem(KEY,JSON.stringify(DB));}catch(e){mem=DB;}
+}
+const today=()=>new Date().toISOString().slice(0,10);
+const addDays=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x.toISOString().slice(0,10);};
+const daysBetween=(a,b)=>Math.round((new Date(b)-new Date(a))/864e5);
+const money=n=>'₹'+(Math.round(n||0)).toLocaleString('en-IN');
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+
+/* ---------- seed ---------- */
+function seed(){return {
+ settings:{shop:'KRAFT·Vibe',phone:'',gst:0,place:'Udumalpet'},
+ customers:[
+  {id:uid(),name:"Aravinthan Cake",type:"Bakery",phone:"9443689739",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:15,lastOrder:''},
+  {id:uid(),name:"Little Miss Muffin",type:"Bakery",phone:"9489380557",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:15,lastOrder:''},
+  {id:uid(),name:"Adhavan Cakes",type:"Bakery",phone:"7373743322",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:15,lastOrder:''},
+  {id:uid(),name:"The Bake-up Artist",type:"Bakery",phone:"9385572599",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:15,lastOrder:''},
+  {id:uid(),name:"Amazing Cakery",type:"Bakery",phone:"7305279575",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:15,lastOrder:''},
+  {id:uid(),name:"Elite AVM Sweets & Cakes",type:"Bakery",phone:"9042546099",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:15,lastOrder:''},
+  {id:uid(),name:"SweeTooth Pastry",type:"Bakery",phone:"8300115678",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:15,lastOrder:''},
+  {id:uid(),name:"Salu's Home Made Cakes",type:"Bakery",phone:"9047005182",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:15,lastOrder:''},
+  {id:uid(),name:"Candy Cakes",type:"Bakery",phone:"8248366598",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:15,lastOrder:''},
+  {id:uid(),name:"Udumalpet Homemade Cakes",type:"Bakery",phone:"6383594323",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:15,lastOrder:''},
+  {id:uid(),name:"AVM Chips & Cafe",type:"Bakery",phone:"9751226099",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:15,lastOrder:''},
+  {id:uid(),name:"Raagam's Palate",type:"Bakery",phone:"7373927111",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:15,lastOrder:''},
+  {id:uid(),name:"SAS Sri Annapoornis",type:"Sweet Shop",phone:"7373091960",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:12,lastOrder:''},
+  {id:uid(),name:"AVM Sweets And Snacks",type:"Sweet Shop",phone:"9843126099",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:12,lastOrder:''},
+  {id:uid(),name:"Sri Krishna Bakery & Sweets",type:"Sweet Shop",phone:"7373850676",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:12,lastOrder:''},
+  {id:uid(),name:"AVM Inippagam",type:"Sweet Shop",phone:"9442206099",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:12,lastOrder:''},
+  {id:uid(),name:"Om Saravana Silks",type:"Textile",phone:"9442008186",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:30,lastOrder:''},
+  {id:uid(),name:"Velavan Silks",type:"Textile",phone:"8489969696",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:30,lastOrder:''},
+  {id:uid(),name:"Kurinji Thunikkadai",type:"Textile",phone:"9487566360",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:30,lastOrder:''},
+  {id:uid(),name:"VEKARA Mens Showroom",type:"Textile",phone:"9206500930",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:30,lastOrder:''},
+  {id:uid(),name:"T.Ramasamy Textiles",type:"Textile",phone:"4252221496",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:30,lastOrder:''},
+  {id:uid(),name:"Sky Export Garments",type:"Textile",phone:"7826904195",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:30,lastOrder:''},
+  {id:uid(),name:"Famous Readymade",type:"Textile",phone:"9787206223",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:30,lastOrder:''},
+  {id:uid(),name:"Modern Menswear",type:"Textile",phone:"9597922139",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:30,lastOrder:''},
+  {id:uid(),name:"Sri Samuthra Sarees",type:"Textile",phone:"4252224044",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:30,lastOrder:''},
+  {id:uid(),name:"Sri Amirtha Mess",type:"Restaurant",phone:"8489524736",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:10,lastOrder:''},
+  {id:uid(),name:"Annai Mess",type:"Restaurant",phone:"9843554977",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:10,lastOrder:''},
+  {id:uid(),name:"Madhulai Restaurant",type:"Restaurant",phone:"8072221814",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:10,lastOrder:''},
+  {id:uid(),name:"Sumathi Mess",type:"Restaurant",phone:"9361418821",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:10,lastOrder:''},
+  {id:uid(),name:"Hotel Spices",type:"Restaurant",phone:"9567675055",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:10,lastOrder:''},
+  {id:uid(),name:"Amaranthaa Veg Hotel",type:"Restaurant",phone:"9626356688",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:10,lastOrder:''},
+  {id:uid(),name:"Rajappa Chettinadu",type:"Restaurant",phone:"7010487905",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:10,lastOrder:''},
+  {id:uid(),name:"Murali Unavagam",type:"Restaurant",phone:"9788794004",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:10,lastOrder:''},
+  {id:uid(),name:"Sakthi Mess",type:"Restaurant",phone:"8903153462",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:10,lastOrder:''},
+  {id:uid(),name:"ZAARAA Supermarket",type:"Supermarket",phone:"7470081800",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:14,lastOrder:''},
+  {id:uid(),name:"Kalki Department Store",type:"Supermarket",phone:"9577957750",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:14,lastOrder:''},
+  {id:uid(),name:"Selvaganesh Stores",type:"Supermarket",phone:"9751299392",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:14,lastOrder:''},
+  {id:uid(),name:"Eswari Department Store",type:"Supermarket",phone:"4252232274",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:14,lastOrder:''},
+  {id:uid(),name:"New Pandian Super Market",type:"Supermarket",phone:"9486390903",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:14,lastOrder:''},
+  {id:uid(),name:"Shri Kumaran Departmental",type:"Supermarket",phone:"8508222211",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:14,lastOrder:''},
+  {id:uid(),name:"Bakyalakshmi Traders",type:"Supermarket",phone:"9342869237",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:14,lastOrder:''},
+  {id:uid(),name:"Kaarthika Departmental",type:"Supermarket",phone:"9842887572",area:"Madathukulam",status:'prospect',visit:'',feedback:'',cycle:14,lastOrder:''},
+  {id:uid(),name:"Apollo Pharmacy",type:"Pharmacy",phone:"7947478977",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:20,lastOrder:''},
+  {id:uid(),name:"Zam Zam Medicals",type:"Pharmacy",phone:"9442624563",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:20,lastOrder:''},
+  {id:uid(),name:"Pasumai Pharmacy",type:"Pharmacy",phone:"9943008300",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:20,lastOrder:''},
+  {id:uid(),name:"Relief Pharmacy",type:"Pharmacy",phone:"6379647433",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:20,lastOrder:''},
+  {id:uid(),name:"SK Medicals",type:"Pharmacy",phone:"9943449090",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:20,lastOrder:''},
+  {id:uid(),name:"Lalitha Medicals",type:"Pharmacy",phone:"8778457194",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:20,lastOrder:''},
+  {id:uid(),name:"Bawaa Medicals",type:"Pharmacy",phone:"9942302304",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:20,lastOrder:''},
+  {id:uid(),name:"Apple Pharmacy",type:"Pharmacy",phone:"9952473902",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:20,lastOrder:''},
+  {id:uid(),name:"Cooperative Pharmacy",type:"Pharmacy",phone:"9345043211",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:20,lastOrder:''},
+  {id:uid(),name:"JewelOne",type:"Jewellery",phone:"8754012250",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:30,lastOrder:''},
+  {id:uid(),name:"Thangamayil Jewellery",type:"Jewellery",phone:"9655645524",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:30,lastOrder:''},
+  {id:uid(),name:"Sree Kumaran Thangamaligai",type:"Jewellery",phone:"4252227888",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:30,lastOrder:''},
+  {id:uid(),name:"Lakshmi Jewellery",type:"Jewellery",phone:"9159559595",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:30,lastOrder:''},
+  {id:uid(),name:"Mayura Jewellery",type:"Jewellery",phone:"8667816223",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:30,lastOrder:''},
+  {id:uid(),name:"SK Jewellery",type:"Jewellery",phone:"7395883411",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:30,lastOrder:''},
+  {id:uid(),name:"Jos Jewellery",type:"Jewellery",phone:"4252230444",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:30,lastOrder:''},
+  {id:uid(),name:"Madhu Fancy",type:"Gift",phone:"9360754443",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:25,lastOrder:''},
+  {id:uid(),name:"Smiley Gifts & Toys",type:"Gift",phone:"8610912768",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:25,lastOrder:''},
+  {id:uid(),name:"AV Gifts World",type:"Gift",phone:"8056479119",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:25,lastOrder:''},
+  {id:uid(),name:"Gift Town",type:"Gift",phone:"9976515160",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:25,lastOrder:''},
+  {id:uid(),name:"Class One Gifts",type:"Gift",phone:"9942227166",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:25,lastOrder:''},
+  {id:uid(),name:"Manaparisu Nilal Arts",type:"Gift",phone:"9489158550",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:25,lastOrder:''},
+  {id:uid(),name:"Sri Varshini Gift Palace",type:"Gift",phone:"9443343748",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:25,lastOrder:''},
+  {id:uid(),name:"Sole Sneakers Store",type:"Footwear",phone:"9842427132",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:30,lastOrder:''},
+  {id:uid(),name:"Alankar Footwears",type:"Footwear",phone:"9751154747",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:30,lastOrder:''},
+  {id:uid(),name:"New Boots",type:"Footwear",phone:"8148713260",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:30,lastOrder:''},
+  {id:uid(),name:"New City Footwear",type:"Footwear",phone:"9789513821",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:30,lastOrder:''},
+  {id:uid(),name:"New Auntro Shoe Mart",type:"Footwear",phone:"8825824187",area:"Udumalpet",status:'prospect',visit:'',feedback:'',cycle:30,lastOrder:''}
+ ],
+ products:[
+  {id:uid(),name:'Kraft Cover 1kg',cat:'Cover',size:'1 kg',gsm:'80',unit:'piece',cost:0.8,price:1.3},
+  {id:uid(),name:'Kraft Cover 2kg',cat:'Cover',size:'2 kg',gsm:'80',unit:'piece',cost:1.1,price:1.8},
+  {id:uid(),name:'Kraft Cover 5kg',cat:'Cover',size:'5 kg',gsm:'100',unit:'piece',cost:1.8,price:2.8},
+  {id:uid(),name:'Printed Cover 1kg',cat:'Cover',size:'1 kg',gsm:'80',unit:'piece',cost:0.9,price:1.5},
+  {id:uid(),name:'Handle Bag Small',cat:'Handle Bag',size:'S',gsm:'120',unit:'piece',cost:3.5,price:6},
+  {id:uid(),name:'Handle Bag Medium',cat:'Handle Bag',size:'M',gsm:'120',unit:'piece',cost:4.5,price:8},
+  {id:uid(),name:'Paper Return Gift Bag',cat:'Return Gift',size:'M',gsm:'120',unit:'piece',cost:5,price:10},
+  {id:uid(),name:'Jute Bag (Custom)',cat:'Return Gift',size:'M',gsm:'-',unit:'piece',cost:25,price:45}
+ ],
+ inventory:[
+  {id:uid(),name:'Kraft Paper 80 GSM',cat:'Raw material',unit:'kg',stock:200,reorder:50},
+  {id:uid(),name:'Kraft Paper 100 GSM',cat:'Raw material',unit:'kg',stock:150,reorder:40},
+  {id:uid(),name:'Kraft Reel (handle) 120 GSM',cat:'Raw material',unit:'kg',stock:60,reorder:30},
+  {id:uid(),name:'Glue / Gum',cat:'Raw material',unit:'kg',stock:25,reorder:8},
+  {id:uid(),name:'Printing Ink',cat:'Raw material',unit:'kg',stock:12,reorder:4},
+  {id:uid(),name:'Finished Cover 1kg',cat:'Finished',unit:'piece',stock:1200,reorder:500}
+ ],
+ purchases:[
+  {id:uid(),date:today(),supplier:'Shree Bagavan Paper Mills',item:'Kraft Paper 80 GSM',qty:200,rate:38,status:'paid'}
+ ],
+ orders:[],
+ bills:[],
+ billNo:1
+};}
+
+let DB=load()||seed();
+if(!DB.settings)DB=seed();
+save();
+
+/* ---------- nav ---------- */
+const TABS=[
+ ['dash','Dashboard','M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z'],
+ ['leads','Leads','M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'],
+ ['cust','Customers','M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z'],
+ ['remind','Reminders','M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z'],
+ ['order','Orders','M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z'],
+ ['prod','Products','M20 2H4c-1 0-2 .9-2 2v3.01c0 .72.43 1.34 1 1.69V20c0 1.1 1.1 2 2 2h14c.9 0 2-.9 2-2V8.7c.57-.35 1-.97 1-1.69V4c0-1.1-1-2-2-2zm-5 12H9v-2h6v2zm5-7H4V4h16v3z'],
+ ['inv','Inventory','M12 2l-5.5 9h11L12 2zm0 3.84L13.93 9h-3.87L12 5.84zM17.5 13c-2.49 0-4.5 2.01-4.5 4.5s2.01 4.5 4.5 4.5 4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5zM3 21.5h8v-8H3v8z'],
+ ['purch','Purchases','M19 7h-3V6a4 4 0 00-8 0v1H5a1 1 0 00-1 1v11a3 3 0 003 3h8a3 3 0 003-3V8a1 1 0 00-1-1zM10 6a2 2 0 014 0v1h-4V6z'],
+ ['bill','Billing','M19.5 3.5L18 2l-1.5 1.5L15 2l-1.5 1.5L12 2l-1.5 1.5L9 2 7.5 3.5 6 2v20l1.5-1.5L9 22l1.5-1.5L12 22l1.5-1.5L15 22l1.5-1.5L18 22l1.5-1.5V2l-1.5 1.5zM18 18H6v-2h12v2zm0-5H6v-2h12v2zm0-5H6V6h12v2z']
+];
+function buildNav(){
+  document.getElementById('tabs').innerHTML=TABS.map(t=>`<button id="tab-${t[0]}" onclick="go('${t[0]}')">${t[1]}</button>`).join('');
+  document.getElementById('bnav').innerHTML=TABS.map(t=>`<button id="bt-${t[0]}" onclick="go('${t[0]}')"><svg viewBox="0 0 24 24"><path d="${t[2]}"/></svg>${t[1]}</button>`).join('');
+}
+let cur='dash';
+function go(v){
+  cur=v;
+  document.querySelectorAll('.view').forEach(s=>s.classList.remove('on'));
+  document.getElementById('v-'+v).classList.add('on');
+  TABS.forEach(t=>{document.getElementById('tab-'+t[0]).classList.toggle('on',t[0]===v);document.getElementById('bt-'+t[0]).classList.toggle('on',t[0]===v);});
+  window.scrollTo(0,0);render();
+}
+
+/* ---------- helpers ---------- */
+function waLink(phone,msg){return 'https://wa.me/91'+phone.replace(/\D/g,'').replace(/^91/,'')+'?text='+encodeURIComponent(msg);}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),1800);}
+function initials(n){return n.trim().slice(0,2).toUpperCase();}
+function reminderState(c){
+  if(!c.lastOrder||!c.cycle)return null;
+  const next=addDays(c.lastOrder,+c.cycle);
+  const left=daysBetween(today(),next);
+  let s='ok';if(left<=0)s='due';else if(left<=3)s='soon';
+  return {next,left,s};
+}
+
+/* ---------- render ---------- */
+function render(){
+  document.getElementById('today').textContent=new Date().toDateString();
+  if(cur==='dash')renderDash();
+  if(cur==='cust')renderCust();
+  if(cur==='leads')renderLeads();
+  if(cur==='remind')renderRemind();
+  if(cur==='order')renderOrders();
+  if(cur==='prod')renderProds();
+  if(cur==='inv')renderInv();
+  if(cur==='purch')renderPurch();
+  if(cur==='bill')renderBills();
+}
+function renderDash(){
+  document.getElementById('k-leads').textContent=DB.customers.filter(c=>c.status!=='customer').length;
+  document.getElementById('k-cust').textContent=DB.customers.filter(c=>c.status==='customer').length;
+  const due=DB.customers.map(reminderState).filter(r=>r&&r.s!=='ok').length;
+  document.getElementById('k-due').textContent=due;
+  const m=today().slice(0,7);
+  const sales=DB.orders.filter(o=>(o.date||'').slice(0,7)===m).reduce((s,o)=>s+o.qty*o.rate,0);
+  document.getElementById('k-sales').textContent=money(sales);
+  const rem=DB.customers.map(c=>({c,r:reminderState(c)})).filter(x=>x.r&&x.r.s!=='ok').sort((a,b)=>a.r.left-b.r.left).slice(0,5);
+  document.getElementById('dash-remind').innerHTML=rem.length?rem.map(x=>custRow(x.c,x.r)).join(''):'<div class="empty">No reorders due. Add order dates to customers to get reminders.</div>';
+  const low=DB.inventory.filter(i=>i.stock<=i.reorder);
+  document.getElementById('lowcount').textContent=low.length;
+  document.getElementById('dash-low').innerHTML=low.length?low.map(i=>`<div class="row"><div class="meta"><div class="t">${i.name}</div><div class="s">${i.stock} ${i.unit} left · reorder at ${i.reorder}</div></div><span class="pill low">LOW</span></div>`).join(''):'<div class="empty">All stock healthy.</div>';
+}
+let leadFilter='all';
+function renderLeads(){
+  const types=['all','Bakery','Sweet Shop','Textile','Restaurant','Supermarket','Pharmacy','Jewellery','Gift','Footwear'];
+  document.getElementById('leadFilters').innerHTML=types.map(t=>`<button class="${leadFilter===t?'on':''}" onclick="leadFilter='${t}';renderLeads()">${t==='all'?'All':t}</button>`).join('');
+  const q=(document.getElementById('leadSearch').value||'').toLowerCase();
+  let list=DB.customers.filter(c=>c.status!=='customer'&&(leadFilter==='all'||c.type===leadFilter)&&((c.name||'').toLowerCase().includes(q)||(c.area||'').toLowerCase().includes(q)));
+  document.getElementById('leadList').innerHTML=list.length?list.map(c=>custRow(c,reminderState(c),true,true)).join(''):'<div class="empty">No leads. Tap “+ Add”.</div>';
+}
+function renderCust(){
+  const q=(document.getElementById('custSearch').value||'').toLowerCase();
+  let list=DB.customers.filter(c=>c.status==='customer'&&((c.name||'').toLowerCase().includes(q)||(c.area||'').toLowerCase().includes(q)));
+  document.getElementById('custList').innerHTML=list.length?list.map(c=>custRow(c,reminderState(c),true)).join(''):'<div class="empty">No customers yet.<br>Go to Leads → tap the green ✓ to convert a lead into a customer.</div>';
+}
+function convert(id){const c=DB.customers.find(x=>x.id===id);if(!c)return;c.status='customer';if(!c.lastOrder)c.lastOrder=today();save();toast(c.name+' is now a Customer');render();}
+function custRow(c,r,full,isLead){
+  const msg=`Hi ${c.name}, this is ${DB.settings.shop} (${DB.settings.place}). `+(r&&r.s!=='ok'?`Time to reorder your covers? Let me know the quantity and I'll deliver.`:`We make branded kraft covers at plain-cover price. Can I send you a free sample?`);
+  return `<div class="row">
+    <div class="av">${initials(c.name)}</div>
+    <div class="meta">
+      <div class="t">${c.name} ${r?`<span class="pill ${r.s}">${r.s==='due'?'REORDER DUE':r.s==='soon'?'DUE IN '+r.left+'d':'OK'}</span>`:''}</div>
+      <div class="s">${c.type} · ${c.area||''} ${c.phone?'· '+c.phone:''} ${full&&!isLead?'· <span class="pill '+c.status+'">'+c.status+'</span>':''}</div>
+    </div>
+    <div class="acts">
+      ${c.phone?`<a class="ic call" href="tel:+91${c.phone}"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></a>`:''}
+      ${c.phone?`<a class="ic wa" target="_blank" href="${waLink(c.phone,msg)}"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-8.6 15l-1.3 4.8 4.9-1.3A10 10 0 1012 2zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.8-.6-3-1.3-5-4.4-5.1-4.6-.2-.2-1.3-1.7-1.3-3.2s.8-2.3 1.1-2.6c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l.9 2.1c.1.2.1.4 0 .6l-.4.6c-.2.2-.3.4-.1.7.2.3.9 1.4 1.9 2.3 1.3 1.1 2.3 1.5 2.6 1.6.3.1.5.1.7-.1l.8-1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.4.1.2.1.8-.1 1.4z"/></svg></a>`:''}
+      ${isLead?`<button class="ic" style="background:var(--eco);border-color:var(--eco)" title="Convert to customer" onclick="convert('${c.id}')"><svg viewBox="0 0 24 24" fill="#fff"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></button>`:''}
+      <button class="ic ed" onclick="editCust('${c.id}')"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></button>
+    </div></div>`;
+}
+function renderRemind(){
+  const list=DB.customers.map(c=>({c,r:reminderState(c)})).filter(x=>x.r).sort((a,b)=>a.r.left-b.r.left);
+  document.getElementById('remindList').innerHTML=list.length?list.map(x=>custRow(x.c,x.r)).join(''):'<div class="empty">No reminders yet.<br>Add a “last order date” + cycle to a customer (edit), or record an order.</div>';
+}
+function renderOrders(){
+  const t=document.getElementById('orderTbl');
+  if(!DB.orders.length){t.innerHTML='<tr><td class="empty">No orders. Tap “+ New order”.</td></tr>';return;}
+  t.innerHTML='<tr><th>Date</th><th>Customer</th><th>Product</th><th class="num">Qty</th><th class="num">Rate</th><th class="num">Amount</th><th>Status</th><th></th></tr>'+
+    DB.orders.slice().reverse().map(o=>{const c=DB.customers.find(x=>x.id===o.cust);return `<tr><td>${o.date}</td><td>${c?c.name:'-'}</td><td>${o.prod}</td><td class="num">${o.qty}</td><td class="num">${money(o.rate)}</td><td class="num">${money(o.qty*o.rate)}</td><td><span class="pill ${o.status}">${o.status}</span></td><td><button class="ic del" onclick="del('orders','${o.id}')"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button></td></tr>`;}).join('');
+}
+function renderProds(){
+  const t=document.getElementById('prodTbl');
+  t.innerHTML='<tr><th>Product</th><th>Category</th><th>Size</th><th>Unit</th><th class="num">Cost</th><th class="num">Price</th><th class="num">Margin</th><th></th></tr>'+
+    DB.products.map(p=>`<tr><td>${p.name}</td><td>${p.cat}</td><td>${p.size}</td><td>${p.unit}</td><td class="num">${money(p.cost)}</td><td class="num">${money(p.price)}</td><td class="num">${money(p.price-p.cost)}</td><td><button class="ic ed" onclick="editProd('${p.id}')"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></button></td></tr>`).join('');
+}
+function renderInv(){
+  const t=document.getElementById('invTbl');
+  t.innerHTML='<tr><th>Item</th><th>Category</th><th class="num">Stock</th><th>Unit</th><th class="num">Reorder</th><th>Status</th><th>Adjust</th></tr>'+
+    DB.inventory.map(i=>`<tr><td>${i.name}</td><td>${i.cat}</td><td class="num">${i.stock}</td><td>${i.unit}</td><td class="num">${i.reorder}</td><td><span class="pill ${i.stock<=i.reorder?'low':'ok'}">${i.stock<=i.reorder?'LOW':'OK'}</span></td><td style="white-space:nowrap"><button class="btn sm out" onclick="adjInv('${i.id}',-1)">−</button> <button class="btn sm out" onclick="adjInv('${i.id}',1)">+</button> <button class="ic ed" onclick="editInv('${i.id}')"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z"/></svg></button></td></tr>`).join('');
+}
+function renderPurch(){
+  const t=document.getElementById('purchTbl');
+  if(!DB.purchases.length){t.innerHTML='<tr><td class="empty">No purchases yet.</td></tr>';return;}
+  t.innerHTML='<tr><th>Date</th><th>Supplier</th><th>Item</th><th class="num">Qty</th><th class="num">Rate</th><th class="num">Amount</th><th>Status</th><th></th></tr>'+
+    DB.purchases.slice().reverse().map(p=>`<tr><td>${p.date}</td><td>${p.supplier}</td><td>${p.item}</td><td class="num">${p.qty}</td><td class="num">${money(p.rate)}</td><td class="num">${money(p.qty*p.rate)}</td><td><span class="pill ${p.status==='paid'?'paid':'pending'}">${p.status}</span></td><td><button class="ic del" onclick="del('purchases','${p.id}')"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button></td></tr>`).join('');
+}
+function renderBills(){
+  const t=document.getElementById('billTbl');
+  if(!DB.bills.length){t.innerHTML='<tr><td class="empty">No invoices. Tap “+ New invoice”.</td></tr>';return;}
+  t.innerHTML='<tr><th>Bill #</th><th>Date</th><th>Customer</th><th class="num">Total</th><th></th></tr>'+
+    DB.bills.slice().reverse().map(b=>`<tr><td>#${b.no}</td><td>${b.date}</td><td>${b.custName}</td><td class="num">${money(b.total)}</td><td><button class="btn sm out" onclick="printBill('${b.id}')">Print</button></td></tr>`).join('');
+}
+
+/* ---------- modal infra ---------- */
+function openM(html){document.getElementById('modal').innerHTML=html;document.getElementById('ov').classList.add('on');}
+function closeM(){document.getElementById('ov').classList.remove('on');}
+document.getElementById('ov').addEventListener('click',e=>{if(e.target.id==='ov')closeM();});
+function val(id){return document.getElementById(id).value;}
+
+/* ---------- customers CRUD ---------- */
+function editCust(id){
+  const c=id?DB.customers.find(x=>x.id===id):{name:'',type:'Bakery',phone:'',area:'Udumalpet',status:'prospect',visit:'',feedback:'',cycle:15,lastOrder:''};
+  const sel=(o,v)=>o.map(x=>`<option ${x===v?'selected':''}>${x}</option>`).join('');
+  openM(`<h3>${id?'Edit':'Add'} Customer</h3>
+   <div class="fg"><label>Shop name</label><input id="c_name" value="${c.name||''}"></div>
+   <div class="frow"><div class="fg"><label>Type</label><select id="c_type">${sel(['Bakery','Sweet Shop','Textile','Hotel','Restaurant','Supermarket','Pharmacy','Tea Shop','Other'],c.type)}</select></div>
+   <div class="fg"><label>Phone</label><input id="c_phone" value="${c.phone||''}" inputmode="numeric"></div></div>
+   <div class="fg"><label>Area / Address</label><input id="c_area" value="${c.area||''}"></div>
+   <div class="frow"><div class="fg"><label>Status</label><select id="c_status">${sel(['prospect','sample','customer','lost'],c.status)}</select></div>
+   <div class="fg"><label>Visit date</label><input id="c_visit" type="date" value="${c.visit||''}"></div></div>
+   <div class="frow"><div class="fg"><label>Last order date</label><input id="c_last" type="date" value="${c.lastOrder||''}"></div>
+   <div class="fg"><label>Reorder cycle (days)</label><input id="c_cycle" type="number" value="${c.cycle||''}" inputmode="numeric"></div></div>
+   <div class="fg"><label>Feedback / notes</label><textarea id="c_fb">${c.feedback||''}</textarea></div>
+   <div class="mbtns"><button class="btn out" onclick="closeM()">Cancel</button><button class="btn eco" onclick="saveCust('${id||''}')">Save</button></div>`);
+}
+function saveCust(id){
+  const o={name:val('c_name'),type:val('c_type'),phone:val('c_phone'),area:val('c_area'),status:val('c_status'),visit:val('c_visit'),lastOrder:val('c_last'),cycle:+val('c_cycle')||0,feedback:val('c_fb')};
+  if(!o.name){toast('Enter shop name');return;}
+  if(id){Object.assign(DB.customers.find(x=>x.id===id),o);}else{o.id=uid();DB.customers.push(o);}
+  save();closeM();toast('Saved');render();
+}
+
+/* ---------- orders ---------- */
+function editOrder(){
+  if(!DB.customers.length){toast('Add a customer first');return;}
+  const co=DB.customers.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+  const po=DB.products.map(p=>`<option value="${p.id}" data-rate="${p.price}">${p.name} (${money(p.price)})</option>`).join('');
+  openM(`<h3>New Order</h3>
+   <div class="fg"><label>Customer</label><select id="o_cust">${co}</select></div>
+   <div class="fg"><label>Product</label><select id="o_prod" onchange="o_setrate()">${po}</select></div>
+   <div class="frow"><div class="fg"><label>Quantity</label><input id="o_qty" type="number" value="100" inputmode="numeric" oninput="o_total()"></div>
+   <div class="fg"><label>Rate (₹)</label><input id="o_rate" type="number" step="0.01" oninput="o_total()"></div></div>
+   <div class="frow"><div class="fg"><label>Date</label><input id="o_date" type="date" value="${today()}"></div>
+   <div class="fg"><label>Status</label><select id="o_status"><option>pending</option><option>delivered</option><option>paid</option></select></div></div>
+   <div class="fg"><label>Amount</label><input id="o_amt" readonly style="background:var(--paper2);font-weight:700"></div>
+   <div class="mbtns"><button class="btn out" onclick="closeM()">Cancel</button><button class="btn eco" onclick="saveOrder()">Save order</button></div>`);
+  o_setrate();
+}
+function o_setrate(){const s=document.getElementById('o_prod');const r=s.options[s.selectedIndex].dataset.rate;document.getElementById('o_rate').value=r;o_total();}
+function o_total(){const v=(+val('o_qty')||0)*(+val('o_rate')||0);document.getElementById('o_amt').value=money(v);}
+function saveOrder(){
+  const prodSel=document.getElementById('o_prod');
+  const o={id:uid(),cust:val('o_cust'),prod:prodSel.options[prodSel.selectedIndex].text.split(' (')[0],qty:+val('o_qty')||0,rate:+val('o_rate')||0,date:val('o_date'),status:val('o_status')};
+  DB.orders.push(o);
+  const c=DB.customers.find(x=>x.id===o.cust);if(c){c.lastOrder=o.date;if(c.status!=='customer')c.status='customer';}
+  save();closeM();toast('Order saved — reminder set');render();
+}
+
+/* ---------- products ---------- */
+function editProd(id){
+  const p=id?DB.products.find(x=>x.id===id):{name:'',cat:'Cover',size:'',gsm:'',unit:'piece',cost:0,price:0};
+  const sel=(o,v)=>o.map(x=>`<option ${x===v?'selected':''}>${x}</option>`).join('');
+  openM(`<h3>${id?'Edit':'Add'} Product</h3>
+   <div class="fg"><label>Name</label><input id="p_name" value="${p.name}"></div>
+   <div class="frow"><div class="fg"><label>Category</label><select id="p_cat">${sel(['Cover','Handle Bag','Return Gift','Cloth Bag','Other'],p.cat)}</select></div>
+   <div class="fg"><label>Size</label><input id="p_size" value="${p.size}"></div></div>
+   <div class="frow"><div class="fg"><label>Unit</label><select id="p_unit">${sel(['piece','kg','set'],p.unit)}</select></div>
+   <div class="fg"><label>GSM</label><input id="p_gsm" value="${p.gsm||''}"></div></div>
+   <div class="frow"><div class="fg"><label>Cost (₹)</label><input id="p_cost" type="number" step="0.01" value="${p.cost}"></div>
+   <div class="fg"><label>Selling price (₹)</label><input id="p_price" type="number" step="0.01" value="${p.price}"></div></div>
+   <div class="mbtns">${id?`<button class="btn red" onclick="del('products','${id}')">Delete</button>`:'<button class="btn out" onclick="closeM()">Cancel</button>'}<button class="btn eco" onclick="saveProd('${id||''}')">Save</button></div>`);
+}
+function saveProd(id){
+  const o={name:val('p_name'),cat:val('p_cat'),size:val('p_size'),unit:val('p_unit'),gsm:val('p_gsm'),cost:+val('p_cost')||0,price:+val('p_price')||0};
+  if(!o.name){toast('Enter name');return;}
+  if(id)Object.assign(DB.products.find(x=>x.id===id),o);else{o.id=uid();DB.products.push(o);}
+  save();closeM();toast('Saved');render();
+}
+
+/* ---------- inventory ---------- */
+function editInv(id){
+  const i=id?DB.inventory.find(x=>x.id===id):{name:'',cat:'Raw material',unit:'kg',stock:0,reorder:0};
+  const sel=(o,v)=>o.map(x=>`<option ${x===v?'selected':''}>${x}</option>`).join('');
+  openM(`<h3>${id?'Edit':'Add'} Inventory Item</h3>
+   <div class="fg"><label>Item name</label><input id="i_name" value="${i.name}"></div>
+   <div class="frow"><div class="fg"><label>Category</label><select id="i_cat">${sel(['Raw material','Finished','Packing','Other'],i.cat)}</select></div>
+   <div class="fg"><label>Unit</label><select id="i_unit">${sel(['kg','piece','roll','litre'],i.unit)}</select></div></div>
+   <div class="frow"><div class="fg"><label>Current stock</label><input id="i_stock" type="number" value="${i.stock}"></div>
+   <div class="fg"><label>Reorder level</label><input id="i_re" type="number" value="${i.reorder}"></div></div>
+   <div class="mbtns">${id?`<button class="btn red" onclick="del('inventory','${id}')">Delete</button>`:'<button class="btn out" onclick="closeM()">Cancel</button>'}<button class="btn eco" onclick="saveInv('${id||''}')">Save</button></div>`);
+}
+function saveInv(id){
+  const o={name:val('i_name'),cat:val('i_cat'),unit:val('i_unit'),stock:+val('i_stock')||0,reorder:+val('i_re')||0};
+  if(!o.name){toast('Enter name');return;}
+  if(id)Object.assign(DB.inventory.find(x=>x.id===id),o);else{o.id=uid();DB.inventory.push(o);}
+  save();closeM();toast('Saved');render();
+}
+function adjInv(id,d){const i=DB.inventory.find(x=>x.id===id);const step=i.unit==='piece'?50:5;i.stock=Math.max(0,i.stock+d*step);save();render();}
+
+/* ---------- purchases ---------- */
+function editPurch(){
+  const inv=DB.inventory.map(i=>`<option>${i.name}</option>`).join('');
+  openM(`<h3>Add Purchase</h3>
+   <div class="fg"><label>Supplier</label><input id="pu_sup" placeholder="e.g. Shree Bagavan Mills"></div>
+   <div class="fg"><label>Item</label><input id="pu_item" list="invlist" placeholder="Item name"><datalist id="invlist">${inv}</datalist></div>
+   <div class="frow"><div class="fg"><label>Quantity</label><input id="pu_qty" type="number" inputmode="numeric"></div>
+   <div class="fg"><label>Rate (₹)</label><input id="pu_rate" type="number" step="0.01"></div></div>
+   <div class="frow"><div class="fg"><label>Date</label><input id="pu_date" type="date" value="${today()}"></div>
+   <div class="fg"><label>Status</label><select id="pu_status"><option>pending</option><option>paid</option></select></div></div>
+   <label style="font-size:12px;font-family:DM Mono;color:var(--ink-soft)"><input type="checkbox" id="pu_add" checked style="width:auto"> Add quantity to inventory stock</label>
+   <div class="mbtns" style="margin-top:12px"><button class="btn out" onclick="closeM()">Cancel</button><button class="btn eco" onclick="savePurch()">Save</button></div>`);
+}
+function savePurch(){
+  const o={id:uid(),supplier:val('pu_sup'),item:val('pu_item'),qty:+val('pu_qty')||0,rate:+val('pu_rate')||0,date:val('pu_date'),status:val('pu_status')};
+  if(!o.item){toast('Enter item');return;}
+  DB.purchases.push(o);
+  if(document.getElementById('pu_add').checked){const inv=DB.inventory.find(i=>i.name===o.item);if(inv)inv.stock+=o.qty;else DB.inventory.push({id:uid(),name:o.item,cat:'Raw material',unit:'kg',stock:o.qty,reorder:0});}
+  save();closeM();toast('Purchase saved');render();
+}
+
+/* ---------- billing ---------- */
+let billItems=[];
+function newBill(){
+  if(!DB.customers.length){toast('Add a customer first');return;}
+  billItems=[{prod:DB.products[0]?.name||'',qty:1,rate:DB.products[0]?.price||0}];
+  drawBill();
+}
+function drawBill(){
+  const co=DB.customers.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+  const po=DB.products.map(p=>`<option value="${p.name}" data-rate="${p.price}">${p.name}</option>`).join('');
+  const rows=billItems.map((it,ix)=>`<div class="frow" style="align-items:flex-end">
+     <div class="fg" style="flex:2"><label>Item</label><select onchange="billItems[${ix}].prod=this.value;billItems[${ix}].rate=+this.options[this.selectedIndex].dataset.rate||billItems[${ix}].rate;drawBill()">${DB.products.map(p=>`<option value="${p.name}" data-rate="${p.price}" ${p.name===it.prod?'selected':''}>${p.name}</option>`).join('')}</select></div>
+     <div class="fg"><label>Qty</label><input type="number" value="${it.qty}" oninput="billItems[${ix}].qty=+this.value;billTotals()"></div>
+     <div class="fg"><label>Rate</label><input type="number" step="0.01" value="${it.rate}" oninput="billItems[${ix}].rate=+this.value;billTotals()"></div>
+     <button class="ic del" style="margin-bottom:12px" onclick="billItems.splice(${ix},1);drawBill()"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
+   </div>`).join('');
+  openM(`<h3>New Invoice</h3>
+   <div class="fg"><label>Customer</label><select id="b_cust">${co}</select></div>
+   ${rows}
+   <button class="btn sm out" onclick="billItems.push({prod:DB.products[0]?.name||'',qty:1,rate:DB.products[0]?.price||0});drawBill()">+ Add item</button>
+   <div class="frow" style="margin-top:12px"><div class="fg"><label>GST %</label><input id="b_gst" type="number" value="${DB.settings.gst||0}" oninput="billTotals()"></div>
+   <div class="fg"><label>Total</label><input id="b_total" readonly style="background:var(--paper2);font-weight:700;font-size:17px"></div></div>
+   <div class="mbtns"><button class="btn out" onclick="closeM()">Cancel</button><button class="btn eco" onclick="saveBill()">Save &amp; Print</button></div>`);
+  billTotals();
+}
+function billTotals(){
+  const sub=billItems.reduce((s,it)=>s+(+it.qty||0)*(+it.rate||0),0);
+  const gst=+(document.getElementById('b_gst')?.value||0);
+  document.getElementById('b_total').value=money(sub*(1+gst/100));
+}
+function saveBill(){
+  const cid=val('b_cust');const c=DB.customers.find(x=>x.id===cid);
+  const sub=billItems.reduce((s,it)=>s+it.qty*it.rate,0);const gst=+val('b_gst')||0;const total=sub*(1+gst/100);
+  const bill={id:uid(),no:DB.billNo++,date:today(),cust:cid,custName:c.name,items:JSON.parse(JSON.stringify(billItems)),sub,gst,total};
+  DB.bills.push(bill);save();closeM();toast('Invoice saved');render();printBill(bill.id);
+}
+function printBill(id){
+  const b=DB.bills.find(x=>x.id===id);const s=DB.settings;
+  const rows=b.items.map(it=>`<tr><td style="padding:8px;border-bottom:1px solid #ddd">${it.prod}</td><td style="padding:8px;border-bottom:1px solid #ddd;text-align:right">${it.qty}</td><td style="padding:8px;border-bottom:1px solid #ddd;text-align:right">₹${it.rate}</td><td style="padding:8px;border-bottom:1px solid #ddd;text-align:right">₹${(it.qty*it.rate).toLocaleString('en-IN')}</td></tr>`).join('');
+  document.getElementById('invoicePrint').innerHTML=`
+   <div style="font-family:Arial;color:#222;max-width:720px">
+    <div style="display:flex;justify-content:space-between;border-bottom:3px solid #2c4d34;padding-bottom:12px">
+      <div><div style="font-size:26px;font-weight:800;letter-spacing:1px">${s.shop}</div><div style="color:#666">${s.place}, Tamil Nadu</div>${s.phone?`<div style="color:#666">Ph: ${s.phone}</div>`:''}</div>
+      <div style="text-align:right"><div style="font-size:22px;font-weight:800">INVOICE</div><div># ${b.no}</div><div>${b.date}</div></div>
+    </div>
+    <div style="margin:16px 0"><b>Bill To:</b> ${b.custName}</div>
+    <table style="width:100%;border-collapse:collapse"><tr style="background:#2c4d34;color:#fff"><th style="padding:8px;text-align:left">Item</th><th style="padding:8px;text-align:right">Qty</th><th style="padding:8px;text-align:right">Rate</th><th style="padding:8px;text-align:right">Amount</th></tr>${rows}</table>
+    <div style="margin-top:14px;text-align:right">
+      <div>Subtotal: ₹${b.sub.toLocaleString('en-IN')}</div>
+      ${b.gst?`<div>GST (${b.gst}%): ₹${(b.sub*b.gst/100).toLocaleString('en-IN')}</div>`:''}
+      <div style="font-size:20px;font-weight:800;margin-top:6px">Total: ₹${Math.round(b.total).toLocaleString('en-IN')}</div>
+    </div>
+    <div style="margin-top:30px;color:#888;font-size:13px;border-top:1px solid #ddd;padding-top:10px">Thank you for your business! · Branded covers at plain price · Made local in ${s.place}</div>
+   </div>`;
+  document.getElementById('invoicePrint').style.display='block';
+  window.print();
+  setTimeout(()=>document.getElementById('invoicePrint').style.display='none',300);
+}
+
+/* ---------- settings + data ---------- */
+function openSettings(){
+  const s=DB.settings;
+  openM(`<h3>Settings</h3>
+   <div class="fg"><label>Business name</label><input id="s_shop" value="${s.shop}"></div>
+   <div class="fg"><label>Your phone (for invoices)</label><input id="s_phone" value="${s.phone||''}"></div>
+   <div class="frow"><div class="fg"><label>Place</label><input id="s_place" value="${s.place}"></div>
+   <div class="fg"><label>Default GST %</label><input id="s_gst" type="number" value="${s.gst||0}"></div></div>
+   <div class="mbtns"><button class="btn out" onclick="closeM()">Close</button><button class="btn eco" onclick="saveSettings()">Save</button></div>
+   <div style="margin-top:14px;font-size:11.5px;color:var(--ink-soft);font-family:DM Mono;line-height:1.6">Data saves on this device. Use ⬇ Backup weekly and keep the file safe. Open this app in your phone/PC browser (or host it) for your data to persist.</div>`);
+}
+function saveSettings(){DB.settings={shop:val('s_shop'),phone:val('s_phone'),place:val('s_place'),gst:+val('s_gst')||0};save();closeM();toast('Settings saved');render();}
+function del(coll,id){if(!confirm('Delete this?'))return;DB[coll]=DB[coll].filter(x=>x.id!==id);save();closeM();toast('Deleted');render();}
+function exportData(){const blob=new Blob([JSON.stringify(DB,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='kraftvibe-backup-'+today()+'.json';a.click();toast('Backup downloaded');}
+function importData(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{try{DB=JSON.parse(e.target.result);save();toast('Data restored');render();}catch(err){toast('Invalid file');}};r.readAsText(f);inp.value='';}
+
+buildNav();go('dash');
+</script>
+</body>
+</html>
