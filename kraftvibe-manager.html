@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>KRAFT·Vibe — Business Manager</title>
 <link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0b5c2e">
+<link rel="apple-touch-icon" href="brand/kraftvibe-mark.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -202,6 +205,10 @@ main{max-width:1000px;margin:0 auto;padding:16px}
       <div id="dash-lines" style="padding:13px 15px;display:flex;gap:7px;flex-wrap:wrap"></div>
     </div>
     <div class="panel">
+      <div class="ph">Leads by source</div>
+      <div id="dash-src" style="padding:13px 15px;display:flex;gap:7px;flex-wrap:wrap"></div>
+    </div>
+    <div class="panel">
       <div class="ph">Today's follow-ups <button class="btn sm out" onclick="go('remind')">View all</button></div>
       <div id="dash-follow"></div>
     </div>
@@ -248,7 +255,7 @@ main{max-width:1000px;margin:0 auto;padding:16px}
 
   <!-- LEADS -->
   <section class="view" id="v-leads">
-    <div class="vhead"><h2>Leads</h2><button class="btn" onclick="editCust()">+ Add</button></div>
+    <div class="vhead"><h2>Leads</h2><span style="display:flex;gap:8px"><button class="btn sm out" onclick="editCust('',{src:'Instagram',type:'Function/Family',oneTime:true,area:''})">📸 IG lead</button><button class="btn" onclick="editCust()">+ Add</button></span></div>
     <input class="search" id="leadSearch" placeholder="Search lead or area…" oninput="renderLeads()">
     <div class="filters" id="leadFilters"></div>
     <div class="panel" id="leadList"></div>
@@ -586,7 +593,11 @@ function catalogMsg(c){
   const cfg=catalogCfg(c);
   const items=DB.products.filter(p=>cfg.cats.includes(p.cat));
   const lines=items.length?items.map(p=>`▫️ ${p.name}${p.size&&p.size!=='-'?' – '+p.size:''} : ₹${p.price}/${p.unit==='piece'?'pc':p.unit}`).join('\n'):'(products list update aagum)';
-  return `Vanakkam ${c.name} 🙏\n\n*KRAFT·Vibe – ${cfg.title}*\n${cfg.note}\n\n${lines}\n\n✅ Unga per/logo print – FREE design\n✅ Bulk-ku innum kammi rate\n✅ Free local delivery (Udumalpet 30km)\n\nOrder venum-na indha message-ku *reply* pannunga – confirm pannidalam! 👍\n– KRAFT·Vibe · 7904505226`;
+  const arecaOnly=cfg.cats.length===1&&cfg.cats[0]==='Areca Plate';
+  const bene=arecaOnly
+    ?`⭐ *UV-rays la clean + shrink pack – full hygiene* (engaloda USP!)\n✅ Bulk/carton-ku innum kammi rate\n✅ Free local delivery (Udumalpet 30km)`
+    :`✅ Unga per/logo print – FREE design\n${cfg.cats.includes('Areca Plate')?'⭐ Areca plates: UV clean + shrink pack – hygiene guarantee\n':''}✅ Bulk-ku innum kammi rate\n✅ Free local delivery (Udumalpet 30km)`;
+  return `Vanakkam ${c.name} 🙏\n\n*KRAFT·Vibe – ${cfg.title}*\n${cfg.note}\n\n${lines}\n\n${bene}\n\nOrder venum-na indha message-ku *reply* pannunga – confirm pannidalam! 👍\n– KRAFT·Vibe · 7904505226`;
 }
 function sendCatalog(id){
   const c=DB.customers.find(x=>x.id===id);if(!c)return;
@@ -621,6 +632,11 @@ function followUps(){
     if(c.fSnooze===t)return;
     const st=stageOf(c);
     const r=reminderState(c);
+    if(c.funcDate){
+      const d=daysBetween(t,c.funcDate);
+      if(d>=0&&d<=15&&!c.lastOrder){list.push({c,tag:'FUNCTION '+d+'d',why:'Function '+c.funcDate+' — order finalize pannanum!',msg:`Vanakkam ${c.name} 🙏 Unga function-ku ${d} naal dhaan! Return gift bags order finalize pannalama? Design + quantity sollunga — time-ku ready pannidrom. 🎁 – KRAFT·Vibe · 7904505226`,p:0});return;}
+      if(d>=0&&d<=5&&c.lastOrder){list.push({c,tag:'DELIVERY '+d+'d',why:'Function '+c.funcDate+' — ready/delivery update kudunga',msg:`Vanakkam ${c.name} 🙏 Unga order ready aagudhu! Function-ku munnadi ${d<=1?'inaikke':'time-ku'} delivery pannidrom. 🎁 – KRAFT·Vibe`,p:0});return;}
+    }
     if(!c.oneTime&&r&&r.s!=='ok'){list.push({c,tag:r.s==='due'?'REORDER DUE':'DUE '+r.left+'d',why:'Reorder time – '+(c.cycle||'?')+' naal cycle',msg:reorderMsg(c),p:r.s==='due'?0:1});return;}
     if(c.oneTime&&c.lastOrder&&!c.reviewAsked&&daysBetween(c.lastOrder,t)>=7){list.push({c,tag:'REVIEW',why:'Function mudinjadhu – review/referral kelunga',msg:reviewMsg(c),p:3,review:1});return;}
     if(st==='sample'&&c.sampleDate&&daysBetween(c.sampleDate,t)>=2){list.push({c,tag:'SAMPLE',why:'Sample kuduthu '+daysBetween(c.sampleDate,t)+' naal – feedback kelunga',msg:sampleFollowMsg(c),p:1});return;}
@@ -672,6 +688,11 @@ function renderDash(){
   const lkeys=Object.keys(lines);
   document.getElementById('dash-lines').innerHTML=lkeys.length?['Covers','Areca','Return Gift','Other'].filter(l=>lines[l]).map(l=>
     `<span class="pill customer" style="font-size:11.5px;padding:7px 12px">${l==='Areca'?'🍽 Areca':l==='Return Gift'?'🎁 Return Gift':l==='Covers'?'🛍 Covers & Bags':l}: <b>${money(lines[l])}</b></span>`).join(''):'<div style="font-size:13px;color:var(--ink-soft)">Indha month order varala innum — Daily 10 anuppunga! 💪</div>';
+  /* leads by source */
+  const srcs={};DB.customers.forEach(c=>{if(c.status==='lost')return;const s=c.src||'Daily-10';srcs[s]=(srcs[s]||0)+1;});
+  const custBySrc={};DB.customers.forEach(c=>{if(c.status==='customer'){const s=c.src||'Daily-10';custBySrc[s]=(custBySrc[s]||0)+1;}});
+  document.getElementById('dash-src').innerHTML=Object.keys(srcs).sort((a,b)=>srcs[b]-srcs[a]).map(s=>
+    `<span class="pill prospect" style="font-size:11.5px;padding:7px 12px">${s==='Instagram'?'📸 ':s==='Facebook'?'📘 ':''}${s}: <b>${srcs[s]}</b>${custBySrc[s]?' <span style="color:var(--eco)">('+custBySrc[s]+' ✓)</span>':''}</span>`).join('');
   document.getElementById('dash-follow').innerHTML=fl.length?fl.slice(0,5).map(followRow).join(''):'<div class="empty">Follow-ups clear 🎉</div>';
   document.getElementById('dash-orders').innerHTML=pend.length?pend.slice().reverse().slice(0,5).map(o=>{const c=DB.customers.find(x=>x.id===o.cust);return `<div class="row"><div class="meta"><div class="t">${c?c.name:'-'}</div><div class="s">${o.prod} × ${o.qty} = ${money(o.qty*o.rate)} · ${o.date}</div></div><div class="acts"><button class="pill pending" style="border:0;cursor:pointer" onclick="advOrder('${o.id}')">pending ▸</button></div></div>`;}).join(''):'<div class="empty">Pending orders illa.</div>';
   const low=DB.inventory.filter(i=>i.stock<=i.reorder);
@@ -699,7 +720,7 @@ function custRow(c,r,full,isLead){
     <div class="av">${initials(c.name)}</div>
     <div class="meta">
       <div class="t">${c.name} ${r&&r.s!=='ok'?`<span class="pill ${r.s}">${r.s==='due'?'REORDER DUE':'DUE '+r.left+'d'}</span>`:stPill}${c.oneTime?' <span class="pill sample">1-TIME</span>':''}</div>
-      <div class="s">${c.type} · ${c.area||''} ${c.phone?'· '+c.phone:'· ⚠ no number'}${c.catalogSent?' · 📋 '+c.catalogSent.slice(5):''}</div>
+      <div class="s">${c.type} · ${c.area||''} ${c.phone?'· '+c.phone:'· ⚠ no number'}${c.funcDate?' · 🗓 '+c.funcDate:''}${c.src==='Instagram'?' · 📸':''}${c.catalogSent?' · 📋 '+c.catalogSent.slice(5):''}</div>
     </div>
     <div class="acts">
       <button class="ic" title="Send catalog (${(catalogCfg(c).cats||[]).join(' + ')})" style="font-size:15px" onclick="sendCatalog('${c.id}')">📋</button>
@@ -757,14 +778,16 @@ document.getElementById('ov').addEventListener('click',e=>{if(e.target.id==='ov'
 function val(id){return document.getElementById(id).value;}
 
 /* ---------- customers CRUD ---------- */
-function editCust(id){
-  const c=id?DB.customers.find(x=>x.id===id):{name:'',type:'Bakery',phone:'',area:'Udumalpet',status:'prospect',visit:'',feedback:'',cycle:15,lastOrder:'',oneTime:false};
+function editCust(id,preset){
+  const c=id?DB.customers.find(x=>x.id===id):Object.assign({name:'',type:'Bakery',phone:'',area:'Udumalpet',status:'prospect',visit:'',feedback:'',cycle:15,lastOrder:'',oneTime:false,src:'Daily-10',funcDate:''},preset||{});
   const sel=(o,v)=>o.map(x=>`<option ${x===v?'selected':''}>${x}</option>`).join('');
   openM(`<h3>${id?'Edit':'Add'} Customer</h3>
    <div class="fg"><label>Shop / family name</label><input id="c_name" value="${(c.name||'').replace(/"/g,'&quot;')}"></div>
    <div class="frow"><div class="fg"><label>Type</label><select id="c_type" onchange="document.getElementById('c_one').checked=(this.value==='Function/Family')">${sel(['Bakery','Cake Shop','Sweet Shop','Textile','Hotel','Restaurant','Catering','Supermarket','Pharmacy','Tea Shop','Jewellery','Gift','Footwear','Function/Family','Other'],c.type)}</select></div>
    <div class="fg"><label>Phone</label><input id="c_phone" value="${c.phone||''}" inputmode="numeric"></div></div>
    <div class="fg"><label>Area / Address</label><input id="c_area" value="${c.area||''}"></div>
+   <div class="frow"><div class="fg"><label>Lead source</label><select id="c_src">${sel(['Daily-10','Instagram','Facebook','Referral','Walk-in','Justdial','Other'],c.src||'Daily-10')}</select></div>
+   <div class="fg"><label>Function date (gifts)</label><input id="c_func" type="date" value="${c.funcDate||''}"></div></div>
    <div class="frow"><div class="fg"><label>Status</label><select id="c_status">${sel(['prospect','sample','customer','lost'],c.status)}</select></div>
    <div class="fg"><label>Visit date</label><input id="c_visit" type="date" value="${c.visit||''}"></div></div>
    <div class="frow"><div class="fg"><label>Last order date</label><input id="c_last" type="date" value="${c.lastOrder||''}"></div>
@@ -774,7 +797,7 @@ function editCust(id){
    <div class="mbtns"><button class="btn out" onclick="closeM()">Cancel</button><button class="btn eco" onclick="saveCust('${id||''}')">Save</button></div>`);
 }
 function saveCust(id){
-  const o={name:val('c_name'),type:val('c_type'),phone:val('c_phone'),area:val('c_area'),status:val('c_status'),visit:val('c_visit'),lastOrder:val('c_last'),cycle:+val('c_cycle')||0,feedback:val('c_fb'),oneTime:document.getElementById('c_one').checked};
+  const o={name:val('c_name'),type:val('c_type'),phone:val('c_phone'),area:val('c_area'),status:val('c_status'),visit:val('c_visit'),lastOrder:val('c_last'),cycle:+val('c_cycle')||0,feedback:val('c_fb'),oneTime:document.getElementById('c_one').checked,src:val('c_src'),funcDate:val('c_func')};
   if(!o.name){toast('Enter shop name');return;}
   const prev=id?DB.customers.find(x=>x.id===id):null;
   if(o.status==='sample'&&(!prev||prev.status!=='sample'))o.sampleDate=today();
@@ -959,7 +982,7 @@ function openSettings(){
 }
 function saveSettings(){DB.settings={shop:val('s_shop'),phone:val('s_phone'),place:val('s_place'),gst:+val('s_gst')||0};save();closeM();toast('Settings saved');render();}
 function del(coll,id){if(!confirm('Delete this?'))return;DB[coll]=DB[coll].filter(x=>x.id!==id);save();closeM();toast('Deleted');render();}
-function exportData(){const blob=new Blob([JSON.stringify(DB,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='kraftvibe-backup-'+today()+'.json';a.click();toast('Backup downloaded');}
+function exportData(){const blob=new Blob([JSON.stringify(DB,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='kraftvibe-backup-'+today()+'.json';a.click();DB.lastBackup=today();save();const b=document.getElementById('bkban');if(b)b.remove();toast('Backup downloaded ✓ — file-a safe-ah vechukkonga');}
 function importData(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{try{DB=JSON.parse(e.target.result);save();toast('Data restored');render();}catch(err){toast('Invalid file');}};r.readAsText(f);inp.value='';}
 
 /* ---------- Daily 10 plan ---------- */
@@ -1025,22 +1048,152 @@ function renderPlan(){
     AREAS.map(a=>`<tr><td style="white-space:nowrap"><b>${a[0]}</b></td><td style="white-space:nowrap">${a[1]}</td><td style="font-size:12.5px">${a[2]}</td></tr>`).join('');
 }
 
-/* ---------- personalized sample photo ---------- */
+/* ---------- personalized sample photo (3 templates) ---------- */
+let sampTpl='cover',sampCustId='';
+function setTpl(t){sampTpl=t;['cover','areca','gift'].forEach(x=>{const b=document.getElementById('tpl-'+x);if(b)b.classList.toggle('on',x===t);});drawSample();}
 function openSample(id){
   const c=id?DB.customers.find(x=>x.id===id):null;
+  sampCustId=id||'';
   const name=c?c.name:(document.getElementById('sampName')?document.getElementById('sampName').value.trim():'');
   if(!name){toast('Shop name type pannunga');return;}
+  sampTpl=c?(['Catering','Hotel','Restaurant'].includes(c.type)?'areca':(c.type==='Function/Family'||c.oneTime?'gift':'cover')):'cover';
   openM(`<h3>Sample Photo — ${name}</h3>
-   <canvas id="sampCanvas" width="1080" height="1080" style="width:100%;border-radius:10px;border:1.5px solid var(--line);background:#0b5c2e"></canvas>
-   <div class="fg" style="margin-top:10px"><label>Name on cover</label><input id="samp_n" value="${(name||'').replace(/"/g,'&quot;')}" oninput="drawSample()"></div>
-   <div class="frow">
-     <div class="fg"><label>Line 2 (type / tagline)</label><input id="samp_t" value="${c?(c.type||''):''}" oninput="drawSample()"></div>
-     <div class="fg"><label>Shop phone (on cover)</label><input id="samp_p" value="${c?(c.phone||''):''}" oninput="drawSample()"></div>
+   <div class="filters" style="margin-bottom:10px">
+     <button id="tpl-cover" class="${sampTpl==='cover'?'on':''}" onclick="setTpl('cover')">🛍 Cover</button>
+     <button id="tpl-areca" class="${sampTpl==='areca'?'on':''}" onclick="setTpl('areca')">🍽 Areca (USP)</button>
+     <button id="tpl-gift" class="${sampTpl==='gift'?'on':''}" onclick="setTpl('gift')">🎁 Return Gift</button>
    </div>
-   <div class="mbtns"><button class="btn out" onclick="downloadSample()">⬇ Download</button><button class="btn eco" onclick="shareSample()">📤 Share / WhatsApp</button></div>
-   <div style="margin-top:10px;font-size:11.5px;color:var(--ink-soft);font-family:'DM Mono'">Share thattunga → WhatsApp select pannunga → shop-oda chat-la photo + message send.</div>`);
+   <canvas id="sampCanvas" width="1080" height="1080" style="width:100%;border-radius:10px;border:1.5px solid var(--line);background:#0b5c2e"></canvas>
+   <div class="fg" style="margin-top:10px"><label>Name</label><input id="samp_n" value="${(name||'').replace(/"/g,'&quot;')}" oninput="drawSample()"></div>
+   <div class="frow">
+     <div class="fg"><label>Line 2 (type / date for gifts)</label><input id="samp_t" value="${c?(c.type==='Function/Family'?(c.funcDate||''):(c.type||'')):''}" oninput="drawSample()"></div>
+     <div class="fg"><label>Phone (cover template)</label><input id="samp_p" value="${c?(c.phone||''):''}" oninput="drawSample()"></div>
+   </div>
+   <div class="mbtns"><button class="btn out" onclick="downloadSample()">⬇ Download</button><button class="btn eco" onclick="shareSample()">📤 Photo + Message</button></div>
+   <div style="margin-top:10px;font-size:11.5px;color:var(--ink-soft);font-family:'DM Mono'">📤 = phone-la photo + ready message rendum onnave WhatsApp share aagum. PC-la photo download aagi message-oda WhatsApp open aagum.</div>`);
   drawSample();
   if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>drawSample());
+}
+function drawSample(){
+  if(sampTpl==='areca')drawArecaSample();
+  else if(sampTpl==='gift')drawGiftSample();
+  else drawCoverSample();
+}
+function drawFooterBand(x,W,H){
+  x.fillStyle='#ffe9bd';x.fillRect(26,H-142,W-52,116);
+  const lx=108,ly=H-84;
+  x.strokeStyle='#0b5c2e';x.lineWidth=6;x.lineCap='round';
+  x.beginPath();x.arc(lx,ly-26,15,Math.PI,0);x.stroke();
+  x.fillStyle='#f79f1f';x.strokeStyle='#0b5c2e';x.lineWidth=5;
+  x.beginPath();x.moveTo(lx-26,ly-22);x.lineTo(lx+26,ly-22);x.lineTo(lx+21,ly+30);x.lineTo(lx-21,ly+30);x.closePath();x.fill();x.stroke();
+  x.fillStyle='#e8232f';x.beginPath();x.arc(lx,ly-6,6,0,7);x.fill();
+  x.textAlign='left';
+  x.fillStyle='#0b5c2e';x.font='400 46px Anton,sans-serif';
+  x.fillText('KRAFT·VIBE — UDUMALPET',158,H-88);
+  x.fillStyle='#9c1824';x.font='500 30px "DM Mono",monospace';
+  x.fillText('FREE SAMPLE · WHATSAPP 7904505226',158,H-46);
+  x.textAlign='center';
+}
+function drawChip(x,cx,cy,txt){
+  x.font='500 27px "DM Mono",monospace';
+  const w=x.measureText(txt).width+44;
+  x.fillStyle='#ffe9bd';
+  x.beginPath();x.roundRect(cx-w/2,cy-27,w,54,27);x.fill();
+  x.fillStyle='#0b5c2e';x.fillText(txt,cx,cy+9);
+  return w;
+}
+function drawArecaSample(){
+  const cv=document.getElementById('sampCanvas');if(!cv)return;
+  const x=cv.getContext('2d');const W=1080,H=1080;
+  const name=val('samp_n')||'';
+  x.clearRect(0,0,W,H);
+  x.fillStyle='#0b5c2e';x.fillRect(0,0,W,H);
+  x.strokeStyle='rgba(255,233,189,.45)';x.lineWidth=3;x.strokeRect(26,26,W-52,H-52);
+  x.textAlign='center';
+  /* header */
+  x.fillStyle='#f7d9a0';x.font='34px "Nirmala UI","Latha","DM Sans",sans-serif';
+  x.fillText('பாக்கு மட்டை தட்டுகள்',W/2,96);
+  x.fillStyle='#ffe9bd';x.font='400 76px Anton,sans-serif';
+  x.fillText('ARECA LEAF PLATES',W/2,178);
+  if(name){x.fillStyle='#f79f1f';x.font='500 30px "DM Mono",monospace';x.fillText(('For: '+name+' — special bulk rate!').toUpperCase().slice(0,52),W/2,228);}
+  /* plate */
+  const px=W/2,py=560,R=250;
+  x.fillStyle='rgba(0,0,0,.3)';x.beginPath();x.ellipse(px+14,py+22,R,R*.96,0,0,7);x.fill();
+  x.fillStyle='#a8763e';x.beginPath();x.arc(px,py,R,0,7);x.fill();
+  const g=x.createRadialGradient(px-60,py-70,40,px,py,R);
+  g.addColorStop(0,'#ecd3a3');g.addColorStop(.55,'#d9b478');g.addColorStop(1,'#c39258');
+  x.fillStyle=g;x.beginPath();x.arc(px,py,R-10,0,7);x.fill();
+  /* concentric press rings */
+  x.strokeStyle='rgba(120,80,30,.30)';x.lineWidth=3;
+  [R-38,R-90].forEach(r=>{x.beginPath();x.arc(px,py,r,0,7);x.stroke();});
+  /* leaf grain streaks */
+  x.strokeStyle='rgba(120,78,28,.16)';x.lineWidth=9;x.lineCap='round';
+  [[-.9,-150],[-.35,-60],[.1,20],[.55,110],[.95,190]].forEach(s=>{
+    x.beginPath();x.moveTo(px-R+70,py+s[1]*.7);
+    x.quadraticCurveTo(px,py+s[1]*.7-40,px+R-70,py+s[1]*.7+10);x.stroke();
+  });
+  /* shrink-wrap gloss */
+  const sg=x.createLinearGradient(px-R,py-R,px+R,py+R);
+  sg.addColorStop(0,'rgba(255,255,255,.34)');sg.addColorStop(.35,'rgba(255,255,255,.06)');sg.addColorStop(1,'rgba(255,255,255,0)');
+  x.fillStyle=sg;x.beginPath();x.arc(px,py,R-8,0,7);x.fill();
+  x.fillStyle='rgba(255,255,255,.5)';
+  x.beginPath();x.ellipse(px-105,py-125,95,42,-.6,0,7);x.fill();
+  /* UV starburst */
+  const bx=px+R-16,by=py-R+26,Ro=104,ri=84,pts=14;
+  x.fillStyle='#e8232f';x.beginPath();
+  for(let i=0;i<pts*2;i++){const a=Math.PI*i/pts-Math.PI/2;const rr=i%2?ri:Ro;x.lineTo(bx+rr*Math.cos(a),by+rr*Math.sin(a));}
+  x.closePath();x.fill();
+  x.fillStyle='#fff';
+  x.font='400 44px Anton,sans-serif';x.fillText('UV ✓',bx,by-6);
+  x.font='500 26px "DM Mono",monospace';x.fillText('HYGIENE',bx,by+34);
+  /* USP chips */
+  drawChip(x,W/2-330,868,'☀ UV TREATED');
+  drawChip(x,W/2,868,'📦 SHRINK PACKED');
+  drawChip(x,W/2+338,868,'🌿 100% NATURAL');
+  x.fillStyle='#f7d9a0';x.font='500 29px "DM Mono",monospace';
+  x.fillText('6" · 8" · 10" · 12" PLATES · BOWLS · MEAL TRAYS',W/2,922);
+  drawFooterBand(x,W,H);
+}
+function drawGiftSample(){
+  const cv=document.getElementById('sampCanvas');if(!cv)return;
+  const x=cv.getContext('2d');const W=1080,H=1080;
+  const name=(val('samp_n')||'YOUR FAMILY').toUpperCase();
+  const date=val('samp_t')||'';
+  x.clearRect(0,0,W,H);
+  x.fillStyle='#6d1524';x.fillRect(0,0,W,H);
+  x.strokeStyle='rgba(243,217,160,.55)';x.lineWidth=3;x.strokeRect(26,26,W-52,H-52);
+  x.textAlign='center';
+  x.fillStyle='#f3d9a0';x.font='34px "Nirmala UI","Latha","DM Sans",sans-serif';
+  x.fillText('உங்கள் பெயருடன் — function ready!',W/2,96);
+  x.fillStyle='#ffe9bd';x.font='400 72px Anton,sans-serif';
+  x.fillText('RETURN GIFT BAGS',W/2,176);
+  /* bag with handle */
+  const bw=560,bh=520,bx0=(W-bw)/2,by0=270;
+  x.strokeStyle='#f3d9a0';x.lineWidth=16;x.lineCap='round';
+  x.beginPath();x.arc(W/2,by0+10,110,Math.PI,0);x.stroke();
+  x.fillStyle='rgba(0,0,0,.3)';x.fillRect(bx0+16,by0+20,bw,bh);
+  const g=x.createLinearGradient(bx0,0,bx0+bw,0);
+  g.addColorStop(0,'#b0793f');g.addColorStop(.1,'#cd9256');g.addColorStop(.5,'#c68c50');g.addColorStop(.9,'#cd9256');g.addColorStop(1,'#b0793f');
+  x.fillStyle=g;x.fillRect(bx0,by0,bw,bh);
+  x.strokeStyle='rgba(80,48,16,.28)';x.lineWidth=2.5;
+  x.beginPath();x.moveTo(bx0+54,by0);x.lineTo(bx0+54,by0+bh);x.stroke();
+  x.beginPath();x.moveTo(bx0+bw-54,by0);x.lineTo(bx0+bw-54,by0+bh);x.stroke();
+  /* printed panel */
+  x.fillStyle='#6d1524';
+  x.beginPath();x.roundRect(bx0+80,by0+90,bw-160,bh-200,10);x.fill();
+  x.fillStyle='#f3d9a0';
+  x.font='30px "Nirmala UI","Latha",sans-serif';x.fillText('❀ நன்றி ❀',W/2,by0+150);
+  const maxW=bw-220;
+  let fs=fitFont(x,name,maxW,64,26,'Anton,sans-serif');
+  x.font=`400 ${fs}px Anton,sans-serif`;x.fillText(name,W/2,by0+235);
+  if(date){x.font='500 34px "DM Mono",monospace';x.fillText(date,W/2,by0+292);}
+  x.font='26px "DM Sans",sans-serif';x.fillText('With love & thanks',W/2,by0+345);
+  /* chips */
+  drawChip(x,W/2-250,880,'🎁 PAPER · CLOTH · JUTE');
+  drawChip(x,W/2+250,880,'🎨 THEME COLOUR MATCH');
+  x.fillStyle='#f3d9a0';x.font='500 29px "DM Mono",monospace';
+  x.fillText('WEDDING · SEEMANTHAM · BIRTHDAY · HOUSEWARMING',W/2,934);
+  drawFooterBand(x,W,H);
 }
 function fitFont(x,txt,maxW,start,min,fam){
   let fs=start;
@@ -1048,7 +1201,7 @@ function fitFont(x,txt,maxW,start,min,fam){
   while(x.measureText(txt).width>maxW&&fs>min){fs-=3;x.font=`400 ${fs}px ${fam}`;}
   return fs;
 }
-function drawSample(){
+function drawCoverSample(){
   const cv=document.getElementById('sampCanvas');if(!cv)return;
   const x=cv.getContext('2d');
   const W=1080,H=1080;
@@ -1148,16 +1301,38 @@ function downloadSample(){
 }
 function shareSample(){
   const cv=document.getElementById('sampCanvas');if(!cv)return;
+  const c=sampCustId?DB.customers.find(x=>x.id===sampCustId):null;
+  const text=c?outreachMsg(c):'KRAFT·Vibe – Udumalpet 🛍️ Covers · Areca plates (UV clean + shrink pack) · Return gifts. WhatsApp 7904505226';
   cv.toBlob(async b=>{
     const f=new File([b],sampFileName(),{type:'image/png'});
     if(navigator.canShare&&navigator.canShare({files:[f]})){
-      try{await navigator.share({files:[f],text:'KRAFT·Vibe — unga kadai perula FREE sample! WhatsApp 7904505226'});return;}catch(e){}
+      try{
+        await navigator.share({files:[f],text});
+        if(c){c.lastMsg=today();upgradeStage(c,'msg');const p=getPlan();if(p.ids.includes(c.id)&&!p.done.includes(c.id))p.done.push(c.id);save();render();}
+        return;
+      }catch(e){}
     }
-    downloadSample();toast('Photo downloaded — WhatsApp-la attach pannunga');
+    downloadSample();
+    if(c&&c.phone)window.open(waLink(c.phone,text),'_blank');
+    toast('Photo downloaded — WhatsApp-la attach panni anuppunga');
   },'image/png');
 }
 
 buildNav();go('dash');
+
+/* ---------- backup nag (data is localStorage-only!) ---------- */
+if(!DB.lastBackup||daysBetween(DB.lastBackup,today())>=7){
+  const b=document.createElement('div');
+  b.id='bkban';
+  b.style.cssText='background:var(--warn);color:#fff;padding:9px 16px;font-size:12.5px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap';
+  b.innerHTML='<span>⚠ '+(DB.lastBackup?daysBetween(DB.lastBackup,today())+' naal aachu backup eduthu':'Backup innum edukkala')+' — data indha phone/browser-la mattum irukku!</span><button onclick="exportData()" style="background:#fff;color:var(--warn);border-radius:5px;padding:5px 14px;font-weight:700;flex:none">⬇ Backup now</button>';
+  document.querySelector('header').after(b);
+}
+
+/* ---------- PWA: install as app ---------- */
+if('serviceWorker' in navigator&&location.protocol==='https:'){
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
 </script>
 </body>
 </html>

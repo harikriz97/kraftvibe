@@ -1,0 +1,13 @@
+{
+  "name": "KRAFT·Vibe Business Manager",
+  "short_name": "KRAFT·Vibe",
+  "start_url": "./kraftvibe-manager.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ece0cb",
+  "theme_color": "#0b5c2e",
+  "icons": [
+    {"src": "brand/kraftvibe-mark.png", "sizes": "1024x1024", "type": "image/png", "purpose": "any"},
+    {"src": "brand/kraftvibe-mark.png", "sizes": "1024x1024", "type": "image/png", "purpose": "maskable"}
+  ]
+}
