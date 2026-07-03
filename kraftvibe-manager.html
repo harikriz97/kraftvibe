@@ -188,14 +188,26 @@ main{max-width:1000px;margin:0 auto;padding:16px}
   <section class="view on" id="v-dash">
     <div class="vhead"><h2>Dashboard</h2><span class="sub" id="today"></span></div>
     <div class="kpis">
-      <div class="kpi"><div class="n" id="k-leads">0</div><div class="l">Leads</div></div>
-      <div class="kpi eco"><div class="n" id="k-cust">0</div><div class="l">Customers</div></div>
-      <div class="kpi due"><div class="n" id="k-due">0</div><div class="l">Reorders due</div></div>
-      <div class="kpi warn"><div class="n" id="k-sales">₹0</div><div class="l">Sales month</div></div>
+      <div class="kpi"><div class="n" id="k-d10">0/10</div><div class="l">Daily 10 sent</div></div>
+      <div class="kpi due"><div class="n" id="k-follow">0</div><div class="l">Follow-ups today</div></div>
+      <div class="kpi warn"><div class="n" id="k-pend">0</div><div class="l">Orders pending</div></div>
+      <div class="kpi eco"><div class="n" id="k-sales">₹0</div><div class="l">Sales month</div></div>
     </div>
     <div class="panel">
-      <div class="ph">Reorder reminders <button class="btn sm out" onclick="go('remind')">View all</button></div>
-      <div id="dash-remind"></div>
+      <div class="ph">Pipeline <span class="sub" style="font-family:'DM Mono';font-size:10px;color:var(--ink-soft)">lead → repeat customer</span></div>
+      <div id="dash-funnel" style="padding:13px 15px;display:flex;gap:7px;flex-wrap:wrap"></div>
+    </div>
+    <div class="panel">
+      <div class="ph">Sales by line — this month</div>
+      <div id="dash-lines" style="padding:13px 15px;display:flex;gap:7px;flex-wrap:wrap"></div>
+    </div>
+    <div class="panel">
+      <div class="ph">Today's follow-ups <button class="btn sm out" onclick="go('remind')">View all</button></div>
+      <div id="dash-follow"></div>
+    </div>
+    <div class="panel">
+      <div class="ph">Pending orders <button class="btn sm out" onclick="go('order')">All orders</button></div>
+      <div id="dash-orders"></div>
     </div>
     <div class="panel">
       <div class="ph">Low stock <span class="pill low" id="lowcount">0</span></div>
@@ -221,9 +233,10 @@ main{max-width:1000px;margin:0 auto;padding:16px}
       <div class="ph">Daily routine (10–15 min)</div>
       <div style="padding:12px 15px;font-size:13.5px;line-height:1.7">
         1️⃣ Ovvoru shop-kum <b>📷</b> thattunga → shop name potta sample photo download aagum.<br>
-        2️⃣ <b>WhatsApp</b> button thattunga → ready-made Tanglish message open aagum. Photo-va attach panni send pannunga.<br>
-        3️⃣ Anuppinadhum <b>✓</b> poda — naalaikku pudhu 10 shops automatic-ah varum.<br>
-        4️⃣ Reply vandha → Leads-la status-a <b>sample</b>-nu maathunga; order vandha green ✓ (customer).
+        2️⃣ <b>WhatsApp</b> button thattunga → ready-made message open aagum. Photo attach panni send pannunga, appuram <b>✓</b> poda.<br>
+        3️⃣ Reply vandha → <b>📋</b> thattunga → avanga shop type-ku etha <b>catalog</b> (bakery→covers, cake shop→bags, textile→bags, catering→areca) price-oda automatic-ah pogum.<br>
+        4️⃣ Order sonna → Leads-la green ✓ (customer) → <b>🛒</b> la order add pannunga → confirm message + tracking + reorder reminder ellam automatic.<br>
+        5️⃣ Reply illa-na kavala padaadheenga — <b>Follow-ups</b> tab-la avanga auto-ah varuvanga (2-3 naal kalichu).
       </div>
     </div>
     <div class="panel">
@@ -250,7 +263,7 @@ main{max-width:1000px;margin:0 auto;padding:16px}
 
   <!-- REMINDERS -->
   <section class="view" id="v-remind">
-    <div class="vhead"><h2>Reorder Reminders</h2><span class="sub">based on order cycle</span></div>
+    <div class="vhead"><h2>Follow-ups</h2><span class="sub">reply · catalog · sample · reorder · review</span></div>
     <div class="panel" id="remindList"></div>
   </section>
 
@@ -476,6 +489,14 @@ if(DB.dbv<4){
    {name:'Shrink Wrap Roll',cat:'Packing',unit:'roll',stock:0,reorder:2}].forEach(i=>{if(!haveI.has(i.name.toLowerCase()))DB.inventory.push(Object.assign({id:uid()},i));});
   DB.dbv=4;save();
 }
+/* v5: pipeline fields + cake shops split from bakery */
+if(DB.dbv<5){
+  DB.customers.forEach(c=>{
+    if(/cake/i.test(c.name||'')&&c.type==='Bakery')c.type='Cake Shop';
+    if(c.oneTime===undefined)c.oneTime=(c.type==='Function/Family');
+  });
+  DB.dbv=5;save();
+}
 
 /* ---------- nav ---------- */
 const TABS=[
@@ -483,7 +504,7 @@ const TABS=[
  ['plan','Daily 10','M2.01 21L23 12 2.01 3 2 10l15 2-15 2z'],
  ['leads','Leads','M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'],
  ['cust','Customers','M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z'],
- ['remind','Reminders','M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z'],
+ ['remind','Follow-ups','M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z'],
  ['order','Orders','M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z'],
  ['prod','Products','M20 2H4c-1 0-2 .9-2 2v3.01c0 .72.43 1.34 1 1.69V20c0 1.1 1.1 2 2 2h14c.9 0 2-.9 2-2V8.7c.57-.35 1-.97 1-1.69V4c0-1.1-1-2-2-2zm-5 12H9v-2h6v2zm5-7H4V4h16v3z'],
  ['inv','Inventory','M12 2l-5.5 9h11L12 2zm0 3.84L13.93 9h-3.87L12 5.84zM17.5 13c-2.49 0-4.5 2.01-4.5 4.5s2.01 4.5 4.5 4.5 4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5zM3 21.5h8v-8H3v8z'],
@@ -529,23 +550,137 @@ function render(){
   if(cur==='purch')renderPurch();
   if(cur==='bill')renderBills();
 }
+/* ========== SALES PIPELINE ========== */
+const STAGES=['new','msg','catalog','sample','order','repeat'];
+const STAGE_LBL={new:'New',msg:'Messaged',catalog:'Catalog sent',sample:'Sample',order:'1st order',repeat:'Repeat'};
+function stageOf(c){
+  if(c.stage&&STAGES.includes(c.stage))return c.stage;
+  if(c.status==='customer')return DB.orders.filter(o=>o.cust===c.id).length>1?'repeat':'order';
+  if(c.status==='sample')return 'sample';
+  if(c.catalogSent)return 'catalog';
+  if(c.lastMsg)return 'msg';
+  return 'new';
+}
+function upgradeStage(c,s){if(STAGES.indexOf(s)>STAGES.indexOf(stageOf(c)))c.stage=s;}
+
+/* shop-type → relevant catalog */
+const TYPE_CATALOG={
+ 'Bakery':{cats:['Cover'],title:'BAKERY COVERS PRICE LIST',note:'Unga bakery perula print – plain cover vilaila!'},
+ 'Cake Shop':{cats:['Handle Bag','Cover'],title:'CAKE CARRY BAGS + COVERS',note:'Cake box carry panna strong handle bags – unga shop perula!'},
+ 'Sweet Shop':{cats:['Cover','Handle Bag'],title:'SWEET SHOP COVERS & BAGS',note:'Sweets/savouries-ku covers + gift bags.'},
+ 'Textile':{cats:['Handle Bag','Cloth Bag'],title:'TEXTILE CARRY BAGS',note:'Saree/dress-ku premium handle bags – unga showroom perula.'},
+ 'Hotel':{cats:['Areca Plate','Cover'],title:'ARECA PLATES + PARCEL COVERS',note:'UV clean + shrink pack areca plates & parcel covers.'},
+ 'Restaurant':{cats:['Areca Plate','Cover'],title:'PARCEL COVERS + ARECA PLATES',note:'Parcel covers unga hotel perula + hygiene areca plates.'},
+ 'Catering':{cats:['Areca Plate'],title:'ARECA (PAAKU MATTAI) PLATES',note:'⭐ UV-rays la clean + shrink pack – full hygiene!'},
+ 'Supermarket':{cats:['Cover','Handle Bag'],title:'SUPERMARKET COVERS & BAGS',note:'Ellaa size covers + billing counter bags.'},
+ 'Pharmacy':{cats:['Cover'],title:'MEDICAL COVERS PRICE LIST',note:'Medicine covers unga pharmacy perula.'},
+ 'Tea Shop':{cats:['Cover'],title:'TEA SHOP COVERS',note:'Parcel/snacks covers – plain vilaila print.'},
+ 'Jewellery':{cats:['Handle Bag'],title:'JEWELLERY CARRY BAGS',note:'Premium handle bags – unga brand-ku etha maari.'},
+ 'Gift':{cats:['Handle Bag','Return Gift'],title:'GIFT BAGS PRICE LIST',note:'Gift wrap bags + return gift bags.'},
+ 'Footwear':{cats:['Handle Bag'],title:'FOOTWEAR CARRY BAGS',note:'Strong handle bags unga shop perula.'},
+ 'Function/Family':{cats:['Return Gift','Cloth Bag'],title:'RETURN GIFT BAGS',note:'Family name + date print – function ready! (one-time order)'},
+ 'Other':{cats:['Cover','Handle Bag'],title:'COVERS & BAGS PRICE LIST',note:'Unga per print – plain vilaila.'}
+};
+function catalogCfg(c){return TYPE_CATALOG[c.type]||TYPE_CATALOG.Other;}
+function catalogMsg(c){
+  const cfg=catalogCfg(c);
+  const items=DB.products.filter(p=>cfg.cats.includes(p.cat));
+  const lines=items.length?items.map(p=>`▫️ ${p.name}${p.size&&p.size!=='-'?' – '+p.size:''} : ₹${p.price}/${p.unit==='piece'?'pc':p.unit}`).join('\n'):'(products list update aagum)';
+  return `Vanakkam ${c.name} 🙏\n\n*KRAFT·Vibe – ${cfg.title}*\n${cfg.note}\n\n${lines}\n\n✅ Unga per/logo print – FREE design\n✅ Bulk-ku innum kammi rate\n✅ Free local delivery (Udumalpet 30km)\n\nOrder venum-na indha message-ku *reply* pannunga – confirm pannidalam! 👍\n– KRAFT·Vibe · 7904505226`;
+}
+function sendCatalog(id){
+  const c=DB.customers.find(x=>x.id===id);if(!c)return;
+  if(!c.phone){toast('Phone number venum — edit panni add pannunga');editCust(id);return;}
+  window.open(waLink(c.phone,catalogMsg(c)),'_blank');
+  c.catalogSent=today();upgradeStage(c,'catalog');save();render();
+  toast('Catalog anuppiyaachu — 3 naal-la follow-up varum');
+}
+
+/* stage-based follow-up messages */
+function noReplyMsg(c){return `Vanakkam ${c.name} 🙏 KRAFT·Vibe (Udumalpet). Munnadi anuppina message paathingala? Unga ${c.type==='Catering'?'catering-ku areca plates':'kadaikku free sample'} kondu varalama? Oru "OK" podunga podhum! 😊`;}
+function catalogFollowMsg(c){return `Vanakkam ${c.name} 🙏 KRAFT·Vibe catalog paathingala? 😊 Edhavadhu size/design pidichirundha sollunga – first order-ku special rate + free delivery! 🙏`;}
+function sampleFollowMsg(c){return `Vanakkam ${c.name} 🙏 Sample eppadi irundhuchu? Pidichirundha ippove first order podalam – chinna quantity kooda OK. Special opening rate! 🎉 – KRAFT·Vibe`;}
+function reorderMsg(c){return `Vanakkam ${c.name} 🙏 KRAFT·Vibe. Unga ${c.type==='Catering'||c.type==='Hotel'?'plates':'covers'} stock mudiyara neram aachu-nu ninaikkirom. Adhe order repeat pannalama? Quantity mattum sollunga – delivery free! 🚚`;}
+function reviewMsg(c){return `Vanakkam ${c.name} 🙏 Function nalla nadandhirukkum-nu nambarom! 🎉 Engaloda ${c.type==='Function/Family'?'return gift bags':'products'} pidichirundha:\n1️⃣ Oru Google review podunga\n2️⃣ Friends/relatives-ku engala refer pannunga\nAdutha function-ku *10% OFF*! 🎁 – KRAFT·Vibe`;}
+function thanksMsg(c){return `Vanakkam ${c.name} 🙏 KRAFT·Vibe. Edhavadhu venum-na oru message podunga – stock ready, delivery free! 😊`;}
+function nextMsg(c){
+  const st=stageOf(c);const r=reminderState(c);
+  if(!c.oneTime&&r&&r.s!=='ok')return reorderMsg(c);
+  if(st==='catalog')return catalogFollowMsg(c);
+  if(st==='sample')return sampleFollowMsg(c);
+  if(st==='msg')return noReplyMsg(c);
+  if(st==='order'||st==='repeat')return thanksMsg(c);
+  return outreachMsg(c);
+}
+
+/* follow-up engine */
+function followUps(){
+  const t=today();const list=[];
+  DB.customers.forEach(c=>{
+    if(c.status==='lost')return;
+    if(c.fSnooze===t)return;
+    const st=stageOf(c);
+    const r=reminderState(c);
+    if(!c.oneTime&&r&&r.s!=='ok'){list.push({c,tag:r.s==='due'?'REORDER DUE':'DUE '+r.left+'d',why:'Reorder time – '+(c.cycle||'?')+' naal cycle',msg:reorderMsg(c),p:r.s==='due'?0:1});return;}
+    if(c.oneTime&&c.lastOrder&&!c.reviewAsked&&daysBetween(c.lastOrder,t)>=7){list.push({c,tag:'REVIEW',why:'Function mudinjadhu – review/referral kelunga',msg:reviewMsg(c),p:3,review:1});return;}
+    if(st==='sample'&&c.sampleDate&&daysBetween(c.sampleDate,t)>=2){list.push({c,tag:'SAMPLE',why:'Sample kuduthu '+daysBetween(c.sampleDate,t)+' naal – feedback kelunga',msg:sampleFollowMsg(c),p:1});return;}
+    if(st==='catalog'&&c.catalogSent&&daysBetween(c.catalogSent,t)>=3){list.push({c,tag:'CATALOG',why:'Catalog anuppi '+daysBetween(c.catalogSent,t)+' naal – reply illa',msg:catalogFollowMsg(c),p:2});return;}
+    if(st==='msg'&&c.lastMsg&&daysBetween(c.lastMsg,t)>=2){list.push({c,tag:'NO REPLY',why:'Message anuppi '+daysBetween(c.lastMsg,t)+' naal – reply illa',msg:noReplyMsg(c),p:2});return;}
+  });
+  return list.sort((a,b)=>a.p-b.p);
+}
+function followRow(f){
+  const c=f.c;
+  return `<div class="row">
+    <div class="av" style="${f.p===0?'background:var(--due)':''}">${initials(c.name)}</div>
+    <div class="meta">
+      <div class="t">${c.name} <span class="pill ${f.p===0?'due':'soon'}">${f.tag}</span></div>
+      <div class="s">${f.why} · ${c.type}${c.phone?' · '+c.phone:''}</div>
+    </div>
+    <div class="acts">
+      ${c.phone?`<a class="ic wa" target="_blank" href="${waLink(c.phone,f.msg)}">${WA_SVG}</a>`:`<button class="ic ed" onclick="editCust('${c.id}')"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></button>`}
+      <button class="ic" title="Done today" style="border-color:var(--eco);color:var(--eco);font-weight:800" onclick="doneFollow('${c.id}',${f.review?1:0})">✓</button>
+    </div></div>`;
+}
+function doneFollow(id,review){
+  const c=DB.customers.find(x=>x.id===id);if(!c)return;
+  c.fSnooze=today();if(review)c.reviewAsked=1;
+  save();render();toast('Done ✓');
+}
+
+/* product line helpers */
+const CAT_LINE={'Cover':'Covers','Handle Bag':'Covers','Areca Plate':'Areca','Return Gift':'Return Gift','Cloth Bag':'Return Gift'};
+function lineOfOrder(o){const p=DB.products.find(x=>x.name===o.prod);return p?(CAT_LINE[p.cat]||'Other'):'Other';}
+
 function renderDash(){
-  document.getElementById('k-leads').textContent=DB.customers.filter(c=>c.status!=='customer').length;
-  document.getElementById('k-cust').textContent=DB.customers.filter(c=>c.status==='customer').length;
-  const due=DB.customers.map(reminderState).filter(r=>r&&r.s!=='ok').length;
-  document.getElementById('k-due').textContent=due;
+  const p=getPlan();
+  document.getElementById('k-d10').textContent=p.done.length+'/'+p.ids.length;
+  const fl=followUps();
+  document.getElementById('k-follow').textContent=fl.length;
+  const pend=DB.orders.filter(o=>o.status==='pending');
+  document.getElementById('k-pend').textContent=pend.length;
   const m=today().slice(0,7);
-  const sales=DB.orders.filter(o=>(o.date||'').slice(0,7)===m).reduce((s,o)=>s+o.qty*o.rate,0);
-  document.getElementById('k-sales').textContent=money(sales);
-  const rem=DB.customers.map(c=>({c,r:reminderState(c)})).filter(x=>x.r&&x.r.s!=='ok').sort((a,b)=>a.r.left-b.r.left).slice(0,5);
-  document.getElementById('dash-remind').innerHTML=rem.length?rem.map(x=>custRow(x.c,x.r)).join(''):'<div class="empty">No reorders due. Add order dates to customers to get reminders.</div>';
+  const mo=DB.orders.filter(o=>(o.date||'').slice(0,7)===m);
+  document.getElementById('k-sales').textContent=money(mo.reduce((s,o)=>s+o.qty*o.rate,0));
+  /* pipeline funnel */
+  const counts={};STAGES.forEach(s=>counts[s]=0);
+  DB.customers.forEach(c=>{if(c.status!=='lost')counts[stageOf(c)]++;});
+  document.getElementById('dash-funnel').innerHTML=STAGES.map(s=>
+    `<span class="pill ${s==='repeat'?'customer':s==='order'?'paid':'prospect'}" style="font-size:11px;padding:6px 11px">${STAGE_LBL[s]}: <b>${counts[s]}</b></span>`).join('<span style="color:var(--kraft);align-self:center">→</span>');
+  /* sales by line */
+  const lines={};mo.forEach(o=>{const l=lineOfOrder(o);lines[l]=(lines[l]||0)+o.qty*o.rate;});
+  const lkeys=Object.keys(lines);
+  document.getElementById('dash-lines').innerHTML=lkeys.length?['Covers','Areca','Return Gift','Other'].filter(l=>lines[l]).map(l=>
+    `<span class="pill customer" style="font-size:11.5px;padding:7px 12px">${l==='Areca'?'🍽 Areca':l==='Return Gift'?'🎁 Return Gift':l==='Covers'?'🛍 Covers & Bags':l}: <b>${money(lines[l])}</b></span>`).join(''):'<div style="font-size:13px;color:var(--ink-soft)">Indha month order varala innum — Daily 10 anuppunga! 💪</div>';
+  document.getElementById('dash-follow').innerHTML=fl.length?fl.slice(0,5).map(followRow).join(''):'<div class="empty">Follow-ups clear 🎉</div>';
+  document.getElementById('dash-orders').innerHTML=pend.length?pend.slice().reverse().slice(0,5).map(o=>{const c=DB.customers.find(x=>x.id===o.cust);return `<div class="row"><div class="meta"><div class="t">${c?c.name:'-'}</div><div class="s">${o.prod} × ${o.qty} = ${money(o.qty*o.rate)} · ${o.date}</div></div><div class="acts"><button class="pill pending" style="border:0;cursor:pointer" onclick="advOrder('${o.id}')">pending ▸</button></div></div>`;}).join(''):'<div class="empty">Pending orders illa.</div>';
   const low=DB.inventory.filter(i=>i.stock<=i.reorder);
   document.getElementById('lowcount').textContent=low.length;
   document.getElementById('dash-low').innerHTML=low.length?low.map(i=>`<div class="row"><div class="meta"><div class="t">${i.name}</div><div class="s">${i.stock} ${i.unit} left · reorder at ${i.reorder}</div></div><span class="pill low">LOW</span></div>`).join(''):'<div class="empty">All stock healthy.</div>';
 }
 let leadFilter='all';
 function renderLeads(){
-  const types=['all','Catering','Bakery','Sweet Shop','Textile','Restaurant','Supermarket','Pharmacy','Jewellery','Gift','Footwear'];
+  const types=['all','Catering','Bakery','Cake Shop','Sweet Shop','Textile','Restaurant','Supermarket','Pharmacy','Jewellery','Gift','Footwear','Function/Family'];
   document.getElementById('leadFilters').innerHTML=types.map(t=>`<button class="${leadFilter===t?'on':''}" onclick="leadFilter='${t}';renderLeads()">${t==='all'?'All':t}</button>`).join('');
   const q=(document.getElementById('leadSearch').value||'').toLowerCase();
   let list=DB.customers.filter(c=>c.status!=='customer'&&(leadFilter==='all'||c.type===leadFilter)&&((c.name||'').toLowerCase().includes(q)||(c.area||'').toLowerCase().includes(q)));
@@ -556,32 +691,41 @@ function renderCust(){
   let list=DB.customers.filter(c=>c.status==='customer'&&((c.name||'').toLowerCase().includes(q)||(c.area||'').toLowerCase().includes(q)));
   document.getElementById('custList').innerHTML=list.length?list.map(c=>custRow(c,reminderState(c),true)).join(''):'<div class="empty">No customers yet.<br>Go to Leads → tap the green ✓ to convert a lead into a customer.</div>';
 }
-function convert(id){const c=DB.customers.find(x=>x.id===id);if(!c)return;c.status='customer';if(!c.lastOrder)c.lastOrder=today();save();toast(c.name+' is now a Customer');render();}
+function convert(id){const c=DB.customers.find(x=>x.id===id);if(!c)return;c.status='customer';upgradeStage(c,'order');if(!c.lastOrder)c.lastOrder=today();save();toast(c.name+' is now a Customer');render();}
 function custRow(c,r,full,isLead){
-  const msg=`Hi ${c.name}, this is ${DB.settings.shop} (${DB.settings.place}). `+(r&&r.s!=='ok'?`Time to reorder your covers? Let me know the quantity and I'll deliver.`:`We make branded kraft covers at plain-cover price. Can I send you a free sample?`);
+  const st=stageOf(c);
+  const stPill=`<span class="pill ${st==='repeat'||st==='order'?'customer':st==='sample'?'sample':'prospect'}">${STAGE_LBL[st]}</span>`;
   return `<div class="row">
     <div class="av">${initials(c.name)}</div>
     <div class="meta">
-      <div class="t">${c.name} ${r?`<span class="pill ${r.s}">${r.s==='due'?'REORDER DUE':r.s==='soon'?'DUE IN '+r.left+'d':'OK'}</span>`:''}</div>
-      <div class="s">${c.type} · ${c.area||''} ${c.phone?'· '+c.phone:''} ${full&&!isLead?'· <span class="pill '+c.status+'">'+c.status+'</span>':''}</div>
+      <div class="t">${c.name} ${r&&r.s!=='ok'?`<span class="pill ${r.s}">${r.s==='due'?'REORDER DUE':'DUE '+r.left+'d'}</span>`:stPill}${c.oneTime?' <span class="pill sample">1-TIME</span>':''}</div>
+      <div class="s">${c.type} · ${c.area||''} ${c.phone?'· '+c.phone:'· ⚠ no number'}${c.catalogSent?' · 📋 '+c.catalogSent.slice(5):''}</div>
     </div>
     <div class="acts">
-      ${c.phone?`<a class="ic call" href="tel:+91${c.phone}"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></a>`:''}
-      ${c.phone?`<a class="ic wa" target="_blank" href="${waLink(c.phone,msg)}"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-8.6 15l-1.3 4.8 4.9-1.3A10 10 0 1012 2zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.8-.6-3-1.3-5-4.4-5.1-4.6-.2-.2-1.3-1.7-1.3-3.2s.8-2.3 1.1-2.6c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l.9 2.1c.1.2.1.4 0 .6l-.4.6c-.2.2-.3.4-.1.7.2.3.9 1.4 1.9 2.3 1.3 1.1 2.3 1.5 2.6 1.6.3.1.5.1.7-.1l.8-1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.4.1.2.1.8-.1 1.4z"/></svg></a>`:''}
-      ${isLead?`<button class="ic" title="Sample photo" style="font-size:15px" onclick="openSample('${c.id}')">📷</button>`:''}
-      ${isLead?`<button class="ic" style="background:var(--eco);border-color:var(--eco)" title="Convert to customer" onclick="convert('${c.id}')"><svg viewBox="0 0 24 24" fill="#fff"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></button>`:''}
+      <button class="ic" title="Send catalog (${(catalogCfg(c).cats||[]).join(' + ')})" style="font-size:15px" onclick="sendCatalog('${c.id}')">📋</button>
+      ${c.phone?`<a class="ic wa" target="_blank" title="WhatsApp" href="${waLink(c.phone,nextMsg(c))}" onclick="upgradeStage(DB.customers.find(x=>x.id==='${c.id}'),'msg');DB.customers.find(x=>x.id==='${c.id}').lastMsg=today();save()">${WA_SVG}</a>`:''}
+      ${!isLead?`<button class="ic" title="New order" style="font-size:15px" onclick="editOrder('${c.id}')">🛒</button>`:''}
+      ${isLead?`<button class="ic" style="background:var(--eco);border-color:var(--eco)" title="First order vandhaachu → customer" onclick="convert('${c.id}')"><svg viewBox="0 0 24 24" fill="#fff"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></button>`:''}
       <button class="ic ed" onclick="editCust('${c.id}')"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></button>
     </div></div>`;
 }
 function renderRemind(){
-  const list=DB.customers.map(c=>({c,r:reminderState(c)})).filter(x=>x.r).sort((a,b)=>a.r.left-b.r.left);
-  document.getElementById('remindList').innerHTML=list.length?list.map(x=>custRow(x.c,x.r)).join(''):'<div class="empty">No reminders yet.<br>Add a “last order date” + cycle to a customer (edit), or record an order.</div>';
+  const fl=followUps();
+  document.getElementById('remindList').innerHTML=fl.length?fl.map(followRow).join(''):'<div class="empty">Inaikku follow-ups illa 🎉<br>Daily 10-la pudhu shops-ku message anuppunga.</div>';
+}
+function orderConfirmMsg(o,c){
+  return `✅ *Order Confirm – KRAFT·Vibe*\n\nVanakkam ${c.name} 🙏\n▫️ ${o.prod} × ${o.qty}\n▫️ Rate: ₹${o.rate}/pc\n▫️ Total: *${money(o.qty*o.rate)}*\n▫️ Date: ${o.date}\n\nReady aanadhum delivery pannidrom! Nandri 🙏\n– KRAFT·Vibe · 7904505226`;
+}
+function advOrder(id){
+  const o=DB.orders.find(x=>x.id===id);if(!o)return;
+  o.status=o.status==='pending'?'delivered':o.status==='delivered'?'paid':'pending';
+  save();render();toast('Order → '+o.status);
 }
 function renderOrders(){
   const t=document.getElementById('orderTbl');
-  if(!DB.orders.length){t.innerHTML='<tr><td class="empty">No orders. Tap “+ New order”.</td></tr>';return;}
-  t.innerHTML='<tr><th>Date</th><th>Customer</th><th>Product</th><th class="num">Qty</th><th class="num">Rate</th><th class="num">Amount</th><th>Status</th><th></th></tr>'+
-    DB.orders.slice().reverse().map(o=>{const c=DB.customers.find(x=>x.id===o.cust);return `<tr><td>${o.date}</td><td>${c?c.name:'-'}</td><td>${o.prod}</td><td class="num">${o.qty}</td><td class="num">${money(o.rate)}</td><td class="num">${money(o.qty*o.rate)}</td><td><span class="pill ${o.status}">${o.status}</span></td><td><button class="ic del" onclick="del('orders','${o.id}')"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button></td></tr>`;}).join('');
+  if(!DB.orders.length){t.innerHTML='<tr><td class="empty">No orders. Tap “+ New order”.<br><br>WhatsApp-la order vandha odane inga add pannunga — appo dhaan track aagum.</td></tr>';return;}
+  t.innerHTML='<tr><th>Date</th><th>Customer</th><th>Product</th><th class="num">Qty</th><th class="num">Amount</th><th>Via</th><th>Status</th><th></th></tr>'+
+    DB.orders.slice().reverse().map(o=>{const c=DB.customers.find(x=>x.id===o.cust);return `<tr><td style="white-space:nowrap">${o.date}</td><td>${c?c.name:'-'}</td><td>${o.prod}</td><td class="num">${o.qty}</td><td class="num">${money(o.qty*o.rate)}</td><td>${o.src==='WhatsApp'?'📱':o.src==='Phone'?'📞':'🏪'}</td><td><button class="pill ${o.status}" style="border:0;cursor:pointer" title="Tap to change status" onclick="advOrder('${o.id}')">${o.status} ▸</button></td><td style="white-space:nowrap">${c&&c.phone?`<a class="ic wa" style="display:inline-flex" target="_blank" title="Confirm on WhatsApp" href="${waLink(c.phone,orderConfirmMsg(o,c))}">${WA_SVG}</a> `:''}<button class="ic del" style="display:inline-flex" onclick="del('orders','${o.id}')"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button></td></tr>`;}).join('');
 }
 function renderProds(){
   const t=document.getElementById('prodTbl');
@@ -614,40 +758,48 @@ function val(id){return document.getElementById(id).value;}
 
 /* ---------- customers CRUD ---------- */
 function editCust(id){
-  const c=id?DB.customers.find(x=>x.id===id):{name:'',type:'Bakery',phone:'',area:'Udumalpet',status:'prospect',visit:'',feedback:'',cycle:15,lastOrder:''};
+  const c=id?DB.customers.find(x=>x.id===id):{name:'',type:'Bakery',phone:'',area:'Udumalpet',status:'prospect',visit:'',feedback:'',cycle:15,lastOrder:'',oneTime:false};
   const sel=(o,v)=>o.map(x=>`<option ${x===v?'selected':''}>${x}</option>`).join('');
   openM(`<h3>${id?'Edit':'Add'} Customer</h3>
-   <div class="fg"><label>Shop name</label><input id="c_name" value="${c.name||''}"></div>
-   <div class="frow"><div class="fg"><label>Type</label><select id="c_type">${sel(['Bakery','Sweet Shop','Textile','Hotel','Restaurant','Catering','Supermarket','Pharmacy','Tea Shop','Jewellery','Gift','Footwear','Other'],c.type)}</select></div>
+   <div class="fg"><label>Shop / family name</label><input id="c_name" value="${(c.name||'').replace(/"/g,'&quot;')}"></div>
+   <div class="frow"><div class="fg"><label>Type</label><select id="c_type" onchange="document.getElementById('c_one').checked=(this.value==='Function/Family')">${sel(['Bakery','Cake Shop','Sweet Shop','Textile','Hotel','Restaurant','Catering','Supermarket','Pharmacy','Tea Shop','Jewellery','Gift','Footwear','Function/Family','Other'],c.type)}</select></div>
    <div class="fg"><label>Phone</label><input id="c_phone" value="${c.phone||''}" inputmode="numeric"></div></div>
    <div class="fg"><label>Area / Address</label><input id="c_area" value="${c.area||''}"></div>
    <div class="frow"><div class="fg"><label>Status</label><select id="c_status">${sel(['prospect','sample','customer','lost'],c.status)}</select></div>
    <div class="fg"><label>Visit date</label><input id="c_visit" type="date" value="${c.visit||''}"></div></div>
    <div class="frow"><div class="fg"><label>Last order date</label><input id="c_last" type="date" value="${c.lastOrder||''}"></div>
    <div class="fg"><label>Reorder cycle (days)</label><input id="c_cycle" type="number" value="${c.cycle||''}" inputmode="numeric"></div></div>
+   <label style="display:flex;align-items:center;gap:8px;font-size:13.5px;margin-bottom:12px"><input type="checkbox" id="c_one" ${c.oneTime?'checked':''} style="width:auto"> <span><b>One-time customer</b> (return gift / function — reorder reminder varaadhu, review follow-up mattum)</span></label>
    <div class="fg"><label>Feedback / notes</label><textarea id="c_fb">${c.feedback||''}</textarea></div>
    <div class="mbtns"><button class="btn out" onclick="closeM()">Cancel</button><button class="btn eco" onclick="saveCust('${id||''}')">Save</button></div>`);
 }
 function saveCust(id){
-  const o={name:val('c_name'),type:val('c_type'),phone:val('c_phone'),area:val('c_area'),status:val('c_status'),visit:val('c_visit'),lastOrder:val('c_last'),cycle:+val('c_cycle')||0,feedback:val('c_fb')};
+  const o={name:val('c_name'),type:val('c_type'),phone:val('c_phone'),area:val('c_area'),status:val('c_status'),visit:val('c_visit'),lastOrder:val('c_last'),cycle:+val('c_cycle')||0,feedback:val('c_fb'),oneTime:document.getElementById('c_one').checked};
   if(!o.name){toast('Enter shop name');return;}
-  if(id){Object.assign(DB.customers.find(x=>x.id===id),o);}else{o.id=uid();DB.customers.push(o);}
+  const prev=id?DB.customers.find(x=>x.id===id):null;
+  if(o.status==='sample'&&(!prev||prev.status!=='sample'))o.sampleDate=today();
+  if(id){Object.assign(prev,o);if(o.status==='sample')upgradeStage(prev,'sample');if(o.status==='customer')upgradeStage(prev,'order');}
+  else{o.id=uid();if(o.status==='sample')o.stage='sample';DB.customers.push(o);}
   save();closeM();toast('Saved');render();
 }
 
 /* ---------- orders ---------- */
-function editOrder(){
+function editOrder(custId){
   if(!DB.customers.length){toast('Add a customer first');return;}
-  const co=DB.customers.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
-  const po=DB.products.map(p=>`<option value="${p.id}" data-rate="${p.price}">${p.name} (${money(p.price)})</option>`).join('');
-  openM(`<h3>New Order</h3>
+  const co=DB.customers.map(c=>`<option value="${c.id}" ${c.id===custId?'selected':''}>${c.name}</option>`).join('');
+  const cc=custId?DB.customers.find(x=>x.id===custId):null;
+  const rel=cc?catalogCfg(cc).cats:null;
+  const prods=rel?DB.products.slice().sort((a,b)=>(rel.includes(b.cat)?1:0)-(rel.includes(a.cat)?1:0)):DB.products;
+  const po=prods.map(p=>`<option value="${p.id}" data-rate="${p.price}">${p.name} (${money(p.price)})</option>`).join('');
+  openM(`<h3>New Order${cc?' — '+cc.name:''}</h3>
    <div class="fg"><label>Customer</label><select id="o_cust">${co}</select></div>
-   <div class="fg"><label>Product</label><select id="o_prod" onchange="o_setrate()">${po}</select></div>
+   <div class="fg"><label>Product${rel?' (avanga type-ku etha maari munnadi)':''}</label><select id="o_prod" onchange="o_setrate()">${po}</select></div>
    <div class="frow"><div class="fg"><label>Quantity</label><input id="o_qty" type="number" value="100" inputmode="numeric" oninput="o_total()"></div>
    <div class="fg"><label>Rate (₹)</label><input id="o_rate" type="number" step="0.01" oninput="o_total()"></div></div>
    <div class="frow"><div class="fg"><label>Date</label><input id="o_date" type="date" value="${today()}"></div>
-   <div class="fg"><label>Status</label><select id="o_status"><option>pending</option><option>delivered</option><option>paid</option></select></div></div>
-   <div class="fg"><label>Amount</label><input id="o_amt" readonly style="background:var(--paper2);font-weight:700"></div>
+   <div class="fg"><label>Order via</label><select id="o_src"><option>WhatsApp</option><option>Phone</option><option>Shop visit</option></select></div></div>
+   <div class="frow"><div class="fg"><label>Status</label><select id="o_status"><option>pending</option><option>delivered</option><option>paid</option></select></div>
+   <div class="fg"><label>Amount</label><input id="o_amt" readonly style="background:var(--paper2);font-weight:700"></div></div>
    <div class="mbtns"><button class="btn out" onclick="closeM()">Cancel</button><button class="btn eco" onclick="saveOrder()">Save order</button></div>`);
   o_setrate();
 }
@@ -655,10 +807,22 @@ function o_setrate(){const s=document.getElementById('o_prod');const r=s.options
 function o_total(){const v=(+val('o_qty')||0)*(+val('o_rate')||0);document.getElementById('o_amt').value=money(v);}
 function saveOrder(){
   const prodSel=document.getElementById('o_prod');
-  const o={id:uid(),cust:val('o_cust'),prod:prodSel.options[prodSel.selectedIndex].text.split(' (')[0],qty:+val('o_qty')||0,rate:+val('o_rate')||0,date:val('o_date'),status:val('o_status')};
+  const o={id:uid(),cust:val('o_cust'),prod:prodSel.options[prodSel.selectedIndex].text.split(' (')[0],qty:+val('o_qty')||0,rate:+val('o_rate')||0,date:val('o_date'),status:val('o_status'),src:val('o_src')};
+  const prevOrders=DB.orders.filter(x=>x.cust===o.cust).length;
   DB.orders.push(o);
-  const c=DB.customers.find(x=>x.id===o.cust);if(c){c.lastOrder=o.date;if(c.status!=='customer')c.status='customer';}
-  save();closeM();toast('Order saved — reminder set');render();
+  const c=DB.customers.find(x=>x.id===o.cust);
+  if(c){
+    c.lastOrder=o.date;
+    if(c.status!=='customer')c.status='customer';
+    upgradeStage(c,prevOrders>=1?'repeat':'order');
+  }
+  save();closeM();render();
+  if(c&&c.phone){
+    toast('Order saved ✓ — confirm message anuppunga');
+    window.open(waLink(c.phone,orderConfirmMsg(o,c)),'_blank');
+  }else{
+    toast('Order saved — '+(c&&!c.oneTime?'reorder reminder set':'done'));
+  }
 }
 
 /* ---------- products ---------- */
@@ -819,12 +983,18 @@ function regenPlan(){DB.plan={date:today(),ids:pickTen(DB.plan?DB.plan.done:[]),
 function markMsg(id){
   const p=getPlan();const c=DB.customers.find(x=>x.id===id);
   if(p.done.includes(id)){p.done=p.done.filter(x=>x!==id);}
-  else{p.done.push(id);if(c)c.lastMsg=today();}
+  else{p.done.push(id);if(c){c.lastMsg=today();upgradeStage(c,'msg');}}
   save();renderPlan();
 }
 function outreachMsg(c){
   if(c.type==='Catering'||c.type==='Hotel'||c.type==='Restaurant'){
     return `Vanakkam ${c.name} 🙏\n\n*KRAFT·Vibe – Udumalpet.*\nNamma oorula-ye *ARECA (paaku mattai) PLATES* ready stock! 🍽️\n\n⭐ *Engaloda USP: UV-rays la clean panni, shrink pack pannirom* – full hygiene, dust illa, neraa serve pannalam\n✅ 6"–12" plates · bowls · 5-comp meal trays\n✅ Marriage / function / buffet-ku special bulk rate\n✅ Free local delivery\n\nOru *FREE sample set* anuppatuma? Reply podunga! 🙏\n\n– KRAFT·Vibe, Udumalpet · 7904505226`;
+  }
+  if(['Cake Shop','Textile','Jewellery','Gift','Footwear'].includes(c.type)){
+    return `Vanakkam ${c.name} 🙏\n\n*KRAFT·Vibe – Udumalpet.*\nUnga ${c.type==='Cake Shop'?'cake box carry panna':'kadaikku'} *strong HANDLE BAGS* – unga kadai peru print-oda! 🛍️\n\n✅ Ovvoru bag-um unga kadaikku FREE advertisement\n✅ ${c.type==='Cake Shop'?'Cake weight thaangura strong bags':'Premium look – customer kaila unga brand'}\n✅ Low minimum · Free local delivery\n\nUnga kadai peroda oru *FREE sample design* photo anuppiyirukkom 👆\nPidichirundha oru reply podunga – sample neraa kadaikke!\n\n– KRAFT·Vibe, Udumalpet · 7904505226`;
+  }
+  if(c.type==='Function/Family'){
+    return `Vanakkam ${c.name} 🙏\n\n*KRAFT·Vibe – Udumalpet.*\nUnga function-ku *RETURN GIFT BAGS* – family name + date print-oda! 🎁\n\n✅ Paper / cloth / jute bags\n✅ Theme colour match\n✅ Function-ready packing\n\nOru *FREE sample design* photo anuppiyirukkom 👆\nDate sollunga – time-ku ready pannidrom!\n\n– KRAFT·Vibe, Udumalpet · 7904505226`;
   }
   return `Vanakkam ${c.name} 🙏\n\n*KRAFT·Vibe – Udumalpet.*\nUnga kadai perula print pannina *KRAFT PAPER COVERS* – plain cover *athey vilaila!* 🛍️\n\n✅ Ovvoru cover-um unga kadaikku FREE advertisement\n✅ Low minimum · Local free delivery\n✅ Handle bags, return-gift bags & *areca (paaku mattai) plates* – UV cleaned + shrink packed\n\nUnga kadai peroda oru *FREE sample design* photo anuppiyirukkom 👆\nPidichirundha oru reply podunga – sample-a neraa kadaikke kondu varrom!\n\n– KRAFT·Vibe, Udumalpet · 7904505226`;
 }
@@ -846,6 +1016,7 @@ function renderPlan(){
       </div>
       <div class="acts">
         <button class="ic" title="Sample photo" style="font-size:16px" onclick="openSample('${c.id}')">📷</button>
+        <button class="ic" title="Catalog" style="font-size:15px" onclick="sendCatalog('${c.id}')">📋</button>
         ${c.phone?`<a class="ic wa" target="_blank" href="${waLink(c.phone,outreachMsg(c))}" onclick="if(!getPlan().done.includes('${c.id}'))markMsg('${c.id}')">${WA_SVG}</a>`:`<button class="ic ed" onclick="editCust('${c.id}')"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></button>`}
         <button class="ic" title="Done" style="border-color:var(--eco);color:var(--eco);font-weight:800" onclick="markMsg('${c.id}')">✓</button>
       </div></div>`;
