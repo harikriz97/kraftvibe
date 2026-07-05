@@ -304,7 +304,7 @@ main{max-width:1000px;margin:0 auto;padding:16px}
 
   <!-- CONTACTS (leads + customers merged) -->
   <section class="view" id="v-contacts">
-    <div class="vhead"><h2>Contacts</h2><span style="display:flex;gap:8px"><button class="btn sm out" onclick="editCust('',{src:'Instagram',type:'Function/Family',oneTime:true,area:''})">📸 IG lead</button><button class="btn" onclick="editCust()">+ Add</button></span></div>
+    <div class="vhead"><h2>Contacts</h2><span style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm out" onclick="openFindLeads()">🔍 Find on Maps</button><button class="btn sm out" onclick="editCust('',{src:'Instagram',type:'Function/Family',oneTime:true,area:''})">📸 IG lead</button><button class="btn" onclick="editCust()">+ Add</button></span></div>
     <input class="search" id="contactSearch" placeholder="Search name or area…" oninput="renderContacts()">
     <div class="filters" id="contactSeg"></div>
     <div class="filters" id="leadFilters"></div>
@@ -537,6 +537,13 @@ if(DB.dbv<5){
     if(c.oneTime===undefined)c.oneTime=(c.type==='Function/Family');
   });
   DB.dbv=5;save();
+}
+/* v6: one confirmed real lead as a starter (phone blank — verify on Maps) */
+if(DB.dbv<6){
+  const have=new Set(DB.customers.map(c=>(c.name||'').toLowerCase().trim()));
+  [{name:'AVM Bakers',type:'Bakery',phone:'',area:'Udumalpet Bazaar',cycle:15}]
+    .forEach(l=>{if(!have.has(l.name.toLowerCase().trim()))DB.customers.push(Object.assign({id:uid(),status:'prospect',visit:'',feedback:'',lastOrder:'',lastMsg:''},l));});
+  DB.dbv=6;save();
 }
 
 /* ---------- nav ---------- */
@@ -849,6 +856,41 @@ function renderContacts(){
 }
 function convert(id){const c=DB.customers.find(x=>x.id===id);if(!c)return;c.status='customer';upgradeStage(c,'order');if(!c.lastOrder)c.lastOrder=today();save();toast(c.name+' is now a Customer');render();}
 function revertLead(id){const c=DB.customers.find(x=>x.id===id);if(!c)return;c.status='prospect';delete c.stage;save();toast(c.name+' moved back to Lead');render();}
+/* ---------- Find leads on Google Maps (real listings, one tap) ---------- */
+const FIND_TOWNS=['Udumalpet','Pollachi','Palani','Dharapuram','Madathukulam','Kangeyam','Tiruppur'];
+const FIND_GROUPS=[
+  ['🛍️ Paper covers & bags — customers', 'Function/Family' , [
+    ['Bakery','bakery','Bakery'],['Cake shop','cake shop','Cake Shop'],['Sweet shop','sweet shop','Sweet Shop'],
+    ['Textile / cloth shop','textile shop','Textile'],['Supermarket','supermarket','Supermarket'],
+    ['Pharmacy / medical','pharmacy medical shop','Pharmacy'],['Jewellery','jewellery shop','Jewellery'],
+    ['Gift shop','gift shop','Gift'],['Footwear','footwear shop','Footwear'],['Tea shop / snacks','tea shop','Tea Shop']
+  ]],
+  ['🍽️ Areca plates & spoons — customers', 'Catering', [
+    ['Caterers','catering service','Catering'],['Marriage / function hall','marriage hall','Catering'],
+    ['Hotel','hotel','Hotel'],['Restaurant / mess','restaurant mess','Restaurant']
+  ]]
+];
+let findTown='Udumalpet';
+function openFindLeads(){
+  openM(`<h3>🔍 Find Leads on Google Maps</h3>
+   <p style="font-size:12.5px;color:var(--ink-soft);margin-bottom:12px">Oru category thattunga → Google Maps antha search-oda open aagum (real shops + phone numbers). Pidicha shop-a paathu, inga <b>+ Add</b> pannunga (name, phone, area type pannunga).</p>
+   <div class="fg"><label>Area / town</label><select id="findTown" onchange="findTown=this.value;drawFindLeads()">${FIND_TOWNS.map(t=>`<option ${t===findTown?'selected':''}>${t}</option>`).join('')}</select></div>
+   <div id="findBody"></div>
+   <div class="mbtns"><button class="btn out" onclick="closeM()">Close</button><button class="btn eco" onclick="closeM();editCust()">+ Add a shop now</button></div>`);
+  drawFindLeads();
+}
+function drawFindLeads(){
+  document.getElementById('findBody').innerHTML=FIND_GROUPS.map(([title,defType,cats])=>`
+    <div style="margin:6px 0 12px">
+      <div style="font-family:'DM Mono';font-size:11px;letter-spacing:.5px;color:var(--kraft-deep);text-transform:uppercase;margin-bottom:8px">${title}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:7px">
+        ${cats.map(([label,q,type])=>{
+          const url='https://www.google.com/maps/search/'+encodeURIComponent(q+' in '+findTown+', Tamil Nadu');
+          return `<a class="btn sm out" style="text-decoration:none" target="_blank" href="${url}">📍 ${label}</a>`;
+        }).join('')}
+      </div>
+    </div>`).join('');
+}
 const SAMPLE_TYPES=[['cover','Cover'],['bag','Bag'],['areca','Areca']];
 function samplesGivenTags(c){
   if(!c.samplesGiven)return'';
