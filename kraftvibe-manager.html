@@ -848,6 +848,7 @@ function renderContacts(){
   document.getElementById('contactList').innerHTML=list.length?list.map(c=>custRow(c,reminderState(c),true,c.status!=='customer')).join(''):'<div class="empty">No contacts found. Tap “+ Add”.</div>';
 }
 function convert(id){const c=DB.customers.find(x=>x.id===id);if(!c)return;c.status='customer';upgradeStage(c,'order');if(!c.lastOrder)c.lastOrder=today();save();toast(c.name+' is now a Customer');render();}
+function revertLead(id){const c=DB.customers.find(x=>x.id===id);if(!c)return;c.status='prospect';delete c.stage;save();toast(c.name+' moved back to Lead');render();}
 const SAMPLE_TYPES=[['cover','Cover'],['bag','Bag'],['areca','Areca']];
 function samplesGivenTags(c){
   if(!c.samplesGiven)return'';
@@ -863,10 +864,14 @@ function custRow(c,r,full,isLead){
       <div class="s">${c.type} · ${c.area||''} ${c.phone?'· '+c.phone:'· ⚠ no number'}${c.funcDate?' · 🗓 '+c.funcDate:''}${c.src==='Instagram'?' · 📸':''}${c.catalogSent?' · 📋 '+c.catalogSent.slice(5):''}</div>
     </div>
     <div class="acts">
-      <button class="ic" title="Send catalog (${(catalogCfg(c).cats||[]).join(' + ')})" style="font-size:15px" onclick="sendCatalog('${c.id}')">📋</button>
-      ${c.phone?`<a class="ic wa" target="_blank" title="WhatsApp" href="${waLink(c.phone,nextMsg(c))}" onclick="upgradeStage(DB.customers.find(x=>x.id==='${c.id}'),'msg');DB.customers.find(x=>x.id==='${c.id}').lastMsg=today();save()">${WA_SVG}</a>`:''}
-      ${!isLead?`<button class="ic" title="New order" style="font-size:15px" onclick="editOrder('${c.id}')">🛒</button>`:''}
-      ${isLead?`<button class="ic" style="background:var(--eco);border-color:var(--eco)" title="First order vandhaachu → customer" onclick="convert('${c.id}')"><svg viewBox="0 0 24 24" fill="#fff"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></button>`:''}
+      ${isLead
+        ? `<button class="ic" title="Send catalog (${(catalogCfg(c).cats||[]).join(' + ')})" style="font-size:15px" onclick="sendCatalog('${c.id}')">📋</button>
+           ${c.phone?`<a class="ic wa" target="_blank" title="WhatsApp" href="${waLink(c.phone,nextMsg(c))}" onclick="upgradeStage(DB.customers.find(x=>x.id==='${c.id}'),'msg');DB.customers.find(x=>x.id==='${c.id}').lastMsg=today();save()">${WA_SVG}</a>`:''}
+           <button class="ic" style="background:var(--eco);border-color:var(--eco)" title="First order vandhaachu → Customer aakku" onclick="convert('${c.id}')"><svg viewBox="0 0 24 24" fill="#fff"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></button>`
+        : `<button class="ic" title="New order" style="background:var(--eco);border-color:var(--eco);color:#fff;font-size:15px" onclick="editOrder('${c.id}')">🛒</button>
+           ${c.phone?`<a class="ic wa" target="_blank" title="WhatsApp" href="${waLink(c.phone,nextMsg(c))}">${WA_SVG}</a>`:''}
+           <button class="ic" title="Leads-ku thirumba nagarthu" style="font-size:14px" onclick="revertLead('${c.id}')">↩</button>`
+      }
       <button class="ic ed" onclick="editCust('${c.id}')"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></button>
     </div></div>`;
 }
@@ -1126,12 +1131,12 @@ function savePurch(){
 /* ---------- billing ---------- */
 let billItems=[];
 function newBill(){
-  if(!DB.customers.length){toast('Add a customer first');return;}
+  if(!DB.customers.some(c=>c.status==='customer')){toast('Munnadi oru Lead-a Customer-a convert pannunga');return;}
   billItems=[{prod:DB.products[0]?.name||'',qty:1,rate:DB.products[0]?.price||0}];
   drawBill();
 }
 function drawBill(){
-  const co=DB.customers.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+  const co=DB.customers.filter(c=>c.status==='customer').map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
   const po=DB.products.map(p=>`<option value="${p.name}" data-rate="${p.price}">${p.name}</option>`).join('');
   const rows=billItems.map((it,ix)=>`<div class="frow" style="align-items:flex-end">
      <div class="fg" style="flex:2"><label>Item</label><select onchange="billItems[${ix}].prod=this.value;billItems[${ix}].rate=+this.options[this.selectedIndex].dataset.rate||billItems[${ix}].rate;drawBill()">${DB.products.map(p=>`<option value="${p.name}" data-rate="${p.price}" ${p.name===it.prod?'selected':''}>${p.name}</option>`).join('')}</select></div>
