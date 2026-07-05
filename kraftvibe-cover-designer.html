@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KRAFT·Vibe — Cover & Bag Designer</title>
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=DM+Mono:wght@400;500&family=Noto+Sans+Tamil:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#ece0cb;--paper2:#e4d6bd;--kraft:#c2925a;--kraft-deep:#9c6735;
+  --ink:#262219;--ink-soft:#5c4a37;--stamp:#9c1824;--eco:#2c4d34;--cream:#f8f0e2;
+  --line:rgba(156,103,53,.3);--warn:#c8851a;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'DM Sans',system-ui,sans-serif;color:var(--ink);background:var(--paper);line-height:1.5;padding-bottom:40px}
+h1,h2,h3{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.4px;text-transform:uppercase;line-height:1}
+.mono{font-family:'DM Mono',monospace}
+a{color:inherit}
+
+header{background:var(--ink);color:var(--paper);padding:14px 18px;display:flex;align-items:center;gap:11px;position:sticky;top:0;z-index:10}
+header .bmark{width:38px;height:38px;border-radius:10px;flex:none}
+header .tx{font-family:'Anton';font-size:20px;letter-spacing:1px;line-height:1}
+header .tx .dot{color:#e06a55}
+header .tx small{display:block;font-family:'DM Mono';font-size:9px;letter-spacing:2px;color:#cdbca5;margin-top:2px}
+header a.back{margin-left:auto;background:rgba(255,255,255,.12);color:var(--paper);border-radius:7px;padding:8px 12px;font-size:13px;font-weight:600;text-decoration:none}
+
+main{max-width:1000px;margin:0 auto;padding:18px}
+.grid{display:grid;grid-template-columns:340px 1fr;gap:22px;align-items:start}
+@media(max-width:800px){.grid{grid-template-columns:1fr}}
+
+.panel{background:var(--cream);border:1.5px solid var(--line);border-radius:12px;padding:18px}
+.panel h2{font-size:17px;margin-bottom:14px;color:var(--eco)}
+.fg{margin-bottom:14px}
+.fg label{display:block;font-size:12px;font-family:'DM Mono';letter-spacing:.5px;text-transform:uppercase;color:var(--ink-soft);margin-bottom:5px}
+.fg input,.fg select{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:8px;background:#fff;font-size:15px;font-family:inherit;color:var(--ink)}
+.toggle{display:flex;gap:8px;margin-bottom:16px}
+.toggle button{flex:1;padding:11px;border:1.5px solid var(--line);background:#fff;border-radius:8px;font-weight:700;font-size:14px;cursor:pointer;color:var(--ink-soft)}
+.toggle button.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.swatches{display:flex;gap:8px;flex-wrap:wrap}
+.swatches button{width:34px;height:34px;border-radius:8px;border:2px solid transparent;cursor:pointer}
+.swatches button.on{border-color:var(--ink);box-shadow:0 0 0 2px #fff inset}
+.btn{display:block;width:100%;background:var(--eco);color:#fff;border:0;border-radius:8px;padding:13px;font-weight:700;font-size:15px;cursor:pointer;margin-top:6px}
+.btn.out{background:transparent;border:1.6px solid var(--ink);color:var(--ink)}
+.hint{font-size:12px;color:var(--ink-soft);margin-top:10px;line-height:1.6}
+
+.stage{display:flex;flex-direction:column;align-items:center;gap:14px}
+.canvaswrap{background:repeating-conic-gradient(#e9dcc4 0% 25%, #e2d3b6 0% 50%) 50%/28px 28px;border-radius:14px;padding:16px;border:1.5px solid var(--line);width:100%;display:flex;justify-content:center}
+canvas{max-width:100%;height:auto;border-radius:6px;box-shadow:0 10px 30px rgba(80,50,20,.22)}
+.dlrow{display:flex;gap:10px;width:100%}
+.dlrow .btn{margin-top:0}
+</style>
+</head>
+<body>
+<header>
+  <svg class="bmark" viewBox="0 0 48 48" fill="none" aria-hidden="true"><rect width="48" height="48" rx="11" fill="#0b5c2e"/><path d="M17.4 18C17.4 10.8 20 7.4 24 7.4S30.6 10.8 30.6 18" fill="none" stroke="#ffe9bd" stroke-width="3.4" stroke-linecap="round"/><path d="M11.2 16.6H36.8L34.5 40.8A3.6 3.6 0 0 1 30.9 44H17.1A3.6 3.6 0 0 1 13.5 40.8L11.2 16.6Z" fill="#f79f1f" stroke="#ffe9bd" stroke-width="2.8" stroke-linejoin="round"/><ellipse cx="24" cy="40" rx="9.6" ry="2.7" fill="#ffe9bd"/><ellipse cx="24" cy="39.5" rx="6.2" ry="1.5" fill="#eccf96"/><path d="M24 39.4V28.6" stroke="#0b5c2e" stroke-width="3" stroke-linecap="round"/><path d="M24 32.4C24 26.2 18.9 23.5 13.9 23.8C16.6 28.4 20.3 31.6 24 32.4Z" fill="#0b5c2e"/><path d="M24 36C24 30.4 28.7 27.7 33.9 28C31.2 32.6 27.5 35.3 24 36Z" fill="#17924a"/><circle cx="24" cy="21.4" r="2.7" fill="#e8232f"/></svg>
+  <div class="tx">KRAFT<span class="dot">·</span>VIBE<small>COVER &amp; BAG DESIGNER</small></div>
+  <a class="back" href="kraftvibe-manager.html">← Manager</a>
+</header>
+
+<main>
+  <div class="grid">
+    <div class="panel">
+      <h2>Design a cover / bag</h2>
+      <div class="toggle">
+        <button id="tb-cover" class="on" onclick="setProd('cover')">🛍️ Paper Cover</button>
+        <button id="tb-bag" onclick="setProd('bag')">👜 Handle Bag</button>
+      </div>
+      <div class="fg"><label>Shop / brand name</label><input id="shopName" value="Sri Bakery" oninput="draw()" maxlength="26"></div>
+      <div class="fg"><label>Shop type (design)</label>
+        <select id="shopType" onchange="draw()">
+          <option value="Bakery">Bakery</option>
+          <option value="Cake Shop">Cake Shop</option>
+          <option value="Sweet Shop">Sweet Shop</option>
+          <option value="Textile">Textile / Cloth</option>
+          <option value="Supermarket">Supermarket</option>
+          <option value="Pharmacy">Pharmacy</option>
+          <option value="Jewellery">Jewellery</option>
+          <option value="Gift">Gift Shop</option>
+          <option value="Footwear">Footwear</option>
+          <option value="Tea Shop">Tea Shop</option>
+          <option value="Restaurant">Hotel / Restaurant</option>
+          <option value="Catering">Catering</option>
+          <option value="Function/Family">Function / Return Gift</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="fg"><label>Tagline / line 2 (optional)</label><input id="tagline" value="" placeholder="e.g. Since 1998 · Udumalpet" oninput="draw()" maxlength="34"></div>
+      <div class="fg"><label>Phone (optional)</label><input id="shopPhone" value="" placeholder="Shop phone number" oninput="draw()" maxlength="16" inputmode="numeric"></div>
+      <div class="fg"><label>Cover colour</label>
+        <div class="swatches" id="swatches"></div>
+      </div>
+      <div class="dlrow">
+        <button class="btn" onclick="downloadPNG()">⬇ Download PNG</button>
+        <button class="btn out" onclick="window.print()">🖨 Print</button>
+      </div>
+      <div class="hint">Ovvoru customer-oda peru type pannunga → design udane maarum. Download panni WhatsApp-la sample-a anuppunga, illa print-ku kudunga.<br><b>Note:</b> 1–2 colour print-ku ready. Design oru pakkam, peru periya-a.</div>
+    </div>
+
+    <div class="stage">
+      <div class="canvaswrap"><canvas id="cv" width="900" height="1160"></canvas></div>
+    </div>
+  </div>
+</main>
+
+<script>
+let prod='cover';
+const COLORS=[
+  ['#c2925a','#3a2a17','kraft'],   // kraft tan / dark ink
+  ['#e7dcc4','#5c4a37','natural'],  // light natural
+  ['#2c4d34','#f4ead2','green'],    // eco green / cream
+  ['#8a1f2b','#f6e6c8','maroon'],   // maroon / cream
+  ['#1c3d5a','#f0e6d0','blue'],     // navy / cream
+  ['#5b3a86','#f2e8d6','purple']    // purple / cream
+];
+let colorIx=0;
+
+function setProd(p){prod=p;document.getElementById('tb-cover').classList.toggle('on',p==='cover');document.getElementById('tb-bag').classList.toggle('on',p==='bag');
+  const cv=document.getElementById('cv');
+  if(p==='bag'){cv.width=900;cv.height=1160;}else{cv.width=900;cv.height=1160;}
+  draw();}
+
+function buildSwatches(){
+  document.getElementById('swatches').innerHTML=COLORS.map((c,i)=>`<button class="${i===colorIx?'on':''}" style="background:${c[0]}" onclick="colorIx=${i};buildSwatches();draw()" title="${c[2]}"></button>`).join('');
+}
+
+/* ---------- motif drawing (simple 1-colour line icons) ---------- */
+function motif(x,type,cx,cy,s,col){
+  x.save();x.translate(cx,cy);x.strokeStyle=col;x.fillStyle=col;x.lineWidth=s*0.055;x.lineCap='round';x.lineJoin='round';
+  const u=s/100; // unit
+  const L=(a,b,c,d)=>{x.beginPath();x.moveTo(a*u,b*u);x.lineTo(c*u,d*u);x.stroke();};
+  const C=(a,b,r,fill)=>{x.beginPath();x.arc(a*u,b*u,r*u,0,7);fill?x.fill():x.stroke();};
+  switch(type){
+    case 'Bakery': case 'Cake Shop':{ // tiered cake + candle
+      x.beginPath();x.roundRect(-42*u,-6*u,84*u,40*u,6*u);x.stroke();
+      x.beginPath();x.roundRect(-30*u,-34*u,60*u,28*u,6*u);x.stroke();
+      L(0,-34,0,-52); C(0,-56,4,true); // candle+flame
+      for(let i=-30;i<=30;i+=15){L(i,-6,i,34);} // stripes bottom
+      break;}
+    case 'Sweet Shop':{ // plate of laddus
+      x.beginPath();x.ellipse(0,26*u,46*u,10*u,0,0,7);x.stroke();
+      C(-22,4,15); C(0,-6,16); C(22,4,15); C(-10,18,12); C(12,18,12);
+      break;}
+    case 'Textile':{ // hanger + saree drape
+      L(0,-46,0,-34); x.beginPath();x.arc(0,-50,6*u,0,7);x.stroke();
+      L(-40,-30,40,-30); L(-40,-30,-40,-26); L(40,-30,40,-26);
+      x.beginPath();x.moveTo(-40,-26*u);x.bezierCurveTo(-30*u,20*u,-14*u,20*u,-8*u,46*u);
+      x.lineTo(8*u,46*u);x.bezierCurveTo(14*u,20*u,30*u,20*u,40*u,-26*u);x.stroke();
+      L(-20,4,-16,30); L(20,4,16,30);
+      break;}
+    case 'Supermarket':{ // basket
+      L(-40,-20,40,-20); L(-34,-20,-26,34); L(34,-20,26,34); L(-26,34,26,34);
+      L(-30,4,30,4); L(-20,-20,-14,34); L(20,-20,14,34); L(0,-20,0,34);
+      L(-24,-20,-16,-40); L(24,-20,16,-40); // handle
+      break;}
+    case 'Pharmacy':{ // medical cross in circle
+      C(0,-2,46); x.lineWidth=s*0.09;
+      L(0,-26,0,22); L(-24,-2,24,-2);
+      break;}
+    case 'Jewellery':{ // necklace
+      x.beginPath();x.arc(0,-30,44*u,0.15*Math.PI,0.85*Math.PI);x.stroke();
+      C(0,22,10); C(-16,17,4,true); C(16,17,4,true); C(-30,6,3,true); C(30,6,3,true);
+      break;}
+    case 'Gift':{ // gift box + ribbon
+      x.beginPath();x.roundRect(-38*u,-8*u,76*u,44*u,4*u);x.stroke();
+      L(-38,10,38,10); L(0,-8,0,36); // ribbon
+      x.beginPath();x.moveTo(0,-8*u);x.bezierCurveTo(-24*u,-40*u,-40*u,-14*u,-4*u,-10*u);x.stroke();
+      x.beginPath();x.moveTo(0,-8*u);x.bezierCurveTo(24*u,-40*u,40*u,-14*u,4*u,-10*u);x.stroke();
+      break;}
+    case 'Footwear':{ // shoe
+      x.beginPath();x.moveTo(-44*u,24*u);x.lineTo(-44*u,4*u);x.bezierCurveTo(-20*u,4*u,-4*u,-18*u,20*u,-14*u);
+      x.bezierCurveTo(44*u,-10*u,46*u,14*u,44*u,24*u);x.closePath();x.stroke();
+      L(-20,0,-8,10); L(-6,-8,6,4);
+      break;}
+    case 'Tea Shop':{ // cup + steam
+      x.beginPath();x.moveTo(-34*u,4*u);x.lineTo(-28*u,40*u);x.lineTo(28*u,40*u);x.lineTo(34*u,4*u);x.closePath();x.stroke();
+      L(-34,4,34,4); x.beginPath();x.arc(38*u,18*u,12*u,-0.5,0.5*Math.PI);x.stroke(); // handle
+      x.beginPath();x.moveTo(-10*u,-8*u);x.bezierCurveTo(-18*u,-22*u,-2*u,-26*u,-10*u,-42*u);x.stroke();
+      x.beginPath();x.moveTo(12*u,-8*u);x.bezierCurveTo(4*u,-22*u,20*u,-26*u,12*u,-42*u);x.stroke();
+      break;}
+    case 'Restaurant':{ // plate + fork & spoon
+      C(0,4,40); C(0,4,28);
+      L(-52,-30,-52,40); // fork stem
+      L(-58,-30,-58,-8); L(-52,-30,-52,-8); L(-46,-30,-46,-8);
+      x.beginPath();x.ellipse(52*u,-18*u,7*u,14*u,0,0,7);x.stroke(); L(52,-4,52,40); // spoon
+      break;}
+    case 'Catering':{ // leaf plate (areca) + food
+      x.beginPath();x.ellipse(0,10*u,46*u,30*u,0,0,7);x.stroke();
+      x.beginPath();x.ellipse(0,8*u,32*u,20*u,0,0,7);x.stroke();
+      C(-12,4,7,true); C(10,10,8,true); C(0,-4,5,true);
+      L(-46,-16,-30,-30); L(46,-16,30,-30); // leaf tips
+      break;}
+    case 'Function/Family':{ // floral wreath
+      for(let i=0;i<8;i++){const a=i/8*Math.PI*2;const px=Math.cos(a)*34,py=Math.sin(a)*34;
+        x.save();x.translate(px*u,py*u);x.beginPath();x.ellipse(0,0,10*u,5*u,a,0,7);x.stroke();x.restore();}
+      C(0,0,10);
+      break;}
+    default:{ // shopping bag
+      x.beginPath();x.moveTo(-34*u,-16*u);x.lineTo(-40*u,40*u);x.lineTo(40*u,40*u);x.lineTo(34*u,-16*u);x.closePath();x.stroke();
+      x.beginPath();x.arc(0,-16*u,16*u,Math.PI,0);x.stroke();
+    }
+  }
+  x.restore();
+}
+
+function roundedName(x,name,cx,cy,maxw,col,bg){
+  // auto-fit big shop name
+  let fs=96;x.font=`400 ${fs}px Anton, sans-serif`;
+  while(x.measureText(name).width>maxw&&fs>34){fs-=3;x.font=`400 ${fs}px Anton, sans-serif`;}
+  x.fillStyle=col;x.textAlign='center';x.fillText(name.toUpperCase(),cx,cy);
+  return fs;
+}
+
+function draw(){
+  const cv=document.getElementById('cv');const x=cv.getContext('2d');
+  const W=cv.width,H=cv.height;
+  const [bg,ink]=COLORS[colorIx];
+  const name=(document.getElementById('shopName').value||'Your Shop').trim();
+  const type=document.getElementById('shopType').value;
+  const tag=(document.getElementById('tagline').value||'').trim();
+  const phone=(document.getElementById('shopPhone').value||'').trim();
+  x.clearRect(0,0,W,H);
+
+  if(prod==='cover') drawCover(x,W,H,bg,ink,name,type,tag,phone);
+  else drawBag(x,W,H,bg,ink,name,type,tag,phone);
+}
+
+function paperTexture(x,W,H,ink){
+  x.save();x.globalAlpha=0.05;x.strokeStyle=ink;x.lineWidth=1;
+  for(let i=0;i<W;i+=7){x.beginPath();x.moveTo(i,0);x.lineTo(i+8,H);x.stroke();}
+  x.restore();
+}
+
+function drawCover(x,W,H,bg,ink,name,type,tag,phone){
+  x.fillStyle=bg;x.fillRect(0,0,W,H);
+  paperTexture(x,W,H,ink);
+  // top & bottom flap fold lines (cover look)
+  x.strokeStyle=ink;x.globalAlpha=0.35;x.lineWidth=2;x.setLineDash([10,8]);
+  x.beginPath();x.moveTo(0,120);x.lineTo(W,120);x.moveTo(0,H-120);x.lineTo(W,H-120);x.stroke();
+  x.setLineDash([]);x.globalAlpha=1;
+  // decorative frame
+  x.strokeStyle=ink;x.lineWidth=5;x.strokeRect(56,180,W-112,H-360);
+  x.lineWidth=2;x.strokeRect(72,196,W-144,H-392);
+
+  // motif
+  motif(x,type,W/2,360,150,ink);
+
+  // shop name
+  roundedName(x,name,W/2,H/2+40,W-200,ink);
+  // small type label chip
+  x.font='500 30px "DM Mono", monospace';x.textAlign='center';x.fillStyle=ink;
+  x.globalAlpha=0.85;x.fillText('· '+type.toUpperCase()+' ·',W/2,H/2+96);x.globalAlpha=1;
+  // tagline
+  if(tag){x.font='500 34px "DM Sans", sans-serif';x.fillStyle=ink;x.fillText(tag,W/2,H/2+150);}
+  if(phone){x.font='500 40px "DM Mono", monospace';x.fillStyle=ink;x.fillText('📞 '+phone,W/2,H/2+210);}
+
+  drawCredit(x,W,H,ink,bg);
+}
+
+function drawBag(x,W,H,bg,ink,name,type,tag,phone){
+  x.fillStyle=bg;x.fillRect(0,0,W,H);
+  paperTexture(x,W,H,ink);
+  // handle holes (die-cut look) near top
+  x.fillStyle=ink;x.globalAlpha=0.9;
+  x.beginPath();x.roundRect(W/2-170,70,120,34,17);x.roundRect(W/2+50,70,120,34,17);x.fill();
+  x.globalAlpha=1;
+  // top fold band
+  x.strokeStyle=ink;x.globalAlpha=0.35;x.lineWidth=2;x.setLineDash([10,8]);
+  x.beginPath();x.moveTo(0,150);x.lineTo(W,150);x.stroke();x.setLineDash([]);x.globalAlpha=1;
+
+  // side gusset hint lines
+  x.strokeStyle=ink;x.globalAlpha=0.25;x.lineWidth=3;
+  x.beginPath();x.moveTo(70,150);x.lineTo(70,H-40);x.moveTo(W-70,150);x.lineTo(W-70,H-40);x.stroke();x.globalAlpha=1;
+
+  // motif
+  motif(x,type,W/2,430,150,ink);
+  // name
+  roundedName(x,name,W/2,H/2+120,W-220,ink);
+  x.font='500 30px "DM Mono", monospace';x.textAlign='center';x.fillStyle=ink;x.globalAlpha=0.85;
+  x.fillText('· '+type.toUpperCase()+' ·',W/2,H/2+176);x.globalAlpha=1;
+  if(tag){x.font='500 34px "DM Sans", sans-serif';x.fillStyle=ink;x.fillText(tag,W/2,H/2+230);}
+  if(phone){x.font='500 40px "DM Mono", monospace';x.fillStyle=ink;x.fillText('📞 '+phone,W/2,H/2+290);}
+
+  drawCredit(x,W,H,ink,bg);
+}
+
+function drawCredit(x,W,H,ink,bg){
+  // small footer credit — subtle, not overpowering the shop's own brand
+  x.textAlign='center';
+  x.font='500 24px "DM Mono", monospace';
+  x.fillStyle=ink;x.globalAlpha=0.6;
+  x.fillText('Branded covers & bags by KRAFT·Vibe · Udumalpet · 7904505226',W/2,H-70);
+  x.globalAlpha=1;
+}
+
+function slug(s){return (s||'shop').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,24);}
+function downloadPNG(){
+  const cv=document.getElementById('cv');
+  const a=document.createElement('a');
+  a.download='kraftvibe-'+prod+'-'+slug(document.getElementById('shopName').value)+'.png';
+  a.href=cv.toDataURL('image/png');a.click();
+}
+
+buildSwatches();
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(draw);
+draw();
+</script>
+</body>
+</html>
