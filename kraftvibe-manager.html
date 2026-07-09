@@ -269,6 +269,10 @@ main{max-width:1000px;margin:0 auto;padding:16px}
       <div class="ph">Production by worker — last 7 days</div>
       <div id="dash-workers"></div>
     </div>
+    <div class="panel">
+      <div class="ph">Sales by segment — this month <button class="btn sm out" onclick="openPricing()">💰 Pricing guide</button></div>
+      <div id="dash-segments"></div>
+    </div>
   </section>
 
   <!-- DAILY 10 PLAN -->
@@ -834,6 +838,12 @@ function renderDash(){
   document.getElementById('dash-low').innerHTML=low.length?low.map(i=>`<div class="row"><div class="meta"><div class="t">${i.name}</div><div class="s">${i.stock} ${i.unit} left · reorder at ${i.reorder}</div></div><span class="pill low">LOW</span></div>`).join(''):'<div class="empty">All stock healthy.</div>';
   const workers=workerWeekSummary();
   document.getElementById('dash-workers').innerHTML=workers.length?workers.map(([w,qty])=>`<div class="row"><div class="meta"><div class="t">${w}</div></div><span class="pill customer">${qty} pcs</span></div>`).join(''):'<div class="empty">Inaikku production log illa innum.</div>';
+  const segAgg={direct:0,reseller:0,gift:0},commOwed=mo.reduce((s,o)=>s+((o.segment==='reseller'&&o.commission)?o.commission:0),0);
+  mo.forEach(o=>{segAgg[o.segment||'direct']+=o.qty*o.rate;});
+  const SEGN={direct:'Direct sale',reseller:'Reseller',gift:'Gift / Premium'};
+  document.getElementById('dash-segments').innerHTML=
+    ['direct','reseller','gift'].map(s=>`<div class="row"><div class="meta"><div class="t">${SEGN[s]}</div></div><span class="pill ${s==='reseller'?'sample':s==='gift'?'given':'prospect'}">${money(segAgg[s])}</span></div>`).join('')
+    +`<div class="row" style="background:var(--paper2)"><div class="meta"><div class="t">Reseller commission owed</div><div class="s">this month, ₹8/kg basis</div></div><span class="pill low">${money(commOwed)}</span></div>`;
 }
 function workerWeekSummary(){
   const cutoff=addDays(today(),-7);
@@ -898,6 +908,45 @@ function drawFindLeads(){
       </div>
     </div>`).join('');
 }
+/* ---------- 3-segment pricing reference ---------- */
+const BASE_COST_KG=59.83;            // printed cover cost/kg (from costing model)
+const PLAIN_COST_KG=BASE_COST_KG-1.2; // no ink
+const RESELLER_KG=8;                  // ₹/kg commission
+function bagPieces(W,H,G,gsm){return Math.round(1000/((2*W*H+2*G*H+W*G)*1.12*0.00064516*gsm));}
+function openPricing(){
+  const p2=n=>'₹'+(n||0).toFixed(2);
+  // COVERS — sold by KG rate; plain vs printed
+  const covKg=[
+    ['Plain cover (no print)',PLAIN_COST_KG,80],
+    ['Printed / branded cover',BASE_COST_KG,95]
+  ];
+  const covRows=covKg.map(([nm,cost,direct])=>{const gift=Math.round(cost/0.45);const resNet=direct-RESELLER_KG-cost;return `<tr><td>${nm}</td><td class="num">${p2(cost)}</td><td class="num">₹${direct}</td><td class="num">₹${(direct-RESELLER_KG)} <span class="s">(net ₹${resNet.toFixed(0)})</span></td></tr>`;}).join('');
+  // BAGS — sold by PIECE rate; with handle options
+  const bags=[[8,11,4,120,'Small'],[10,14,5,120,'Medium'],[11,15,6,140,'Large'],[13,18,7,140,'Shopping']];
+  const bagRows=bags.map(([W,H,G,g,nm])=>{const pk=bagPieces(W,H,G,g);const plain=BASE_COST_KG/pk;const ph=(plain+1.0)/0.5;const te=(plain+1.9)/0.5;return `<tr><td>${nm} ${W}×${H}×${G}</td><td class="num">${pk}</td><td class="num">${p2(plain)}</td><td class="num">${p2(ph)}</td><td class="num">${p2(te)}</td></tr>`;}).join('');
+  openM(`<h3>💰 3-Segment Pricing Guide</h3>
+   <p style="font-size:12.5px;color:var(--ink-soft);margin-bottom:10px"><b>Covers → KG rate</b> (plain vs printed). <b>Bags → piece rate</b> (with handles). Base cost ₹${BASE_COST_KG}/kg printed. Verify paper + handle costs with real quotes.</p>
+   <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+     <div class="row" style="border:1.5px solid var(--line);border-radius:8px"><div class="meta"><div class="t">1 · Gift / Own-use / Premium <span class="pill given">~50% margin</span></div><div class="s">Handle bags, piece rate, small qty</div></div></div>
+     <div class="row" style="border:1.5px solid var(--line);border-radius:8px"><div class="meta"><div class="t">2 · Reseller <span class="pill sample">₹8/kg commission</span></div><div class="s">Same rate, pay reseller ₹8/kg. Order-la 'Reseller' select panna auto varum</div></div></div>
+     <div class="row" style="border:1.5px solid var(--line);border-radius:8px"><div class="meta"><div class="t">3 · Direct sale <span class="pill prospect">standard</span></div><div class="s">Printed ₹95/kg · plain ₹80/kg direct to shops</div></div></div>
+   </div>
+   <div style="font-family:'DM Mono';font-size:11px;color:var(--kraft-deep);text-transform:uppercase;margin-bottom:6px">Covers — KG rate</div>
+   <div class="panel scroll" style="padding:0;margin-bottom:14px"><table class="tbl">
+     <tr><th>Type</th><th class="num">Cost/kg</th><th class="num">Direct</th><th class="num">Reseller</th></tr>
+     ${covRows}
+   </table></div>
+   <div style="font-family:'DM Mono';font-size:11px;color:var(--kraft-deep);text-transform:uppercase;margin-bottom:6px">Bags — PIECE rate</div>
+   <div class="panel scroll" style="padding:0;margin-bottom:14px"><table class="tbl">
+     <tr><th>Bag (W×H×G)</th><th class="num">Pc/kg</th><th class="num">Plain cost</th><th class="num">Paper handle</th><th class="num">Thread+eyelet</th></tr>
+     ${bagRows}
+   </table></div>
+   <div class="box" style="background:var(--paper2);border-radius:8px;padding:12px;font-size:12.5px">
+     <b>Bag handle add-on/piece:</b> paper handle +₹1.0 · thread+eyelet +₹1.9 (4 eyelets + cord + fixing) — sell prices above already include this at ~50% margin.<br>
+     <b>Reseller commission:</b> ₹8 × kg (covers) or ≈8% of value (piece bags). Auto-tracked on orders → Dashboard shows total owed.
+   </div>
+   <div class="mbtns"><button class="btn out" onclick="closeM()">Close</button><a class="btn eco" style="text-decoration:none" href="kraftvibe-cover-designer.html">🎨 Cover designer</a></div>`);
+}
 const SAMPLE_TYPES=[['cover','Cover'],['bag','Bag'],['areca','Areca']];
 function samplesGivenTags(c){
   if(!c.samplesGiven)return'';
@@ -939,8 +988,9 @@ function advOrder(id){
 function renderOrders(){
   const t=document.getElementById('orderTbl');
   if(!DB.orders.length){t.innerHTML='<tr><td class="empty">No orders. Tap “+ New order”.<br><br>WhatsApp-la order vandha odane inga add pannunga — appo dhaan track aagum.</td></tr>';return;}
-  t.innerHTML='<tr><th>Date</th><th>Customer</th><th>Product</th><th class="num">Qty</th><th class="num">Amount</th><th>Via</th><th>Status</th><th></th></tr>'+
-    DB.orders.slice().reverse().map(o=>{const c=DB.customers.find(x=>x.id===o.cust);return `<tr><td style="white-space:nowrap">${o.date}</td><td>${c?c.name:'-'}</td><td>${o.prod}</td><td class="num">${o.qty}</td><td class="num">${money(o.qty*o.rate)}</td><td>${o.src==='WhatsApp'?'📱':o.src==='Phone'?'📞':'🏪'}</td><td><button class="pill ${o.status}" style="border:0;cursor:pointer" title="Tap to change status" onclick="advOrder('${o.id}')">${o.status} ▸</button></td><td style="white-space:nowrap">${c&&c.phone?`<a class="ic wa" style="display:inline-flex" target="_blank" title="Confirm on WhatsApp" href="${waLink(c.phone,orderConfirmMsg(o,c))}">${WA_SVG}</a> `:''}<button class="ic del" style="display:inline-flex" onclick="del('orders','${o.id}')"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button></td></tr>`;}).join('');
+  const SEGLBL={direct:'Direct',reseller:'Reseller',gift:'Gift'};
+  t.innerHTML='<tr><th>Date</th><th>Customer</th><th>Product</th><th class="num">Qty</th><th class="num">Amount</th><th>Segment</th><th>Status</th><th></th></tr>'+
+    DB.orders.slice().reverse().map(o=>{const c=DB.customers.find(x=>x.id===o.cust);const seg=o.segment||'direct';const commTxt=(seg==='reseller'&&o.commission)?`<div class="s" style="font-size:10px;color:var(--warn)">comm ${money(o.commission)}</div>`:'';return `<tr><td style="white-space:nowrap">${o.date}</td><td>${c?c.name:'-'}</td><td>${o.prod}</td><td class="num">${o.qty}</td><td class="num">${money(o.qty*o.rate)}</td><td><span class="pill ${seg==='reseller'?'sample':seg==='gift'?'given':'prospect'}">${SEGLBL[seg]}</span>${commTxt}</td><td><button class="pill ${o.status}" style="border:0;cursor:pointer" title="Tap to change status" onclick="advOrder('${o.id}')">${o.status} ▸</button></td><td style="white-space:nowrap">${c&&c.phone?`<a class="ic wa" style="display:inline-flex" target="_blank" title="Confirm on WhatsApp" href="${waLink(c.phone,orderConfirmMsg(o,c))}">${WA_SVG}</a> `:''}<button class="ic del" style="display:inline-flex" onclick="del('orders','${o.id}')"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button></td></tr>`;}).join('');
 }
 let stockSeg='prod';
 function renderStock(){
@@ -1033,13 +1083,27 @@ function editOrder(custId){
    <div class="fg"><label>Rate (₹)</label><input id="o_rate" type="number" step="0.01" oninput="o_total()"></div></div>
    <div class="frow"><div class="fg"><label>Date</label><input id="o_date" type="date" value="${today()}"></div>
    <div class="fg"><label>Order via</label><select id="o_src"><option>WhatsApp</option><option>Phone</option><option>Shop visit</option></select></div></div>
-   <div class="frow"><div class="fg"><label>Status</label><select id="o_status"><option>pending</option><option>delivered</option><option>paid</option></select></div>
-   <div class="fg"><label>Amount</label><input id="o_amt" readonly style="background:var(--paper2);font-weight:700"></div></div>
+   <div class="frow"><div class="fg"><label>Segment</label><select id="o_seg" onchange="o_total()"><option value="direct">Direct sale</option><option value="reseller">Reseller (₹8/kg comm.)</option><option value="gift">Gift / Premium</option></select></div>
+   <div class="fg"><label>Status</label><select id="o_status"><option>pending</option><option>delivered</option><option>paid</option></select></div></div>
+   <div class="frow"><div class="fg"><label>Amount</label><input id="o_amt" readonly style="background:var(--paper2);font-weight:700"></div>
+   <div class="fg"><label>Reseller commission</label><input id="o_comm" readonly style="background:var(--paper2)"></div></div>
    <div class="mbtns"><button class="btn out" onclick="closeM()">Cancel</button><button class="btn eco" onclick="saveOrder()">Save order</button></div>`);
   o_setrate();
 }
 function o_setrate(){const s=document.getElementById('o_prod');const r=s.options[s.selectedIndex].dataset.rate;document.getElementById('o_rate').value=r;o_total();}
-function o_total(){const v=(+val('o_qty')||0)*(+val('o_rate')||0);document.getElementById('o_amt').value=money(v);}
+const RESELLER_COMM_PER_KG=8;
+function segCommission(seg,qty,amount){
+  if(seg!=='reseller')return 0;
+  const prodSel=document.getElementById('o_prod');const p=prodSel?DB.products.find(x=>x.id===prodSel.value):null;
+  if(p&&p.unit==='kg')return +(RESELLER_COMM_PER_KG*qty).toFixed(2);
+  return +(amount*0.08).toFixed(2); // per-piece: ~8% ≈ ₹8/kg at standard rate
+}
+function o_total(){
+  const qty=+val('o_qty')||0,rate=+val('o_rate')||0,v=qty*rate;
+  document.getElementById('o_amt').value=money(v);
+  const ci=document.getElementById('o_comm');
+  if(ci){const seg=val('o_seg');ci.value=seg==='reseller'?money(segCommission(seg,qty,v)):'—';}
+}
 function o_filterCust(){
   const q=(val('o_custSearch')||'').toLowerCase().trim();
   const box=document.getElementById('o_custResults');
@@ -1064,7 +1128,8 @@ function o_refreshProds(c){
 function saveOrder(){
   if(!val('o_cust')){toast('Customer thevai — search-la select pannunga');return;}
   const prodSel=document.getElementById('o_prod');
-  const o={id:uid(),cust:val('o_cust'),prod:prodSel.options[prodSel.selectedIndex].text.split(' (')[0],qty:+val('o_qty')||0,rate:+val('o_rate')||0,date:val('o_date'),status:val('o_status'),src:val('o_src')};
+  const qty=+val('o_qty')||0,rate=+val('o_rate')||0,seg=val('o_seg');
+  const o={id:uid(),cust:val('o_cust'),prod:prodSel.options[prodSel.selectedIndex].text.split(' (')[0],qty,rate,date:val('o_date'),status:val('o_status'),src:val('o_src'),segment:seg,commission:segCommission(seg,qty,qty*rate)};
   const prevOrders=DB.orders.filter(x=>x.cust===o.cust).length;
   DB.orders.push(o);
   const c=DB.customers.find(x=>x.id===o.cust);
