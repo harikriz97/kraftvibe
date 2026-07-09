@@ -7,17 +7,16 @@
 <link rel="icon" type="image/svg+xml" href="logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=DM+Mono:wght@400;500&family=Noto+Sans+Tamil:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=DM+Mono:wght@400;500&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
 <style>
 :root{
   --paper:#ece0cb;--paper2:#e4d6bd;--kraft:#c2925a;--kraft-deep:#9c6735;
   --ink:#262219;--ink-soft:#5c4a37;--stamp:#9c1824;--eco:#2c4d34;--cream:#f8f0e2;
-  --line:rgba(156,103,53,.3);--warn:#c8851a;
+  --line:rgba(156,103,53,.3);
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'DM Sans',system-ui,sans-serif;color:var(--ink);background:var(--paper);line-height:1.5;padding-bottom:40px}
 h1,h2,h3{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.4px;text-transform:uppercase;line-height:1}
-.mono{font-family:'DM Mono',monospace}
 a{color:inherit}
 
 header{background:var(--ink);color:var(--paper);padding:14px 18px;display:flex;align-items:center;gap:11px;position:sticky;top:0;z-index:10}
@@ -27,284 +26,345 @@ header .tx .dot{color:#e06a55}
 header .tx small{display:block;font-family:'DM Mono';font-size:9px;letter-spacing:2px;color:#cdbca5;margin-top:2px}
 header a.back{margin-left:auto;background:rgba(255,255,255,.12);color:var(--paper);border-radius:7px;padding:8px 12px;font-size:13px;font-weight:600;text-decoration:none}
 
-main{max-width:1000px;margin:0 auto;padding:18px}
-.grid{display:grid;grid-template-columns:340px 1fr;gap:22px;align-items:start}
-@media(max-width:800px){.grid{grid-template-columns:1fr}}
+main{max-width:1120px;margin:0 auto;padding:18px}
+.grid{display:grid;grid-template-columns:360px 1fr;gap:22px;align-items:start}
+@media(max-width:820px){.grid{grid-template-columns:1fr}}
 
-.panel{background:var(--cream);border:1.5px solid var(--line);border-radius:12px;padding:18px}
-.panel h2{font-size:17px;margin-bottom:14px;color:var(--eco)}
-.fg{margin-bottom:14px}
-.fg label{display:block;font-size:12px;font-family:'DM Mono';letter-spacing:.5px;text-transform:uppercase;color:var(--ink-soft);margin-bottom:5px}
+.panel{background:var(--cream);border:1.5px solid var(--line);border-radius:12px;padding:18px;margin-bottom:16px}
+.panel h2{font-size:16px;margin-bottom:12px;color:var(--eco)}
+.fg{margin-bottom:13px}
+.fg label{display:block;font-size:11.5px;font-family:'DM Mono';letter-spacing:.5px;text-transform:uppercase;color:var(--ink-soft);margin-bottom:5px}
 .fg input,.fg select{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:8px;background:#fff;font-size:15px;font-family:inherit;color:var(--ink)}
-.toggle{display:flex;gap:8px;margin-bottom:16px}
+.toggle{display:flex;gap:8px;margin-bottom:14px}
 .toggle button{flex:1;padding:11px;border:1.5px solid var(--line);background:#fff;border-radius:8px;font-weight:700;font-size:14px;cursor:pointer;color:var(--ink-soft)}
 .toggle button.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.tmpls{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.tmpls button{aspect-ratio:3/4;border:2px solid var(--line);background:#fff;border-radius:7px;cursor:pointer;padding:0;overflow:hidden;position:relative}
+.tmpls button.on{border-color:var(--eco);box-shadow:0 0 0 2px var(--eco) inset}
+.tmpls button canvas{width:100%;height:100%;display:block}
+.tmpls button span{position:absolute;bottom:0;left:0;right:0;font-size:8px;font-family:'DM Mono';background:rgba(38,34,25,.72);color:#fff;padding:1px}
 .swatches{display:flex;gap:8px;flex-wrap:wrap}
-.swatches button{width:34px;height:34px;border-radius:8px;border:2px solid transparent;cursor:pointer}
-.swatches button.on{border-color:var(--ink);box-shadow:0 0 0 2px #fff inset}
-.btn{display:block;width:100%;background:var(--eco);color:#fff;border:0;border-radius:8px;padding:13px;font-weight:700;font-size:15px;cursor:pointer;margin-top:6px}
+.swatches button{width:34px;height:34px;border-radius:8px;border:2px solid var(--line);cursor:pointer}
+.swatches button.on{border-color:var(--ink);box-shadow:0 0 0 2px #fff inset,0 0 0 4px var(--ink)}
+.btn{display:block;width:100%;background:var(--eco);color:#fff;border:0;border-radius:8px;padding:13px;font-weight:700;font-size:15px;cursor:pointer;margin-top:4px;text-align:center}
 .btn.out{background:transparent;border:1.6px solid var(--ink);color:var(--ink)}
+.dlrow{display:flex;gap:10px}.dlrow .btn{margin-top:0}
 .hint{font-size:12px;color:var(--ink-soft);margin-top:10px;line-height:1.6}
+.logorow{display:flex;gap:8px;align-items:center}
+.logorow .btn{margin:0}
+#logoName{font-size:11px;color:var(--ink-soft);font-family:'DM Mono'}
 
-.stage{display:flex;flex-direction:column;align-items:center;gap:14px}
-.canvaswrap{background:repeating-conic-gradient(#e9dcc4 0% 25%, #e2d3b6 0% 50%) 50%/28px 28px;border-radius:14px;padding:16px;border:1.5px solid var(--line);width:100%;display:flex;justify-content:center}
-canvas{max-width:100%;height:auto;border-radius:6px;box-shadow:0 10px 30px rgba(80,50,20,.22)}
-.dlrow{display:flex;gap:10px;width:100%}
-.dlrow .btn{margin-top:0}
+.stage{position:sticky;top:80px}
+.canvaswrap{background:repeating-conic-gradient(#e9dcc4 0% 25%, #e2d3b6 0% 50%) 50%/28px 28px;border-radius:14px;padding:16px;border:1.5px solid var(--line);display:flex;justify-content:center}
+canvas#cv{max-width:100%;max-height:74vh;height:auto;border-radius:6px;box-shadow:0 10px 30px rgba(80,50,20,.22)}
 </style>
 </head>
 <body>
 <header>
-  <svg class="bmark" viewBox="0 0 48 48" fill="none" aria-hidden="true"><rect width="48" height="48" rx="11" fill="#0b5c2e"/><path d="M17.4 18C17.4 10.8 20 7.4 24 7.4S30.6 10.8 30.6 18" fill="none" stroke="#ffe9bd" stroke-width="3.4" stroke-linecap="round"/><path d="M11.2 16.6H36.8L34.5 40.8A3.6 3.6 0 0 1 30.9 44H17.1A3.6 3.6 0 0 1 13.5 40.8L11.2 16.6Z" fill="#f79f1f" stroke="#ffe9bd" stroke-width="2.8" stroke-linejoin="round"/><ellipse cx="24" cy="40" rx="9.6" ry="2.7" fill="#ffe9bd"/><ellipse cx="24" cy="39.5" rx="6.2" ry="1.5" fill="#eccf96"/><path d="M24 39.4V28.6" stroke="#0b5c2e" stroke-width="3" stroke-linecap="round"/><path d="M24 32.4C24 26.2 18.9 23.5 13.9 23.8C16.6 28.4 20.3 31.6 24 32.4Z" fill="#0b5c2e"/><path d="M24 36C24 30.4 28.7 27.7 33.9 28C31.2 32.6 27.5 35.3 24 36Z" fill="#17924a"/><circle cx="24" cy="21.4" r="2.7" fill="#e8232f"/></svg>
+  <svg class="bmark" viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="11" fill="#0b5c2e"/><path d="M17.4 18C17.4 10.8 20 7.4 24 7.4S30.6 10.8 30.6 18" fill="none" stroke="#ffe9bd" stroke-width="3.4" stroke-linecap="round"/><path d="M11.2 16.6H36.8L34.5 40.8A3.6 3.6 0 0 1 30.9 44H17.1A3.6 3.6 0 0 1 13.5 40.8L11.2 16.6Z" fill="#f79f1f" stroke="#ffe9bd" stroke-width="2.8" stroke-linejoin="round"/><ellipse cx="24" cy="40" rx="9.6" ry="2.7" fill="#ffe9bd"/><ellipse cx="24" cy="39.5" rx="6.2" ry="1.5" fill="#eccf96"/><path d="M24 39.4V28.6" stroke="#0b5c2e" stroke-width="3" stroke-linecap="round"/><path d="M24 32.4C24 26.2 18.9 23.5 13.9 23.8C16.6 28.4 20.3 31.6 24 32.4Z" fill="#0b5c2e"/><path d="M24 36C24 30.4 28.7 27.7 33.9 28C31.2 32.6 27.5 35.3 24 36Z" fill="#17924a"/><circle cx="24" cy="21.4" r="2.7" fill="#e8232f"/></svg>
   <div class="tx">KRAFT<span class="dot">·</span>VIBE<small>COVER &amp; BAG DESIGNER</small></div>
   <a class="back" href="kraftvibe-manager.html">← Manager</a>
 </header>
 
 <main>
   <div class="grid">
-    <div class="panel">
-      <h2>Design a cover / bag</h2>
-      <div class="toggle">
-        <button id="tb-cover" class="on" onclick="setProd('cover')">🛍️ Paper Cover</button>
-        <button id="tb-bag" onclick="setProd('bag')">👜 Handle Bag</button>
+    <div>
+      <div class="panel">
+        <h2>1 · Product &amp; design</h2>
+        <div class="toggle">
+          <button id="tb-cover" class="on" onclick="setProd('cover')">🛍️ Cover</button>
+          <button id="tb-bag" onclick="setProd('bag')">👜 Handle Bag</button>
+        </div>
+        <div class="fg"><label>Size</label><select id="sizeSel" onchange="draw()"></select></div>
+        <div class="fg"><label>Design template (pick one)</label>
+          <div class="tmpls" id="tmpls"></div>
+        </div>
       </div>
-      <div class="fg"><label>Shop / brand name</label><input id="shopName" value="Sri Bakery" oninput="draw()" maxlength="26"></div>
-      <div class="fg"><label>Shop type (design)</label>
-        <select id="shopType" onchange="draw()">
-          <option value="Bakery">Bakery</option>
-          <option value="Cake Shop">Cake Shop</option>
-          <option value="Sweet Shop">Sweet Shop</option>
-          <option value="Textile">Textile / Cloth</option>
-          <option value="Supermarket">Supermarket</option>
-          <option value="Pharmacy">Pharmacy</option>
-          <option value="Jewellery">Jewellery</option>
-          <option value="Gift">Gift Shop</option>
-          <option value="Footwear">Footwear</option>
-          <option value="Tea Shop">Tea Shop</option>
-          <option value="Restaurant">Hotel / Restaurant</option>
-          <option value="Catering">Catering</option>
-          <option value="Function/Family">Function / Return Gift</option>
-          <option value="Other">Other</option>
-        </select>
+
+      <div class="panel">
+        <h2>2 · Shop details</h2>
+        <div class="fg"><label>Shop / brand name</label><input id="shopName" value="Sri Bakery" oninput="draw()" maxlength="26"></div>
+        <div class="fg"><label>Shop type (design motifs)</label>
+          <select id="shopType" onchange="draw()">
+            <option value="Bakery">Bakery</option>
+            <option value="Cake Shop">Cake Shop</option>
+            <option value="Sweet Shop">Sweet Shop</option>
+            <option value="Textile">Textile / Cloth</option>
+            <option value="Supermarket">Supermarket</option>
+            <option value="Pharmacy">Pharmacy</option>
+            <option value="Jewellery">Jewellery</option>
+            <option value="Gift">Gift Shop</option>
+            <option value="Footwear">Footwear</option>
+            <option value="Tea Shop">Tea / Coffee Shop</option>
+            <option value="Restaurant">Hotel / Restaurant</option>
+            <option value="Catering">Catering</option>
+            <option value="Function/Family">Function / Return Gift</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="fg"><label>Tagline (optional)</label><input id="tagline" value="" placeholder="e.g. Since 1998" oninput="draw()" maxlength="30"></div>
+        <div class="fg"><label>Phone (optional)</label><input id="shopPhone" value="" placeholder="Shop phone" oninput="draw()" maxlength="16" inputmode="numeric"></div>
+        <div class="fg"><label>Customer logo (optional)</label>
+          <div class="logorow">
+            <button class="btn out" style="flex:1" onclick="document.getElementById('logoFile').click()">📎 Upload logo</button>
+            <button class="btn out" style="flex:none;width:auto;padding:11px 12px" onclick="clearLogo()">✕</button>
+          </div>
+          <input type="file" id="logoFile" accept="image/*" style="display:none" onchange="loadLogo(this)">
+          <div id="logoName" style="margin-top:6px"></div>
+        </div>
       </div>
-      <div class="fg"><label>Tagline / line 2 (optional)</label><input id="tagline" value="" placeholder="e.g. Since 1998 · Udumalpet" oninput="draw()" maxlength="34"></div>
-      <div class="fg"><label>Phone (optional)</label><input id="shopPhone" value="" placeholder="Shop phone number" oninput="draw()" maxlength="16" inputmode="numeric"></div>
-      <div class="fg"><label>Cover colour</label>
+
+      <div class="panel">
+        <h2>3 · Paper colour</h2>
         <div class="swatches" id="swatches"></div>
+        <div class="dlrow" style="margin-top:16px">
+          <button class="btn" onclick="downloadPNG()">⬇ Download</button>
+          <button class="btn out" onclick="window.print()">🖨 Print</button>
+        </div>
+        <div class="hint"><b>Customer flow:</b> ivanga name + logo mattum kudukka, neenga design (template) select panni kaatunga. Pidicha design-a flexo-la die potu print pannunga; vera shop-ku name mattum maathi pudhu die.</div>
       </div>
-      <div class="dlrow">
-        <button class="btn" onclick="downloadPNG()">⬇ Download PNG</button>
-        <button class="btn out" onclick="window.print()">🖨 Print</button>
-      </div>
-      <div class="hint">Ovvoru customer-oda peru type pannunga → design udane maarum. Download panni WhatsApp-la sample-a anuppunga, illa print-ku kudunga.<br><b>Note:</b> 1–2 colour print-ku ready. Design oru pakkam, peru periya-a.</div>
     </div>
 
     <div class="stage">
-      <div class="canvaswrap"><canvas id="cv" width="900" height="1160"></canvas></div>
+      <div class="canvaswrap"><canvas id="cv" width="1080" height="1350"></canvas></div>
     </div>
   </div>
 </main>
 
 <script>
-let prod='cover';
+/* ============ config ============ */
 const COLORS=[
-  ['#c2925a','#3a2a17','kraft'],   // kraft tan / dark ink
-  ['#e7dcc4','#5c4a37','natural'],  // light natural
-  ['#2c4d34','#f4ead2','green'],    // eco green / cream
-  ['#8a1f2b','#f6e6c8','maroon'],   // maroon / cream
-  ['#1c3d5a','#f0e6d0','blue'],     // navy / cream
-  ['#5b3a86','#f2e8d6','purple']    // purple / cream
+  ['#ffffff','#242018','White'],
+  ['#c2925a','#2e2113','Kraft'],
+  ['#e7dcc4','#5c4a37','Natural'],
+  ['#2c4d34','#f4ead2','Green'],
+  ['#8a1f2b','#f6e6c8','Maroon'],
+  ['#1c3d5a','#f0e6d0','Navy'],
+  ['#5b3a86','#f2e8d6','Purple'],
+  ['#111111','#f3e9d2','Black']
 ];
-let colorIx=0;
+const SIZES={
+  cover:[['1kg cover',1080,1350],['½kg cover',1000,1180],['2kg cover',1150,1500],['Square',1150,1150]],
+  bag:[['Small bag',960,1240],['Medium bag',1040,1360],['Large bag',1120,1500]]
+};
+/* per shop type: main motif + set of mini icons (left strip / pattern) */
+const TYPE_ICONS={
+  'Bakery':{main:'cakebox', mini:['puff','tea','coffee','bun']},
+  'Cake Shop':{main:'cakebox', mini:['candlecake','cupcake','cakeslice','candlecake']},
+  'Sweet Shop':{main:'laddu', mini:['laddu','jalebi','barfi','laddu']},
+  'Textile':{main:'saree', mini:['saree','shirt','hanger','saree']},
+  'Supermarket':{main:'basket', mini:['basket','bun','tea','gift']},
+  'Pharmacy':{main:'cross', mini:['cross','bottle','cross','bottle']},
+  'Jewellery':{main:'necklace', mini:['ring','necklace','ring','necklace']},
+  'Gift':{main:'gift', mini:['gift','ribbon','gift','ribbon']},
+  'Footwear':{main:'shoe', mini:['shoe','shoe','shoe','shoe']},
+  'Tea Shop':{main:'tea', mini:['tea','coffee','puff','bun']},
+  'Restaurant':{main:'platespoon', mini:['platespoon','tea','bun','coffee']},
+  'Catering':{main:'arecaplate', mini:['arecaplate','laddu','tea','platespoon']},
+  'Function/Family':{main:'floral', mini:['floral','gift','ribbon','floral']},
+  'Other':{main:'shopbag', mini:['shopbag','gift','tea','bun']}
+};
 
-function setProd(p){prod=p;document.getElementById('tb-cover').classList.toggle('on',p==='cover');document.getElementById('tb-bag').classList.toggle('on',p==='bag');
-  const cv=document.getElementById('cv');
-  if(p==='bag'){cv.width=900;cv.height=1160;}else{cv.width=900;cv.height=1160;}
-  draw();}
+let prod='cover', tmpl=0, colorIx=1, sizeIx=0, logoImg=null;
 
-function buildSwatches(){
-  document.getElementById('swatches').innerHTML=COLORS.map((c,i)=>`<button class="${i===colorIx?'on':''}" style="background:${c[0]}" onclick="colorIx=${i};buildSwatches();draw()" title="${c[2]}"></button>`).join('');
-}
-
-/* ---------- motif drawing (simple 1-colour line icons) ---------- */
-function motif(x,type,cx,cy,s,col){
-  x.save();x.translate(cx,cy);x.strokeStyle=col;x.fillStyle=col;x.lineWidth=s*0.055;x.lineCap='round';x.lineJoin='round';
-  const u=s/100; // unit
+/* ============ icon library — each drawn centred at 0,0 in ~100-unit box ============ */
+function icon(x,name,s,col){
+  x.save();x.strokeStyle=col;x.fillStyle=col;x.lineWidth=s*0.05;x.lineCap='round';x.lineJoin='round';
+  const u=s/100;
   const L=(a,b,c,d)=>{x.beginPath();x.moveTo(a*u,b*u);x.lineTo(c*u,d*u);x.stroke();};
-  const C=(a,b,r,fill)=>{x.beginPath();x.arc(a*u,b*u,r*u,0,7);fill?x.fill():x.stroke();};
-  switch(type){
-    case 'Bakery': case 'Cake Shop':{ // tiered cake + candle
-      x.beginPath();x.roundRect(-42*u,-6*u,84*u,40*u,6*u);x.stroke();
-      x.beginPath();x.roundRect(-30*u,-34*u,60*u,28*u,6*u);x.stroke();
-      L(0,-34,0,-52); C(0,-56,4,true); // candle+flame
-      for(let i=-30;i<=30;i+=15){L(i,-6,i,34);} // stripes bottom
-      break;}
-    case 'Sweet Shop':{ // plate of laddus
-      x.beginPath();x.ellipse(0,26*u,46*u,10*u,0,0,7);x.stroke();
-      C(-22,4,15); C(0,-6,16); C(22,4,15); C(-10,18,12); C(12,18,12);
-      break;}
-    case 'Textile':{ // hanger + saree drape
-      L(0,-46,0,-34); x.beginPath();x.arc(0,-50,6*u,0,7);x.stroke();
-      L(-40,-30,40,-30); L(-40,-30,-40,-26); L(40,-30,40,-26);
-      x.beginPath();x.moveTo(-40,-26*u);x.bezierCurveTo(-30*u,20*u,-14*u,20*u,-8*u,46*u);
-      x.lineTo(8*u,46*u);x.bezierCurveTo(14*u,20*u,30*u,20*u,40*u,-26*u);x.stroke();
-      L(-20,4,-16,30); L(20,4,16,30);
-      break;}
-    case 'Supermarket':{ // basket
-      L(-40,-20,40,-20); L(-34,-20,-26,34); L(34,-20,26,34); L(-26,34,26,34);
-      L(-30,4,30,4); L(-20,-20,-14,34); L(20,-20,14,34); L(0,-20,0,34);
-      L(-24,-20,-16,-40); L(24,-20,16,-40); // handle
-      break;}
-    case 'Pharmacy':{ // medical cross in circle
-      C(0,-2,46); x.lineWidth=s*0.09;
-      L(0,-26,0,22); L(-24,-2,24,-2);
-      break;}
-    case 'Jewellery':{ // necklace
-      x.beginPath();x.arc(0,-30,44*u,0.15*Math.PI,0.85*Math.PI);x.stroke();
-      C(0,22,10); C(-16,17,4,true); C(16,17,4,true); C(-30,6,3,true); C(30,6,3,true);
-      break;}
-    case 'Gift':{ // gift box + ribbon
-      x.beginPath();x.roundRect(-38*u,-8*u,76*u,44*u,4*u);x.stroke();
-      L(-38,10,38,10); L(0,-8,0,36); // ribbon
-      x.beginPath();x.moveTo(0,-8*u);x.bezierCurveTo(-24*u,-40*u,-40*u,-14*u,-4*u,-10*u);x.stroke();
-      x.beginPath();x.moveTo(0,-8*u);x.bezierCurveTo(24*u,-40*u,40*u,-14*u,4*u,-10*u);x.stroke();
-      break;}
-    case 'Footwear':{ // shoe
-      x.beginPath();x.moveTo(-44*u,24*u);x.lineTo(-44*u,4*u);x.bezierCurveTo(-20*u,4*u,-4*u,-18*u,20*u,-14*u);
-      x.bezierCurveTo(44*u,-10*u,46*u,14*u,44*u,24*u);x.closePath();x.stroke();
-      L(-20,0,-8,10); L(-6,-8,6,4);
-      break;}
-    case 'Tea Shop':{ // cup + steam
-      x.beginPath();x.moveTo(-34*u,4*u);x.lineTo(-28*u,40*u);x.lineTo(28*u,40*u);x.lineTo(34*u,4*u);x.closePath();x.stroke();
-      L(-34,4,34,4); x.beginPath();x.arc(38*u,18*u,12*u,-0.5,0.5*Math.PI);x.stroke(); // handle
-      x.beginPath();x.moveTo(-10*u,-8*u);x.bezierCurveTo(-18*u,-22*u,-2*u,-26*u,-10*u,-42*u);x.stroke();
-      x.beginPath();x.moveTo(12*u,-8*u);x.bezierCurveTo(4*u,-22*u,20*u,-26*u,12*u,-42*u);x.stroke();
-      break;}
-    case 'Restaurant':{ // plate + fork & spoon
-      C(0,4,40); C(0,4,28);
-      L(-52,-30,-52,40); // fork stem
-      L(-58,-30,-58,-8); L(-52,-30,-52,-8); L(-46,-30,-46,-8);
-      x.beginPath();x.ellipse(52*u,-18*u,7*u,14*u,0,0,7);x.stroke(); L(52,-4,52,40); // spoon
-      break;}
-    case 'Catering':{ // leaf plate (areca) + food
-      x.beginPath();x.ellipse(0,10*u,46*u,30*u,0,0,7);x.stroke();
-      x.beginPath();x.ellipse(0,8*u,32*u,20*u,0,0,7);x.stroke();
-      C(-12,4,7,true); C(10,10,8,true); C(0,-4,5,true);
-      L(-46,-16,-30,-30); L(46,-16,30,-30); // leaf tips
-      break;}
-    case 'Function/Family':{ // floral wreath
-      for(let i=0;i<8;i++){const a=i/8*Math.PI*2;const px=Math.cos(a)*34,py=Math.sin(a)*34;
-        x.save();x.translate(px*u,py*u);x.beginPath();x.ellipse(0,0,10*u,5*u,a,0,7);x.stroke();x.restore();}
-      C(0,0,10);
-      break;}
-    default:{ // shopping bag
-      x.beginPath();x.moveTo(-34*u,-16*u);x.lineTo(-40*u,40*u);x.lineTo(40*u,40*u);x.lineTo(34*u,-16*u);x.closePath();x.stroke();
-      x.beginPath();x.arc(0,-16*u,16*u,Math.PI,0);x.stroke();
-    }
+  const C=(a,b,r,f)=>{x.beginPath();x.arc(a*u,b*u,r*u,0,7);f?x.fill():x.stroke();};
+  const RR=(a,b,w,h,r)=>{x.beginPath();x.roundRect(a*u,b*u,w*u,h*u,r*u);x.stroke();};
+  switch(name){
+    case 'cakebox':{ // proper cake box with bow + window
+      RR(-40,-20,80,54,6); L(-40,-2,40,-2);            // box + lid line
+      L(0,-20,0,34);                                    // ribbon vertical
+      x.beginPath();x.moveTo(0,-20*u);x.bezierCurveTo(-22*u,-46*u,-38*u,-20*u,-4*u,-20*u);x.stroke(); // bow L
+      x.beginPath();x.moveTo(0,-20*u);x.bezierCurveTo(22*u,-46*u,38*u,-20*u,4*u,-20*u);x.stroke();     // bow R
+      C(0,-20,4,true); break;}
+    case 'candlecake':{ // birthday cake + candles
+      RR(-38,-4,76,38,5); RR(-30,-24,60,20,5);
+      L(-16,-24,-16,-40); L(0,-24,0,-42); L(16,-24,16,-40);           // candles
+      C(-16,-44,3,true);C(0,-46,3,true);C(16,-44,3,true);            // flames
+      for(let i=-26;i<=26;i+=13)L(i,-4,i,34); break;}
+    case 'cupcake':{
+      x.beginPath();x.moveTo(-26,4*u);x.lineTo(-20*u,36*u);x.lineTo(20*u,36*u);x.lineTo(26*u,4*u);x.closePath();x.stroke();
+      for(let i=-20;i<=20;i+=10)L(i,4,i*0.7,36);
+      x.beginPath();x.arc(0,2*u,26*u,Math.PI,0);x.stroke(); C(0,-30,4,true); break;}
+    case 'cakeslice':{
+      x.beginPath();x.moveTo(0,-30*u);x.lineTo(-34*u,30*u);x.lineTo(34*u,30*u);x.closePath();x.stroke();
+      L(-22,2,22,2); L(-28,16,28,16); C(0,-30,5,true); break;}
+    case 'puff':{ // triangle puff pastry
+      x.beginPath();x.moveTo(-36,26*u);x.lineTo(0,-30*u);x.lineTo(36*u,26*u);x.closePath();x.stroke();
+      L(-18,-2,10,10); L(-6,10,18,-4); break;}
+    case 'bun':{
+      x.beginPath();x.arc(0,6*u,34*u,Math.PI,0);x.stroke(); L(-34,6,34,6);
+      for(let i=-20;i<=20;i+=13)L(i,-14,i,-2); break;}
+    case 'tea':{
+      x.beginPath();x.moveTo(-30,2*u);x.lineTo(-24*u,38*u);x.lineTo(24*u,38*u);x.lineTo(30*u,2*u);x.closePath();x.stroke();
+      L(-30,2,30,2); x.beginPath();x.arc(34*u,18*u,11*u,-0.5,1.6);x.stroke();
+      x.beginPath();x.moveTo(-8,-8*u);x.bezierCurveTo(-16*u,-22*u,0*u,-26*u,-8*u,-42*u);x.stroke(); break;}
+    case 'coffee':{
+      RR(-26,-4,52,42,6); x.beginPath();x.arc(30*u,14*u,11*u,-0.5,1.6);x.stroke();
+      x.beginPath();x.moveTo(-6,-8*u);x.bezierCurveTo(-14*u,-22*u,2*u,-26*u,-6*u,-42*u);x.stroke();
+      x.beginPath();x.moveTo(10,-8*u);x.bezierCurveTo(2*u,-22*u,18*u,-26*u,10*u,-42*u);x.stroke(); break;}
+    case 'laddu':{ C(0,0,30); x.lineWidth=s*0.02;
+      for(let i=0;i<10;i++){const a=i/10*7;C(Math.cos(a)*18,Math.sin(a)*18,3,true);} break;}
+    case 'jalebi':{ x.lineWidth=s*0.06;
+      x.beginPath();for(let a=0;a<7.5;a+=0.1){const r=(6+a*3)*u;x.lineTo(Math.cos(a)*r,Math.sin(a)*r);}x.stroke(); break;}
+    case 'barfi':{ x.save();x.rotate(Math.PI/4);RR(-24,-24,48,48,4);x.restore(); C(0,0,4,true); break;}
+    case 'saree':{
+      L(0,-46,0,-34); C(0,-50,6); L(-40,-30,40,-30);
+      x.beginPath();x.moveTo(-40,-30*u);x.bezierCurveTo(-28*u,18*u,-14*u,18*u,-8*u,44*u);
+      x.lineTo(8*u,44*u);x.bezierCurveTo(14*u,18*u,28*u,18*u,40*u,-30*u);x.stroke();
+      L(-18,0,-14,30); L(18,0,14,30); break;}
+    case 'shirt':{
+      x.beginPath();x.moveTo(-30,-24*u);x.lineTo(-12*u,-30*u);x.lineTo(0,-22*u);x.lineTo(12*u,-30*u);x.lineTo(30*u,-24*u);
+      x.lineTo(22*u,-8*u);x.lineTo(22*u,36*u);x.lineTo(-22*u,36*u);x.lineTo(-22*u,-8*u);x.closePath();x.stroke();
+      L(0,-22,0,10); break;}
+    case 'hanger':{ L(0,-40,0,-30); C(0,-44,5);
+      L(-38,-24,38,-24); L(-38,-24,-38,-20); L(38,-24,38,-20);
+      x.beginPath();x.moveTo(-38,-20*u);x.quadraticCurveTo(0,30*u,38*u,-20*u);x.stroke(); break;}
+    case 'cross':{ C(0,0,44); x.lineWidth=s*0.11; L(0,-24,0,24); L(-24,0,24,0); break;}
+    case 'bottle':{ RR(-16,-16,32,50,6); L(-8,-16,-8,-30); L(8,-16,8,-30); RR(-10,-32,20,8,3);
+      L(-8,0,8,0); L(-8,12,8,12); break;}
+    case 'ring':{ C(0,8,26); C(0,8,20); x.beginPath();x.moveTo(-10,-16*u);x.lineTo(0,-40*u);x.lineTo(10*u,-16*u);x.closePath();x.stroke(); break;}
+    case 'necklace':{ x.beginPath();x.arc(0,-24,44*u,0.16*Math.PI,0.84*Math.PI);x.stroke();
+      C(0,24,9); C(-16,18,4,true);C(16,18,4,true);C(-30,7,3,true);C(30,7,3,true); break;}
+    case 'gift':{ RR(-36,-8,72,42,4); L(-36,10,36,10); L(0,-8,0,34);
+      x.beginPath();x.moveTo(0,-8*u);x.bezierCurveTo(-22*u,-38*u,-38*u,-12*u,-4*u,-8*u);x.stroke();
+      x.beginPath();x.moveTo(0,-8*u);x.bezierCurveTo(22*u,-38*u,38*u,-12*u,4*u,-8*u);x.stroke(); break;}
+    case 'ribbon':{ x.beginPath();x.moveTo(-30,-20*u);x.lineTo(0,0);x.lineTo(30*u,-20*u);x.lineTo(30*u,30*u);x.lineTo(0,10*u);x.lineTo(-30*u,30*u);x.closePath();x.stroke(); break;}
+    case 'shoe':{ x.beginPath();x.moveTo(-44,24*u);x.lineTo(-44*u,4*u);x.bezierCurveTo(-20*u,4*u,-4*u,-16*u,20*u,-12*u);
+      x.bezierCurveTo(44*u,-8*u,46*u,14*u,44*u,24*u);x.closePath();x.stroke(); L(-18,-2,-6,10); break;}
+    case 'basket':{ L(-40,-18,40,-18); L(-34,-18,-26,34); L(34,-18,26,34); L(-26,34,26,34);
+      L(-30,6,30,6); L(0,-18,0,34); L(-24,-18,-16,-38); L(24,-18,16,-38); break;}
+    case 'platespoon':{ C(0,4,38); C(0,4,26);
+      L(-52,-28,-52,38); L(-58,-28,-58,-8); L(-46,-28,-46,-8);
+      x.beginPath();x.ellipse(52*u,-16*u,7*u,13*u,0,0,7);x.stroke(); L(52,-2,52,38); break;}
+    case 'arecaplate':{ x.beginPath();x.ellipse(0,8*u,46*u,30*u,0,0,7);x.stroke();
+      x.beginPath();x.ellipse(0,6*u,32*u,20*u,0,0,7);x.stroke();
+      C(-12,2,7,true);C(10,8,8,true);C(0,-4,5,true); break;}
+    case 'floral':{ for(let i=0;i<8;i++){const a=i/8*7;x.save();x.translate(Math.cos(a)*32*u,Math.sin(a)*32*u);
+      x.beginPath();x.ellipse(0,0,10*u,5*u,a,0,7);x.stroke();x.restore();} C(0,0,9); break;}
+    default:{ x.beginPath();x.moveTo(-32,-14*u);x.lineTo(-38*u,38*u);x.lineTo(38*u,38*u);x.lineTo(32*u,-14*u);x.closePath();x.stroke();
+      x.beginPath();x.arc(0,-14*u,15*u,Math.PI,0);x.stroke();}
   }
   x.restore();
 }
+function iconAt(x,name,cx,cy,s,col){x.save();x.translate(cx,cy);icon(x,name,s,col);x.restore();}
 
-function roundedName(x,name,cx,cy,maxw,col,bg){
-  // auto-fit big shop name
-  let fs=96;x.font=`400 ${fs}px Anton, sans-serif`;
-  while(x.measureText(name).width>maxw&&fs>34){fs-=3;x.font=`400 ${fs}px Anton, sans-serif`;}
-  x.fillStyle=col;x.textAlign='center';x.fillText(name.toUpperCase(),cx,cy);
-  return fs;
-}
+/* ============ helpers ============ */
+function fitName(x,name,maxw,maxfs,weight,family){let fs=maxfs;const set=()=>x.font=`${weight} ${fs}px ${family}`;set();while(x.measureText(name).width>maxw&&fs>20){fs-=2;set();}return fs;}
+function credit(x,W,H,ink){x.textAlign='center';x.font='500 22px "DM Mono", monospace';x.globalAlpha=0.55;x.fillStyle=ink;x.fillText('Branded by KRAFT·Vibe · Udumalpet · 7904505226',W/2,H-52);x.globalAlpha=1;}
+function drawLogo(x,cx,cy,size){if(!logoImg)return false;const r=size/2;x.save();x.beginPath();x.rect(cx-r,cy-r,size,size);x.clip();const ar=logoImg.width/logoImg.height;let w=size,h=size;if(ar>1){h=size/ar;}else{w=size*ar;}x.drawImage(logoImg,cx-w/2,cy-h/2,w,h);x.restore();return true;}
 
+/* ============ 8 templates ============ */
+const TEMPLATES=[
+ ['Frame', (x,o)=>{const{W,H,bg,ink,name,type,tag,phone}=o;
+   x.strokeStyle=ink;x.lineWidth=6;x.strokeRect(W*0.06,H*0.11,W*0.88,H*0.78);x.lineWidth=2;x.strokeRect(W*0.075,H*0.125,W*0.85,H*0.75);
+   iconAt(x,TYPE_ICONS[type].main,W/2,H*0.32,W*0.20,ink);
+   x.textAlign='center';const fs=fitName(x,name.toUpperCase(),W*0.78,W*0.11,'400','Anton');x.font=`400 ${fs}px Anton`;x.fillStyle=ink;x.fillText(name.toUpperCase(),W/2,H*0.54);
+   metaLines(x,o,H*0.60);}],
+ ['Left icons', (x,o)=>{const{W,H,bg,ink,name,type,tag,phone}=o;
+   // left strip of mini icons
+   const mini=TYPE_ICONS[type].mini;const sx=W*0.16;
+   x.strokeStyle=ink;x.globalAlpha=0.3;x.lineWidth=2;x.beginPath();x.moveTo(W*0.30,H*0.16);x.lineTo(W*0.30,H*0.84);x.stroke();x.globalAlpha=1;
+   mini.forEach((m,i)=>iconAt(x,m,sx,H*(0.24+i*0.17),W*0.11,ink));
+   // name centred in right area
+   x.textAlign='center';const cx=W*0.63;const fs=fitName(x,name.toUpperCase(),W*0.56,W*0.11,'400','Anton');x.font=`400 ${fs}px Anton`;x.fillStyle=ink;x.fillText(name.toUpperCase(),cx,H*0.50);
+   x.font='500 26px "DM Mono"';x.globalAlpha=0.8;x.fillText('· '+type.toUpperCase()+' ·',cx,H*0.56);x.globalAlpha=1;
+   if(tag){x.font='500 30px "DM Sans"';x.fillText(tag,cx,H*0.62);}
+   if(phone){x.font='500 34px "DM Mono"';x.fillText('☎ '+phone,cx,H*0.68);}}],
+ ['Top band', (x,o)=>{const{W,H,bg,ink,name,type,tag,phone}=o;
+   x.fillStyle=ink;x.fillRect(0,0,W,H*0.30);
+   iconAt(x,TYPE_ICONS[type].main,W/2,H*0.155,W*0.15,bg);
+   x.textAlign='center';const fs=fitName(x,name.toUpperCase(),W*0.84,W*0.13,'900','"Playfair Display"');x.font=`900 ${fs}px "Playfair Display"`;x.fillStyle=ink;x.fillText(name,W/2,H*0.52);
+   x.strokeStyle=ink;x.lineWidth=3;x.beginPath();x.moveTo(W*0.2,H*0.57);x.lineTo(W*0.8,H*0.57);x.stroke();
+   metaLines(x,o,H*0.64);}],
+ ['Pattern', (x,o)=>{const{W,H,bg,ink,name,type,tag,phone}=o;
+   const mini=TYPE_ICONS[type].mini;x.globalAlpha=0.10;
+   for(let r=0;r<7;r++)for(let c=0;c<5;c++){iconAt(x,mini[(r+c)%mini.length],W*(0.12+c*0.19),H*(0.10+r*0.13),W*0.075,ink);}
+   x.globalAlpha=1;
+   // centre badge
+   x.fillStyle=bg;x.strokeStyle=ink;x.lineWidth=5;x.beginPath();x.roundRect(W*0.12,H*0.40,W*0.76,H*0.22,16);x.fill();x.stroke();
+   x.textAlign='center';const fs=fitName(x,name.toUpperCase(),W*0.68,W*0.11,'400','Anton');x.font=`400 ${fs}px Anton`;x.fillStyle=ink;x.fillText(name.toUpperCase(),W/2,H*0.50);
+   x.font='500 26px "DM Mono"';x.globalAlpha=0.8;x.fillText((tag||type).toUpperCase(),W/2,H*0.56);x.globalAlpha=1;
+   if(phone){x.font='500 30px "DM Mono"';x.fillText('☎ '+phone,W/2,H*0.585);}}],
+ ['Corners', (x,o)=>{const{W,H,bg,ink,name,type,tag,phone}=o;
+   const mini=TYPE_ICONS[type].mini;const p=W*0.14;
+   iconAt(x,mini[0],p,H*0.13,W*0.10,ink);iconAt(x,mini[1],W-p,H*0.13,W*0.10,ink);
+   iconAt(x,mini[2],p,H*0.87,W*0.10,ink);iconAt(x,mini[3],W-p,H*0.87,W*0.10,ink);
+   x.strokeStyle=ink;x.lineWidth=3;x.beginPath();x.moveTo(W*0.15,H*0.42);x.lineTo(W*0.85,H*0.42);x.moveTo(W*0.15,H*0.58);x.lineTo(W*0.85,H*0.58);x.stroke();
+   x.textAlign='center';const fs=fitName(x,name.toUpperCase(),W*0.7,W*0.11,'400','Anton');x.font=`400 ${fs}px Anton`;x.fillStyle=ink;x.fillText(name.toUpperCase(),W/2,H*0.515);
+   metaLines(x,o,H*0.64);}],
+ ['Big name', (x,o)=>{const{W,H,bg,ink,name,type,tag,phone}=o;
+   x.textAlign='center';const fs=fitName(x,name.toUpperCase(),W*0.86,W*0.16,'900','"Playfair Display"');x.font=`900 ${fs}px "Playfair Display"`;x.fillStyle=ink;x.fillText(name,W/2,H*0.44);
+   x.strokeStyle=ink;x.lineWidth=4;x.beginPath();x.moveTo(W*0.2,H*0.50);x.lineTo(W*0.8,H*0.50);x.stroke();x.lineWidth=1.5;x.beginPath();x.moveTo(W*0.2,H*0.515);x.lineTo(W*0.8,H*0.515);x.stroke();
+   iconAt(x,TYPE_ICONS[type].main,W/2,H*0.63,W*0.14,ink);
+   metaLines(x,o,H*0.73);}],
+ ['Emblem', (x,o)=>{const{W,H,bg,ink,name,type,tag,phone}=o;
+   x.strokeStyle=ink;x.lineWidth=5;x.beginPath();x.arc(W/2,H*0.42,W*0.30,0,7);x.stroke();x.lineWidth=2;x.beginPath();x.arc(W/2,H*0.42,W*0.275,0,7);x.stroke();
+   iconAt(x,TYPE_ICONS[type].main,W/2,H*0.34,W*0.17,ink);
+   x.textAlign='center';const fs=fitName(x,name.toUpperCase(),W*0.5,W*0.085,'400','Anton');x.font=`400 ${fs}px Anton`;x.fillStyle=ink;x.fillText(name.toUpperCase(),W/2,H*0.47);
+   x.font='500 24px "DM Mono"';x.globalAlpha=0.8;x.fillText('· '+type.toUpperCase()+' ·',W/2,H*0.51);x.globalAlpha=1;
+   metaLines(x,o,H*0.78);}],
+ ['Logo focus', (x,o)=>{const{W,H,bg,ink,name,type,tag,phone}=o;
+   if(logoImg){drawLogo(x,W/2,H*0.30,W*0.34);}else{iconAt(x,TYPE_ICONS[type].main,W/2,H*0.30,W*0.20,ink);x.textAlign='center';x.font='500 24px "DM Mono"';x.globalAlpha=0.6;x.fillStyle=ink;x.fillText('(logo inga varum)',W/2,H*0.44);x.globalAlpha=1;}
+   x.strokeStyle=ink;x.lineWidth=3;x.beginPath();x.moveTo(W*0.2,H*0.50);x.lineTo(W*0.8,H*0.50);x.stroke();
+   x.textAlign='center';const fs=fitName(x,name.toUpperCase(),W*0.82,W*0.12,'400','Anton');x.font=`400 ${fs}px Anton`;x.fillStyle=ink;x.fillText(name.toUpperCase(),W/2,H*0.60);
+   metaLines(x,o,H*0.66);}]
+];
+function metaLines(x,o,y){const{W,H,ink,type,tag,phone}=o;x.textAlign='center';x.fillStyle=ink;
+  x.font='500 26px "DM Mono"';x.globalAlpha=0.8;x.fillText('· '+type.toUpperCase()+' ·',W/2,y);x.globalAlpha=1;
+  let yy=y+H*0.045; if(tag){x.font='500 32px "DM Sans"';x.fillText(tag,W/2,yy);yy+=H*0.05;}
+  if(phone){x.font='500 36px "DM Mono"';x.fillText('☎ '+phone,W/2,yy);}}
+
+/* ============ draw ============ */
+function paperTexture(x,W,H,ink){x.save();x.globalAlpha=0.045;x.strokeStyle=ink;x.lineWidth=1;for(let i=-H;i<W;i+=7){x.beginPath();x.moveTo(i,0);x.lineTo(i+H,H);x.stroke();}x.restore();}
 function draw(){
   const cv=document.getElementById('cv');const x=cv.getContext('2d');
-  const W=cv.width,H=cv.height;
-  const [bg,ink]=COLORS[colorIx];
+  const sz=SIZES[prod][sizeIx]||SIZES[prod][0];cv.width=sz[1];cv.height=sz[2];
+  const W=cv.width,H=cv.height;const [bg,ink]=COLORS[colorIx];
   const name=(document.getElementById('shopName').value||'Your Shop').trim();
   const type=document.getElementById('shopType').value;
   const tag=(document.getElementById('tagline').value||'').trim();
   const phone=(document.getElementById('shopPhone').value||'').trim();
-  x.clearRect(0,0,W,H);
-
-  if(prod==='cover') drawCover(x,W,H,bg,ink,name,type,tag,phone);
-  else drawBag(x,W,H,bg,ink,name,type,tag,phone);
+  x.clearRect(0,0,W,H);x.fillStyle=bg;x.fillRect(0,0,W,H);
+  if(bg==='#c2925a'||bg==='#e7dcc4')paperTexture(x,W,H,ink);
+  // bag handles
+  if(prod==='bag'){x.fillStyle=ink;x.globalAlpha=0.85;x.beginPath();x.roundRect(W/2-W*0.22,H*0.04,W*0.14,H*0.028,20);x.roundRect(W/2+W*0.08,H*0.04,W*0.14,H*0.028,20);x.fill();x.globalAlpha=1;
+    x.strokeStyle=ink;x.globalAlpha=0.22;x.lineWidth=3;x.beginPath();x.moveTo(W*0.07,H*0.10);x.lineTo(W*0.07,H*0.97);x.moveTo(W*0.93,H*0.10);x.lineTo(W*0.93,H*0.97);x.stroke();x.globalAlpha=1;}
+  const o={W,H,bg,ink,name,type,tag,phone};
+  TEMPLATES[tmpl][1](x,o);
+  credit(x,W,H,ink);
 }
 
-function paperTexture(x,W,H,ink){
-  x.save();x.globalAlpha=0.05;x.strokeStyle=ink;x.lineWidth=1;
-  for(let i=0;i<W;i+=7){x.beginPath();x.moveTo(i,0);x.lineTo(i+8,H);x.stroke();}
-  x.restore();
+/* ============ UI ============ */
+function setProd(p){prod=p;sizeIx=0;document.getElementById('tb-cover').classList.toggle('on',p==='cover');document.getElementById('tb-bag').classList.toggle('on',p==='bag');buildSizes();buildThumbs();draw();}
+function buildSizes(){document.getElementById('sizeSel').innerHTML=SIZES[prod].map((s,i)=>`<option value="${i}" ${i===sizeIx?'selected':''}>${s[0]} (${s[1]}×${s[2]})</option>`).join('');document.getElementById('sizeSel').onchange=e=>{sizeIx=+e.target.value;draw();};}
+function buildSwatches(){document.getElementById('swatches').innerHTML=COLORS.map((c,i)=>`<button class="${i===colorIx?'on':''}" style="background:${c[0]}" title="${c[2]}" onclick="colorIx=${i};buildSwatches();buildThumbs();draw()"></button>`).join('');}
+function buildThumbs(){
+  const wrap=document.getElementById('tmpls');wrap.innerHTML='';
+  TEMPLATES.forEach((t,i)=>{
+    const btn=document.createElement('button');btn.className=i===tmpl?'on':'';btn.onclick=()=>{tmpl=i;buildThumbs();draw();};
+    const c=document.createElement('canvas');c.width=180;c.height=240;btn.appendChild(c);
+    const sp=document.createElement('span');sp.textContent=(i+1)+'. '+t[0];btn.appendChild(sp);
+    wrap.appendChild(btn);
+    // render mini preview
+    const x=c.getContext('2d');const [bg,ink]=COLORS[colorIx];x.fillStyle=bg;x.fillRect(0,0,180,240);
+    const name=(document.getElementById('shopName')?.value||'Shop').trim();const type=document.getElementById('shopType')?.value||'Bakery';
+    x.save();x.scale(180/1080,240/1350);const savedTmpl=tmpl;
+    try{t[1](x,{W:1080,H:1350,bg,ink,name,type,tag:'',phone:''});}catch(e){}
+    x.restore();
+  });
 }
-
-function drawCover(x,W,H,bg,ink,name,type,tag,phone){
-  x.fillStyle=bg;x.fillRect(0,0,W,H);
-  paperTexture(x,W,H,ink);
-  // top & bottom flap fold lines (cover look)
-  x.strokeStyle=ink;x.globalAlpha=0.35;x.lineWidth=2;x.setLineDash([10,8]);
-  x.beginPath();x.moveTo(0,120);x.lineTo(W,120);x.moveTo(0,H-120);x.lineTo(W,H-120);x.stroke();
-  x.setLineDash([]);x.globalAlpha=1;
-  // decorative frame
-  x.strokeStyle=ink;x.lineWidth=5;x.strokeRect(56,180,W-112,H-360);
-  x.lineWidth=2;x.strokeRect(72,196,W-144,H-392);
-
-  // motif
-  motif(x,type,W/2,360,150,ink);
-
-  // shop name
-  roundedName(x,name,W/2,H/2+40,W-200,ink);
-  // small type label chip
-  x.font='500 30px "DM Mono", monospace';x.textAlign='center';x.fillStyle=ink;
-  x.globalAlpha=0.85;x.fillText('· '+type.toUpperCase()+' ·',W/2,H/2+96);x.globalAlpha=1;
-  // tagline
-  if(tag){x.font='500 34px "DM Sans", sans-serif';x.fillStyle=ink;x.fillText(tag,W/2,H/2+150);}
-  if(phone){x.font='500 40px "DM Mono", monospace';x.fillStyle=ink;x.fillText('📞 '+phone,W/2,H/2+210);}
-
-  drawCredit(x,W,H,ink,bg);
-}
-
-function drawBag(x,W,H,bg,ink,name,type,tag,phone){
-  x.fillStyle=bg;x.fillRect(0,0,W,H);
-  paperTexture(x,W,H,ink);
-  // handle holes (die-cut look) near top
-  x.fillStyle=ink;x.globalAlpha=0.9;
-  x.beginPath();x.roundRect(W/2-170,70,120,34,17);x.roundRect(W/2+50,70,120,34,17);x.fill();
-  x.globalAlpha=1;
-  // top fold band
-  x.strokeStyle=ink;x.globalAlpha=0.35;x.lineWidth=2;x.setLineDash([10,8]);
-  x.beginPath();x.moveTo(0,150);x.lineTo(W,150);x.stroke();x.setLineDash([]);x.globalAlpha=1;
-
-  // side gusset hint lines
-  x.strokeStyle=ink;x.globalAlpha=0.25;x.lineWidth=3;
-  x.beginPath();x.moveTo(70,150);x.lineTo(70,H-40);x.moveTo(W-70,150);x.lineTo(W-70,H-40);x.stroke();x.globalAlpha=1;
-
-  // motif
-  motif(x,type,W/2,430,150,ink);
-  // name
-  roundedName(x,name,W/2,H/2+120,W-220,ink);
-  x.font='500 30px "DM Mono", monospace';x.textAlign='center';x.fillStyle=ink;x.globalAlpha=0.85;
-  x.fillText('· '+type.toUpperCase()+' ·',W/2,H/2+176);x.globalAlpha=1;
-  if(tag){x.font='500 34px "DM Sans", sans-serif';x.fillStyle=ink;x.fillText(tag,W/2,H/2+230);}
-  if(phone){x.font='500 40px "DM Mono", monospace';x.fillStyle=ink;x.fillText('📞 '+phone,W/2,H/2+290);}
-
-  drawCredit(x,W,H,ink,bg);
-}
-
-function drawCredit(x,W,H,ink,bg){
-  // small footer credit — subtle, not overpowering the shop's own brand
-  x.textAlign='center';
-  x.font='500 24px "DM Mono", monospace';
-  x.fillStyle=ink;x.globalAlpha=0.6;
-  x.fillText('Branded covers & bags by KRAFT·Vibe · Udumalpet · 7904505226',W/2,H-70);
-  x.globalAlpha=1;
-}
-
+function loadLogo(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{const im=new Image();im.onload=()=>{logoImg=im;document.getElementById('logoName').textContent='✓ '+f.name;draw();};im.src=e.target.result;};r.readAsDataURL(f);}
+function clearLogo(){logoImg=null;document.getElementById('logoName').textContent='';document.getElementById('logoFile').value='';draw();}
 function slug(s){return (s||'shop').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,24);}
-function downloadPNG(){
-  const cv=document.getElementById('cv');
-  const a=document.createElement('a');
-  a.download='kraftvibe-'+prod+'-'+slug(document.getElementById('shopName').value)+'.png';
-  a.href=cv.toDataURL('image/png');a.click();
-}
+function downloadPNG(){const cv=document.getElementById('cv');const a=document.createElement('a');a.download='kraftvibe-'+prod+'-'+slug(document.getElementById('shopName').value)+'.png';a.href=cv.toDataURL('image/png');a.click();}
 
-buildSwatches();
-if(document.fonts&&document.fonts.ready)document.fonts.ready.then(draw);
+buildSizes();buildSwatches();buildThumbs();
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{buildThumbs();draw();});
 draw();
 </script>
 </body>
