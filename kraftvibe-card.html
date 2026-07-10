@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KRAFT·Vibe — Digital Visiting Card</title>
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<meta name="description" content="KRAFT·Vibe — Branded kraft paper covers & bags, areca plates, return gifts. Udumalpet. Call 7904505226.">
+<meta property="og:title" content="KRAFT·Vibe — Udumalpet">
+<meta property="og:description" content="Branded kraft covers & bags · Areca plates · Return gifts. Tap to call / WhatsApp / directions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#ece0cb;--paper2:#e4d6bd;--kraft:#c2925a;--kraft-deep:#9c6735;
+  --ink:#262219;--ink-soft:#5c4a37;--stamp:#9c1824;--eco:#2c4d34;--eco-lt:#17924a;--cream:#f8f0e2;
+  --line:rgba(156,103,53,.28);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'DM Sans',system-ui,sans-serif;color:var(--ink);
+  background:var(--paper) radial-gradient(circle at 20% 8%,rgba(156,103,53,.08),transparent 42%),radial-gradient(circle at 85% 90%,rgba(44,77,52,.07),transparent 45%);
+  min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;line-height:1.5}
+h1,h2{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.5px;text-transform:uppercase;line-height:1}
+.mono{font-family:'DM Mono',monospace}
+
+.card{width:100%;max-width:400px;background:var(--cream);border:1.5px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 24px 60px rgba(70,45,20,.22);animation:rise .6s cubic-bezier(.2,.8,.2,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+.head{background:var(--eco);color:var(--cream);padding:30px 24px 26px;text-align:center;position:relative;overflow:hidden}
+.head::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent 0 16px,rgba(255,255,255,.03) 16px 17px)}
+.head .bmark{width:74px;height:74px;border-radius:19px;position:relative;z-index:1;filter:drop-shadow(0 6px 14px rgba(0,0,0,.35))}
+.head h1{font-size:34px;margin:14px 0 4px;position:relative;z-index:1}
+.head h1 .dot{color:#e06a55}
+.head .tag{font-family:'DM Mono';font-size:11.5px;letter-spacing:2px;text-transform:uppercase;color:#cde3d0;position:relative;z-index:1}
+
+.services{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;padding:18px 20px 4px}
+.services span{font-size:12px;font-weight:600;background:var(--paper);border:1.4px solid var(--line);border-radius:20px;padding:6px 12px;color:var(--ink-soft)}
+
+.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:18px 20px}
+.actions a{display:flex;flex-direction:column;align-items:center;gap:7px;text-decoration:none;color:var(--ink);
+  background:var(--paper);border:1.5px solid var(--line);border-radius:14px;padding:14px 6px;font-size:12px;font-weight:700;transition:transform .15s,background .15s}
+.actions a:active{transform:scale(.96)}
+.actions a .ic{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.actions a .ic svg{width:23px;height:23px;fill:#fff}
+.a-call .ic{background:var(--eco)}.a-wa .ic{background:#25d366}.a-map .ic{background:var(--stamp)}
+
+.block{padding:6px 22px}
+.block .lbl{font-family:'DM Mono';font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--kraft-deep);margin-bottom:5px}
+.addr{background:var(--paper);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;font-size:14px;line-height:1.6;display:flex;gap:12px;align-items:flex-start}
+.addr svg{width:20px;height:20px;fill:var(--stamp);flex:none;margin-top:2px}
+.addr a{color:var(--ink);text-decoration:none}
+.addr .pin{font-family:'DM Mono';color:var(--ink-soft);font-size:13px}
+
+.btns{display:flex;flex-direction:column;gap:10px;padding:16px 22px 8px}
+.btns button,.btns a{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;
+  border:0;border-radius:12px;padding:14px;font-family:inherit;font-weight:700;font-size:15px;cursor:pointer;text-decoration:none}
+.btns .save{background:var(--ink);color:var(--cream)}
+.btns .share{background:transparent;border:1.8px solid var(--ink);color:var(--ink)}
+.btns svg{width:19px;height:19px}
+
+.foot{text-align:center;padding:14px 20px 24px;font-family:'DM Mono';font-size:11px;letter-spacing:.5px;color:var(--ink-soft)}
+.foot a{color:var(--eco);font-weight:600;text-decoration:none}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--cream);
+  padding:11px 20px;border-radius:30px;font-size:13.5px;font-weight:600;opacity:0;transition:.3s;pointer-events:none;z-index:50}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="head">
+    <svg class="bmark" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="G" x1="0" y1="0" x2="0.65" y2="1"><stop offset="0" stop-color="#0f6d38"/><stop offset="1" stop-color="#084d27"/></linearGradient>
+        <linearGradient id="S" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.16"/><stop offset="0.45" stop-color="#fff" stop-opacity="0"/></linearGradient>
+      </defs>
+      <rect width="48" height="48" rx="11" fill="url(#G)"/>
+      <path d="M17.4 18C17.4 10.8 20 7.4 24 7.4S30.6 10.8 30.6 18" fill="none" stroke="#ffe9bd" stroke-width="3.4" stroke-linecap="round"/><path d="M11.2 16.6H36.8L34.5 40.8A3.6 3.6 0 0 1 30.9 44H17.1A3.6 3.6 0 0 1 13.5 40.8L11.2 16.6Z" fill="#f79f1f" stroke="#ffe9bd" stroke-width="2.8" stroke-linejoin="round"/>
+      <ellipse cx="24" cy="40" rx="9.6" ry="2.7" fill="#ffe9bd"/><ellipse cx="24" cy="39.5" rx="6.2" ry="1.5" fill="#eccf96"/><path d="M24 39.4V28.6" stroke="#0b5c2e" stroke-width="3" stroke-linecap="round"/>
+      <path d="M24 32.4C24 26.2 18.9 23.5 13.9 23.8C16.6 28.4 20.3 31.6 24 32.4Z" fill="#0b5c2e"/><path d="M24 36C24 30.4 28.7 27.7 33.9 28C31.2 32.6 27.5 35.3 24 36Z" fill="#17924a"/><circle cx="24" cy="21.4" r="2.7" fill="#e8232f"/>
+      <rect width="48" height="48" rx="11" fill="url(#S)"/>
+    </svg>
+    <h1>KRAFT<span class="dot">·</span>VIBE</h1>
+    <div class="tag">Udumalpet · Eco Packaging</div>
+  </div>
+
+  <div class="services">
+    <span>🛍️ Kraft Covers &amp; Bags</span>
+    <span>🍽️ Areca Plates</span>
+    <span>🎁 Return Gifts</span>
+  </div>
+
+  <div class="actions">
+    <a class="a-call" href="tel:+917904505226"><span class="ic"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1l-2.2 2.2z"/></svg></span>Call</a>
+    <a class="a-wa" target="_blank" href="https://wa.me/917904505226?text=Vanakkam%20KRAFT%C2%B7Vibe%20%F0%9F%99%8F"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-8.6 15L2 22l5-1.3A10 10 0 1012 2zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.8-.6-3-1.3-5-4.4-5.1-4.6-.2-.2-1.3-1.7-1.3-3.2S7.5 6.5 7.8 6.2c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l.9 2.1c.1.2.1.4 0 .6l-.4.6c-.2.2-.3.4-.1.7.2.3.9 1.4 1.9 2.3 1.3 1.1 2.3 1.5 2.6 1.6.3.1.5.1.7-.1l.8-1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.4.1.2.1.8-.1 1.4z"/></svg></span>WhatsApp</a>
+    <a class="a-map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Chinnaveerampatti%2C%20Udumalpet%2C%20Tiruppur%2C%20642126"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1112 6.5a2.5 2.5 0 010 5z"/></svg></span>Directions</a>
+  </div>
+
+  <div class="block">
+    <div class="lbl">Address</div>
+    <div class="addr">
+      <svg viewBox="0 0 24 24"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1112 6.5a2.5 2.5 0 010 5z"/></svg>
+      <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Chinnaveerampatti%2C%20Udumalpet%2C%20Tiruppur%2C%20642126">
+        Near Byepass Cut Road<br>(Pethapampatti Road),<br>Chinnaveerampatti, Udumalpet,<br>Tiruppur Dt, Tamil Nadu<br><span class="pin">PIN — 642126</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="btns">
+    <button class="save" onclick="saveContact()"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zm-7 3a3 3 0 110 6 3 3 0 010-6zm5 12H7v-1c0-2 3-3.1 5-3.1s5 1.1 5 3.1v1z"/></svg> Save to Contacts</button>
+    <button class="share" onclick="shareCard()"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 16a3 3 0 00-2.2 1l-7-4a3 3 0 000-2l7-4a3 3 0 10-1-2l-7 4a3 3 0 100 6l7 4a3 3 0 103-3z"/></svg> Share this card</button>
+  </div>
+
+  <div class="foot">
+    🌿 100% Natural · No Plastic<br>
+    <a href="https://harikriz97.github.io/kraftvibe/" target="_blank">harikriz97.github.io/kraftvibe</a>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2200);}
+function saveContact(){
+  const v=[
+    'BEGIN:VCARD','VERSION:3.0','FN:KRAFT·Vibe','ORG:KRAFT·Vibe — Udumalpet',
+    'TEL;TYPE=CELL:+917904505226',
+    'ADR;TYPE=WORK:;;Near Byepass Cut Road (Pethapampatti Road)\\, Chinnaveerampatti;Udumalpet;Tamil Nadu;642126;India',
+    'URL:https://harikriz97.github.io/kraftvibe/',
+    'NOTE:Kraft paper covers & bags · Areca plates · Return gifts',
+    'END:VCARD'
+  ].join('\r\n');
+  const blob=new Blob([v],{type:'text/vcard'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='KRAFTVibe.vcf';a.click();
+  toast('Contact saved ✓');
+}
+async function shareCard(){
+  const data={title:'KRAFT·Vibe — Udumalpet',text:'Branded kraft covers & bags · Areca plates · Return gifts 🌿',url:location.href};
+  try{ if(navigator.share){await navigator.share(data);} else {await navigator.clipboard.writeText(location.href);toast('Link copied ✓');} }
+  catch(e){}
+}
+</script>
+</body>
+</html>
