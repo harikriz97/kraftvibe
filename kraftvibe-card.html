@@ -160,7 +160,7 @@ h1,h2{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.5px;text-tr
   <div class="connect reveal d3">
     <div class="box">
       <h2>Connect with us</h2>
-      <div class="cbsub">Ungal details anuppunga — naanga udanae connect pannuvom 🌿</div>
+      <div class="cbsub">Ungal details anuppunga — naanga udanae contact pannuvom 🌿</div>
 
       <div class="field">
         <label>Your Name *</label>
@@ -172,21 +172,7 @@ h1,h2{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.5px;text-tr
       </div>
       <div class="field">
         <label>Shop / Business name</label>
-        <input id="f_shop" type="text" placeholder="Optional">
-      </div>
-      <div class="field">
-        <label>Interested in — tap to select</label>
-        <div class="chips2" id="f_chips">
-          <span class="chip" data-v="Kraft Covers">🛍️ Covers</span>
-          <span class="chip" data-v="Paper Bags">🎒 Bags</span>
-          <span class="chip" data-v="Areca Plates">🍽️ Areca Plates</span>
-          <span class="chip" data-v="Return Gifts">🎁 Return Gifts</span>
-          <span class="chip" data-v="Reseller / Bulk">📦 Reseller / Bulk</span>
-        </div>
-      </div>
-      <div class="field">
-        <label>Message / Quantity</label>
-        <textarea id="f_msg" placeholder="Eg. 500 printed covers venum, quote kudunga"></textarea>
+        <input id="f_shop" type="text" placeholder="Eg. Sri Bakery (optional)">
       </div>
 
       <button class="send" onclick="sendEnquiry()">
@@ -223,29 +209,20 @@ h1,h2{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.5px;text-tr
 const KV_WA='917904505226';
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2200);}
 
-/* chip multi-select */
-document.getElementById('f_chips').addEventListener('click',e=>{
-  const c=e.target.closest('.chip'); if(c) c.classList.toggle('on');
-});
-
 function sendEnquiry(){
   const name=document.getElementById('f_name');
   const phone=document.getElementById('f_phone');
   const shop=document.getElementById('f_shop').value.trim();
-  const msg=document.getElementById('f_msg').value.trim();
-  const picks=[...document.querySelectorAll('#f_chips .chip.on')].map(c=>c.dataset.v);
   let bad=false;
   [name,phone].forEach(f=>{f.classList.remove('err'); if(!f.value.trim()){f.classList.add('err');bad=true;}});
   const digits=phone.value.replace(/\D/g,'');
   if(!bad && digits.length<10){phone.classList.add('err');bad=true;toast('Sariyaana phone number podunga');}
   if(bad){ if(!digits||digits.length>=10) toast('Name & phone fill pannunga'); name.focus(); return; }
 
-  let t='🌿 *New Enquiry — KRAFT·Vibe Card*%0A%0A';
+  let t='🌿 *New Contact — KRAFT·Vibe Card*%0A%0A';
   t+='*Name:* '+encodeURIComponent(name.value.trim())+'%0A';
   t+='*Phone:* '+encodeURIComponent(phone.value.trim())+'%0A';
   if(shop) t+='*Shop:* '+encodeURIComponent(shop)+'%0A';
-  if(picks.length) t+='*Interested:* '+encodeURIComponent(picks.join(', '))+'%0A';
-  if(msg) t+='*Message:* '+encodeURIComponent(msg)+'%0A';
   t+='%0A_Sent from digital visiting card_';
 
   window.open('https://wa.me/'+KV_WA+'?text='+t,'_blank');
