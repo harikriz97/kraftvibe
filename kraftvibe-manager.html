@@ -147,7 +147,7 @@ main{max-width:1000px;margin:0 auto;padding:16px}
 </head>
 <body>
 
-<!-- ===== PASSWORD LOCK ===== change GATE_PASS below to your own password ===== -->
+<!-- ===== PASSWORD LOCK (hashed — plain password NOT in source) ===== -->
 <div id="gate" style="position:fixed;inset:0;z-index:999;background:#262219;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;padding:24px;text-align:center">
   <svg viewBox="0 0 48 48" fill="none" width="58" height="58" aria-hidden="true" style="filter:drop-shadow(0 4px 14px rgba(247,159,31,.35));border-radius:13px">
     <rect width="48" height="48" rx="11" fill="#0b5c2e"/><path d="M17.4 18C17.4 10.8 20 7.4 24 7.4S30.6 10.8 30.6 18" fill="none" stroke="#ffe9bd" stroke-width="3.4" stroke-linecap="round"/><path d="M11.2 16.6H36.8L34.5 40.8A3.6 3.6 0 0 1 30.9 44H17.1A3.6 3.6 0 0 1 13.5 40.8L11.2 16.6Z" fill="#f79f1f" stroke="#ffe9bd" stroke-width="2.8" stroke-linejoin="round"/>
@@ -160,17 +160,25 @@ main{max-width:1000px;margin:0 auto;padding:16px}
   <div style="color:#cdbca5;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px">BUSINESS MANAGER · PRIVATE</div>
   <input id="gatePass" type="password" placeholder="Enter password" autocomplete="current-password"
     style="margin-top:6px;padding:12px 14px;border-radius:8px;border:0;font-size:16px;width:min(280px,80vw);text-align:center">
-  <button onclick="tryUnlock()" style="background:#2c4d34;color:#fff;border:0;border-radius:8px;padding:12px 24px;font-weight:700;font-size:15px;cursor:pointer">Unlock</button>
+  <button id="gateBtn" onclick="tryUnlock()" style="background:#2c4d34;color:#fff;border:0;border-radius:8px;padding:12px 24px;font-weight:700;font-size:15px;cursor:pointer">Unlock</button>
   <div id="gateErr" style="color:#e06a55;font-size:13px;height:16px"></div>
 </div>
 <script>
-  const GATE_PASS='kraftvibe2026'; /* <-- CHANGE THIS to your own password */
+  /* SHA-256 hash of the password — the plain password is NOT stored here.
+     To change: give the new password to generate a fresh hash, paste it below. */
+  const GATE_HASH='e052aebe11a9d8826dde4f678632d6f15668efe54f38a1130bed6fee929c75d1';
   if(localStorage.getItem('kv_unlocked')==='1'){document.getElementById('gate').style.display='none';}
-  function tryUnlock(){
-    if(document.getElementById('gatePass').value===GATE_PASS){
+  async function sha256hex(s){
+    const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));
+    return [...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,'0')).join('');
+  }
+  async function tryUnlock(){
+    const err=document.getElementById('gateErr');
+    const h=await sha256hex(document.getElementById('gatePass').value);
+    if(h===GATE_HASH){
       localStorage.setItem('kv_unlocked','1');
       document.getElementById('gate').style.display='none';
-    }else{document.getElementById('gateErr').textContent='Wrong password';}
+    }else{err.textContent='Wrong password';document.getElementById('gatePass').value='';}
   }
   document.getElementById('gatePass').addEventListener('keydown',e=>{if(e.key==='Enter')tryUnlock();});
 </script>
