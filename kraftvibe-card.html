@@ -8,13 +8,14 @@
 <meta name="description" content="KRAFT·Vibe — Branded kraft paper covers & bags, areca plates, return gifts. Udumalpet. Call 7904505226.">
 <meta property="og:title" content="KRAFT·Vibe — Udumalpet">
 <meta property="og:description" content="Branded kraft covers & bags · Areca plates · Return gifts. Tap to call / WhatsApp / directions.">
+<meta name="theme-color" content="#2c4d34">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
   --paper:#ece0cb;--paper2:#e4d6bd;--kraft:#c2925a;--kraft-deep:#9c6735;
-  --ink:#262219;--ink-soft:#5c4a37;--stamp:#9c1824;--eco:#2c4d34;--eco-lt:#17924a;--cream:#f8f0e2;
+  --ink:#262219;--ink-soft:#5c4a37;--stamp:#9c1824;--eco:#2c4d34;--eco-lt:#17924a;--cream:#f8f0e2;--gold:#f3c77e;
   --line:rgba(156,103,53,.28);
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -24,137 +25,133 @@ body{font-family:'DM Sans',system-ui,sans-serif;color:var(--ink);
 h1,h2{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.5px;text-transform:uppercase;line-height:1}
 .mono{font-family:'DM Mono',monospace}
 
-.card{width:100%;max-width:400px;background:var(--cream);border:1.5px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 24px 60px rgba(70,45,20,.22);animation:rise .6s cubic-bezier(.2,.8,.2,1) both}
-@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{width:100%;max-width:400px;background:var(--cream);border:1px solid var(--line);border-radius:24px;overflow:hidden;
+  box-shadow:0 24px 60px rgba(70,45,20,.22);animation:rise .5s cubic-bezier(.2,.8,.2,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 
-.head{background:var(--eco);color:var(--cream);padding:30px 24px 26px;text-align:center;position:relative;overflow:hidden}
-.head::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent 0 16px,rgba(255,255,255,.03) 16px 17px)}
-.head .bmark{width:74px;height:74px;border-radius:19px;position:relative;z-index:1;filter:drop-shadow(0 6px 14px rgba(0,0,0,.35))}
-.head h1{font-size:34px;margin:14px 0 4px;position:relative;z-index:1}
-.head h1 .dot{color:#e06a55}
-.head .tag{font-family:'DM Mono';font-size:11.5px;letter-spacing:2px;text-transform:uppercase;color:#cde3d0;position:relative;z-index:1}
+/* ---------- header ---------- */
+.head{background:linear-gradient(158deg,#0f6d38,#0a3f22);color:var(--cream);padding:34px 24px 24px;text-align:center;position:relative;overflow:hidden}
+.head::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent 0 18px,rgba(255,255,255,.028) 18px 19px);pointer-events:none}
+.head .bmark{width:80px;height:80px;border-radius:21px;position:relative;z-index:1;
+  filter:drop-shadow(0 8px 18px rgba(0,0,0,.4))}
+.head h1{font-size:37px;margin:15px 0 0;position:relative;z-index:1}
+.head h1 .dot{color:var(--gold)}
+.head .rule{width:44px;height:3px;background:var(--gold);border-radius:3px;margin:11px auto 10px;position:relative;z-index:1;opacity:.9}
+.head .tag{font-family:'DM Mono';font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#cfe6d6;position:relative;z-index:1}
 
-.services{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;padding:18px 20px 4px}
-.services span{font-size:12px;font-weight:600;background:var(--paper);border:1.4px solid var(--line);border-radius:20px;padding:6px 12px;color:var(--ink-soft)}
+/* ---------- services ---------- */
+.services{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;padding:18px 20px 2px}
+.services span{font-size:12px;font-weight:600;background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:6px 13px;color:var(--ink-soft)}
 
-.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:18px 20px}
+/* ---------- primary actions ---------- */
+.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:18px 20px 8px}
 .actions a{display:flex;flex-direction:column;align-items:center;gap:7px;text-decoration:none;color:var(--ink);
-  background:var(--paper);border:1.5px solid var(--line);border-radius:14px;padding:14px 6px;font-size:12px;font-weight:700;transition:transform .15s,background .15s}
+  background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 6px;font-size:12px;font-weight:700;
+  transition:transform .15s,background .15s,box-shadow .15s}
+.actions a:hover{background:#fff;transform:translateY(-3px);box-shadow:0 8px 18px rgba(70,45,20,.13)}
 .actions a:active{transform:scale(.96)}
 .actions a .ic{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center}
 .actions a .ic svg{width:23px;height:23px;fill:#fff}
 .a-call .ic{background:var(--eco)}.a-wa .ic{background:#25d366}.a-map .ic{background:var(--stamp)}
 
-.block{padding:6px 22px}
-.block .lbl{font-family:'DM Mono';font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--kraft-deep);margin-bottom:5px}
-.addr{background:var(--paper);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;font-size:14px;line-height:1.6;display:flex;gap:12px;align-items:flex-start}
+/* ---------- connect form ---------- */
+.connect{padding:8px 22px 4px}
+.connect .box{background:linear-gradient(180deg,#fff,var(--paper));border:1px solid var(--line);border-radius:18px;padding:18px 16px 18px;position:relative;overflow:hidden}
+.connect .box::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--eco),var(--eco-lt),var(--kraft))}
+.connect h2{font-size:21px;color:var(--eco);text-align:center;margin-bottom:3px}
+.connect .cbsub{text-align:center;font-size:12.5px;color:var(--ink-soft);margin-bottom:15px}
+.field{margin-bottom:11px}
+.field label{display:block;font-family:'DM Mono';font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--kraft-deep);margin-bottom:5px}
+.field input,.field textarea{width:100%;font-family:inherit;font-size:14.5px;color:var(--ink);background:var(--cream);
+  border:1px solid var(--line);border-radius:11px;padding:12px 13px;transition:border-color .15s,box-shadow .15s}
+.field input:focus,.field textarea:focus{outline:0;border-color:var(--eco-lt);box-shadow:0 0 0 3px rgba(23,146,74,.14)}
+.field input.err{border-color:var(--stamp);box-shadow:0 0 0 3px rgba(156,24,36,.12)}
+.send{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;margin-top:6px;
+  border:0;border-radius:12px;padding:14px;font-family:inherit;font-weight:700;font-size:15px;cursor:pointer;
+  background:#25d366;color:#fff;box-shadow:0 8px 20px rgba(37,211,102,.32);transition:transform .15s,filter .15s}
+.send:hover{filter:brightness(1.05);transform:translateY(-2px)}
+.send:active{transform:scale(.98)}
+.send svg{width:20px;height:20px;fill:#fff}
+
+/* ---------- address ---------- */
+.block{padding:8px 22px}
+.block .lbl{font-family:'DM Mono';font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--kraft-deep);margin-bottom:6px}
+.addr{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 16px;font-size:14px;line-height:1.6;display:flex;gap:12px;align-items:flex-start}
 .addr svg{width:20px;height:20px;fill:var(--stamp);flex:none;margin-top:2px}
 .addr a{color:var(--ink);text-decoration:none}
 .addr .pin{font-family:'DM Mono';color:var(--ink-soft);font-size:13px}
 
-.btns{display:flex;flex-direction:column;gap:10px;padding:16px 22px 8px}
+/* ---------- secondary buttons ---------- */
+.btns{display:flex;flex-direction:column;gap:9px;padding:14px 22px 6px}
 .btns button,.btns a{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;
-  border:0;border-radius:12px;padding:14px;font-family:inherit;font-weight:700;font-size:15px;cursor:pointer;text-decoration:none}
+  border:0;border-radius:12px;padding:13px;font-family:inherit;font-weight:700;font-size:14.5px;cursor:pointer;text-decoration:none;
+  transition:transform .15s,filter .15s,background .15s}
+.btns button:hover,.btns a:hover{transform:translateY(-2px)}
 .btns .save{background:var(--ink);color:var(--cream)}
-.btns .share{background:transparent;border:1.8px solid var(--ink);color:var(--ink)}
-.btns svg{width:19px;height:19px}
+.btns .save:hover{filter:brightness(1.12)}
+.btns .row2{display:flex;gap:9px}
+.btns .row2 button{flex:1;background:transparent;border:1.5px solid var(--line);color:var(--ink-soft)}
+.btns .row2 button:hover{border-color:var(--eco);color:var(--eco)}
+.btns .share{background:transparent;border:1.5px solid var(--ink);color:var(--ink)}
+.btns svg{width:18px;height:18px}
 
-.foot{text-align:center;padding:14px 20px 24px;font-family:'DM Mono';font-size:11px;letter-spacing:.5px;color:var(--ink-soft)}
+.foot{text-align:center;padding:14px 20px 22px;font-family:'DM Mono';font-size:11px;letter-spacing:.5px;color:var(--ink-soft)}
 .foot a{color:var(--eco);font-weight:600;text-decoration:none}
-.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--cream);
-  padding:11px 20px;border-radius:30px;font-size:13.5px;font-weight:600;opacity:0;transition:.3s;pointer-events:none;z-index:50}
-.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* ---------- effects ---------- */
-/* logo: soft rotating glow + gloss sweep */
-.logowrap{position:relative;display:inline-block;z-index:1}
-.logowrap::before{content:"";position:absolute;inset:-14px;border-radius:50%;z-index:-1;
-  background:conic-gradient(from 0deg,rgba(243,199,126,.0),rgba(243,199,126,.35),rgba(23,146,74,.25),rgba(243,199,126,.0));
-  filter:blur(9px);animation:spin 6s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.logowrap .gloss{position:absolute;top:0;left:-40%;width:40%;height:100%;border-radius:19px;pointer-events:none;
-  background:linear-gradient(105deg,transparent,rgba(255,255,255,.55),transparent);
-  transform:skewX(-18deg);animation:sweep 4.2s ease-in-out 1.2s infinite}
-@keyframes sweep{0%{left:-45%}22%{left:130%}100%{left:130%}}
-.head .bmark{transition:transform .5s cubic-bezier(.2,.8,.2,1)}
-.logowrap:hover .bmark{transform:rotate(-6deg) scale(1.06)}
-/* floating leaves in header */
-.leaf{position:absolute;z-index:0;opacity:.16;font-size:20px;animation:floaty 7s ease-in-out infinite;filter:blur(.3px)}
-.leaf.l1{top:14px;left:16px;animation-delay:0s}
-.leaf.l2{top:60px;right:20px;font-size:26px;animation-delay:1.4s;opacity:.13}
-.leaf.l3{bottom:14px;left:38px;font-size:16px;animation-delay:2.6s}
-.leaf.l4{bottom:26px;right:44px;font-size:22px;animation-delay:3.6s;opacity:.12}
-@keyframes floaty{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-12px) rotate(8deg)}}
-/* staggered section reveal */
-.reveal{opacity:0;animation:up .55s cubic-bezier(.2,.8,.2,1) forwards}
-@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-.d1{animation-delay:.15s}.d2{animation-delay:.28s}.d3{animation-delay:.41s}.d4{animation-delay:.54s}.d5{animation-delay:.67s}
-/* button micro-interactions */
-.actions a{will-change:transform}
-.actions a:hover{background:#fff;transform:translateY(-3px);box-shadow:0 8px 18px rgba(70,45,20,.14)}
-.btns button:hover,.btns a:hover{filter:brightness(1.05);transform:translateY(-2px)}
-.btns button,.btns a{transition:transform .15s,filter .15s}
+/* ---------- reveal (subtle, professional) ---------- */
+.reveal{opacity:0;animation:up .5s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.d1{animation-delay:.10s}.d2{animation-delay:.20s}.d3{animation-delay:.30s}.d4{animation-delay:.40s}.d5{animation-delay:.50s}
 @media(prefers-reduced-motion:reduce){*{animation:none!important}}
 
-/* ---------- connect / enquiry form ---------- */
-.connect{padding:12px 22px 4px}
-.connect .box{background:linear-gradient(180deg,#fff,var(--paper));border:1.5px solid var(--line);border-radius:18px;padding:18px 16px 16px;position:relative;overflow:hidden}
-.connect .box::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--eco),var(--eco-lt),var(--kraft))}
-.connect h2{font-size:20px;color:var(--eco);text-align:center;margin-bottom:3px}
-.connect .cbsub{text-align:center;font-size:12.5px;color:var(--ink-soft);margin-bottom:14px}
-.field{margin-bottom:11px}
-.field label{display:block;font-family:'DM Mono';font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--kraft-deep);margin-bottom:5px}
-.field input,.field textarea{width:100%;font-family:inherit;font-size:14.5px;color:var(--ink);background:var(--cream);
-  border:1.5px solid var(--line);border-radius:11px;padding:11px 13px;transition:border-color .15s,box-shadow .15s}
-.field textarea{resize:vertical;min-height:56px}
-.field input:focus,.field textarea:focus{outline:0;border-color:var(--eco-lt);box-shadow:0 0 0 3px rgba(23,146,74,.14)}
-.field input.err{border-color:var(--stamp);box-shadow:0 0 0 3px rgba(156,24,36,.12)}
-.chips2{display:flex;flex-wrap:wrap;gap:7px}
-.chip{font-size:12.5px;font-weight:600;background:var(--cream);border:1.5px solid var(--line);border-radius:20px;
-  padding:7px 13px;color:var(--ink-soft);cursor:pointer;user-select:none;transition:.15s}
-.chip:active{transform:scale(.95)}
-.chip.on{background:var(--eco);border-color:var(--eco);color:#fff}
-.send{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;margin-top:14px;
-  border:0;border-radius:12px;padding:14px;font-family:inherit;font-weight:700;font-size:15px;cursor:pointer;
-  background:#25d366;color:#fff;box-shadow:0 8px 20px rgba(37,211,102,.35);transition:transform .15s,filter .15s}
-.send:hover{filter:brightness(1.05);transform:translateY(-2px)}
-.send:active{transform:scale(.98)}
-.send svg{width:20px;height:20px;fill:#fff}
-.connect .priv{text-align:center;font-size:10.5px;color:var(--ink-soft);margin-top:9px;font-family:'DM Mono'}
+/* ---------- toast ---------- */
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--cream);
+  padding:11px 20px;border-radius:30px;font-size:13.5px;font-weight:600;opacity:0;transition:.3s;pointer-events:none;z-index:120}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ---------- QR modal ---------- */
+.ov{position:fixed;inset:0;background:rgba(38,34,25,.72);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:100;padding:24px}
+.ov.on{display:flex;animation:fade .25s ease both}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.qrbox{background:var(--cream);border-radius:22px;padding:26px 24px 22px;text-align:center;max-width:320px;width:100%;box-shadow:0 30px 70px rgba(0,0,0,.4);animation:pop .3s cubic-bezier(.2,.9,.3,1.2) both}
+@keyframes pop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+.qrbox h3{font-family:'Anton';font-weight:400;letter-spacing:.5px;text-transform:uppercase;color:var(--eco);font-size:20px;margin-bottom:4px}
+.qrbox p{font-size:12.5px;color:var(--ink-soft);margin-bottom:16px}
+.qrbox .qi{width:210px;height:210px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px;margin:0 auto}
+.qrbox .qi img{width:100%;height:100%;image-rendering:pixelated}
+.qrbox .url{font-family:'DM Mono';font-size:11px;color:var(--kraft-deep);margin-top:14px;word-break:break-all}
+.qrbox .cls{margin-top:16px;background:var(--ink);color:var(--cream);border:0;border-radius:10px;padding:11px 22px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;width:100%}
 </style>
 </head>
 <body>
 <div class="card">
   <div class="head">
-    <span class="leaf l1">🌿</span><span class="leaf l2">🛍️</span><span class="leaf l3">🌱</span><span class="leaf l4">🍃</span>
-    <span class="logowrap">
-      <span class="gloss"></span>
-      <svg class="bmark" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-        <defs>
-          <linearGradient id="G" x1="0" y1="0" x2="0.65" y2="1"><stop offset="0" stop-color="#0f6d38"/><stop offset="1" stop-color="#084d27"/></linearGradient>
-          <linearGradient id="S" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.16"/><stop offset="0.45" stop-color="#fff" stop-opacity="0"/></linearGradient>
-        </defs>
-        <rect width="48" height="48" rx="11" fill="url(#G)"/>
-        <path d="M17.4 18C17.4 10.8 20 7.4 24 7.4S30.6 10.8 30.6 18" fill="none" stroke="#ffe9bd" stroke-width="3.4" stroke-linecap="round"/><path d="M11.2 16.6H36.8L34.5 40.8A3.6 3.6 0 0 1 30.9 44H17.1A3.6 3.6 0 0 1 13.5 40.8L11.2 16.6Z" fill="#f79f1f" stroke="#ffe9bd" stroke-width="2.8" stroke-linejoin="round"/>
-        <ellipse cx="24" cy="40" rx="9.6" ry="2.7" fill="#ffe9bd"/><ellipse cx="24" cy="39.5" rx="6.2" ry="1.5" fill="#eccf96"/><path d="M24 39.4V28.6" stroke="#0b5c2e" stroke-width="3" stroke-linecap="round"/>
-        <path d="M24 32.4C24 26.2 18.9 23.5 13.9 23.8C16.6 28.4 20.3 31.6 24 32.4Z" fill="#0b5c2e"/><path d="M24 36C24 30.4 28.7 27.7 33.9 28C31.2 32.6 27.5 35.3 24 36Z" fill="#17924a"/><circle cx="24" cy="21.4" r="2.7" fill="#e8232f"/>
-        <rect width="48" height="48" rx="11" fill="url(#S)"/>
-      </svg>
-    </span>
+    <svg class="bmark" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="G" x1="0" y1="0" x2="0.65" y2="1"><stop offset="0" stop-color="#0f6d38"/><stop offset="1" stop-color="#084d27"/></linearGradient>
+        <linearGradient id="S" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.16"/><stop offset="0.45" stop-color="#fff" stop-opacity="0"/></linearGradient>
+      </defs>
+      <rect width="48" height="48" rx="11" fill="url(#G)"/>
+      <path d="M17.4 18C17.4 10.8 20 7.4 24 7.4S30.6 10.8 30.6 18" fill="none" stroke="#ffe9bd" stroke-width="3.4" stroke-linecap="round"/><path d="M11.2 16.6H36.8L34.5 40.8A3.6 3.6 0 0 1 30.9 44H17.1A3.6 3.6 0 0 1 13.5 40.8L11.2 16.6Z" fill="#f79f1f" stroke="#ffe9bd" stroke-width="2.8" stroke-linejoin="round"/>
+      <ellipse cx="24" cy="40" rx="9.6" ry="2.7" fill="#ffe9bd"/><ellipse cx="24" cy="39.5" rx="6.2" ry="1.5" fill="#eccf96"/><path d="M24 39.4V28.6" stroke="#0b5c2e" stroke-width="3" stroke-linecap="round"/>
+      <path d="M24 32.4C24 26.2 18.9 23.5 13.9 23.8C16.6 28.4 20.3 31.6 24 32.4Z" fill="#0b5c2e"/><path d="M24 36C24 30.4 28.7 27.7 33.9 28C31.2 32.6 27.5 35.3 24 36Z" fill="#17924a"/><circle cx="24" cy="21.4" r="2.7" fill="#e8232f"/>
+      <rect width="48" height="48" rx="11" fill="url(#S)"/>
+    </svg>
     <h1>KRAFT<span class="dot">·</span>VIBE</h1>
-    <div class="tag">Udumalpet · Eco Packaging</div>
+    <div class="rule"></div>
+    <div class="tag">Eco Packaging · Udumalpet</div>
   </div>
 
   <div class="services reveal d1">
-    <span>🛍️ Kraft Covers &amp; Bags</span>
-    <span>🍽️ Areca Plates</span>
-    <span>🎁 Return Gifts</span>
+    <span>Kraft Covers &amp; Bags</span>
+    <span>Areca Plates</span>
+    <span>Return Gifts</span>
   </div>
 
   <div class="actions reveal d2">
     <a class="a-call" href="tel:+917904505226"><span class="ic"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1l-2.2 2.2z"/></svg></span>Call</a>
-    <a class="a-wa" target="_blank" href="https://wa.me/917904505226?text=Vanakkam%20KRAFT%C2%B7Vibe%20%F0%9F%99%8F"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-8.6 15L2 22l5-1.3A10 10 0 1012 2zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.8-.6-3-1.3-5-4.4-5.1-4.6-.2-.2-1.3-1.7-1.3-3.2S7.5 6.5 7.8 6.2c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l.9 2.1c.1.2.1.4 0 .6l-.4.6c-.2.2-.3.4-.1.7.2.3.9 1.4 1.9 2.3 1.3 1.1 2.3 1.5 2.6 1.6.3.1.5.1.7-.1l.8-1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.4.1.2.1.8-.1 1.4z"/></svg></span>WhatsApp</a>
-    <a class="a-map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Chinnaveerampatti%2C%20Udumalpet%2C%20Tiruppur%2C%20642126"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1112 6.5a2.5 2.5 0 010 5z"/></svg></span>Directions</a>
+    <a class="a-wa" target="_blank" rel="noopener" href="https://wa.me/917904505226?text=Vanakkam%20KRAFT%C2%B7Vibe%20%F0%9F%99%8F"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-8.6 15L2 22l5-1.3A10 10 0 1012 2zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.8-.6-3-1.3-5-4.4-5.1-4.6-.2-.2-1.3-1.7-1.3-3.2S7.5 6.5 7.8 6.2c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l.9 2.1c.1.2.1.4 0 .6l-.4.6c-.2.2-.3.4-.1.7.2.3.9 1.4 1.9 2.3 1.3 1.1 2.3 1.5 2.6 1.6.3.1.5.1.7-.1l.8-1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.4.1.2.1.8-.1 1.4z"/></svg></span>WhatsApp</a>
+    <a class="a-map" target="_blank" rel="noopener" href="https://maps.app.goo.gl/qB2jEcgJMWWDB4rP6"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1112 6.5a2.5 2.5 0 010 5z"/></svg></span>Directions</a>
   </div>
 
   <div class="connect reveal d3">
@@ -179,7 +176,6 @@ h1,h2{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.5px;text-tr
         <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-8.6 15L2 22l5-1.3A10 10 0 1012 2zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.8-.6-3-1.3-5-4.4-5.1-4.6-.2-.2-1.3-1.7-1.3-3.2S7.5 6.5 7.8 6.2c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l.9 2.1c.1.2.1.4 0 .6l-.4.6c-.2.2-.3.4-.1.7.2.3.9 1.4 1.9 2.3 1.3 1.1 2.3 1.5 2.6 1.6.3.1.5.1.7-.1l.8-1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.4.1.2.1.8-.1 1.4z"/></svg>
         Send my details on WhatsApp
       </button>
-      <div class="priv">🔒 Direct-ah KRAFT·Vibe WhatsApp-ku pogum · No spam</div>
     </div>
   </div>
 
@@ -187,7 +183,7 @@ h1,h2{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.5px;text-tr
     <div class="lbl">Address</div>
     <div class="addr">
       <svg viewBox="0 0 24 24"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1112 6.5a2.5 2.5 0 010 5z"/></svg>
-      <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Chinnaveerampatti%2C%20Udumalpet%2C%20Tiruppur%2C%20642126">
+      <a target="_blank" rel="noopener" href="https://maps.app.goo.gl/qB2jEcgJMWWDB4rP6">
         Near Byepass Cut Road<br>(Pethapampatti Road),<br>Chinnaveerampatti, Udumalpet,<br>Tiruppur Dt, Tamil Nadu<br><span class="pin">PIN — 642126</span>
       </a>
     </div>
@@ -195,18 +191,35 @@ h1,h2{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.5px;text-tr
 
   <div class="btns reveal d5">
     <button class="save" onclick="saveContact()"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zm-7 3a3 3 0 110 6 3 3 0 010-6zm5 12H7v-1c0-2 3-3.1 5-3.1s5 1.1 5 3.1v1z"/></svg> Save to Contacts</button>
+    <div class="row2">
+      <button onclick="copyNumber()"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H4a2 2 0 00-2 2v12h2V3h12V1zm3 4H8a2 2 0 00-2 2v14a2 2 0 002 2h11a2 2 0 002-2V7a2 2 0 00-2-2zm0 16H8V7h11v14z"/></svg> Copy Number</button>
+      <button onclick="showQR()"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm13-2h3v2h-3v-2zm-5 0h3v3h-2v-1h-1v-2zm5 5h3v3h-3v-1h-1v-2h1zm-5 0h3v3h-3v-3z"/></svg> Show QR</button>
+    </div>
     <button class="share" onclick="shareCard()"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 16a3 3 0 00-2.2 1l-7-4a3 3 0 000-2l7-4a3 3 0 10-1-2l-7 4a3 3 0 100 6l7 4a3 3 0 103-3z"/></svg> Share this card</button>
   </div>
 
   <div class="foot">
     🌿 100% Natural · No Plastic<br>
-    <a href="https://harikriz97.github.io/kraftvibe/" target="_blank">harikriz97.github.io/kraftvibe</a>
+    <a href="https://kraftvibe.in/" target="_blank" rel="noopener">kraftvibe.in</a>
   </div>
 </div>
+
+<!-- QR modal -->
+<div class="ov" id="qrOv" onclick="if(event.target===this)hideQR()">
+  <div class="qrbox">
+    <h3>Scan My Card</h3>
+    <p>Point your camera here to open this card</p>
+    <div class="qi"><img alt="KRAFT·Vibe card QR" src="data:image/png;base64,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"></div>
+    <div class="url">kraftvibe.in/kraftvibe-card.html</div>
+    <button class="cls" onclick="hideQR()">Close</button>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
 const KV_WA='917904505226';
+const KV_TEL='+91 79045 05226';
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2200);}
 
 function sendEnquiry(){
@@ -233,7 +246,7 @@ function saveContact(){
     'BEGIN:VCARD','VERSION:3.0','FN:KRAFT·Vibe','ORG:KRAFT·Vibe — Udumalpet',
     'TEL;TYPE=CELL:+917904505226',
     'ADR;TYPE=WORK:;;Near Byepass Cut Road (Pethapampatti Road)\\, Chinnaveerampatti;Udumalpet;Tamil Nadu;642126;India',
-    'URL:https://harikriz97.github.io/kraftvibe/',
+    'URL:https://kraftvibe.in/',
     'NOTE:Kraft paper covers & bags · Areca plates · Return gifts',
     'END:VCARD'
   ].join('\r\n');
@@ -241,11 +254,18 @@ function saveContact(){
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='KRAFTVibe.vcf';a.click();
   toast('Contact saved ✓');
 }
+async function copyNumber(){
+  try{ await navigator.clipboard.writeText(KV_TEL); toast('Number copied ✓ '+KV_TEL); }
+  catch(e){ toast(KV_TEL); }
+}
+function showQR(){document.getElementById('qrOv').classList.add('on');}
+function hideQR(){document.getElementById('qrOv').classList.remove('on');}
 async function shareCard(){
   const data={title:'KRAFT·Vibe — Udumalpet',text:'Branded kraft covers & bags · Areca plates · Return gifts 🌿',url:location.href};
   try{ if(navigator.share){await navigator.share(data);} else {await navigator.clipboard.writeText(location.href);toast('Link copied ✓');} }
   catch(e){}
 }
+document.addEventListener('keydown',e=>{if(e.key==='Escape')hideQR();});
 </script>
 </body>
 </html>
