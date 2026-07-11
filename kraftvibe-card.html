@@ -181,9 +181,9 @@ h1,h2{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.5px;text-tr
         <input id="f_shop" type="text" placeholder="e.g. Sri Bakery (optional)">
       </div>
 
-      <button class="send" onclick="sendEnquiry()">
-        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-8.6 15L2 22l5-1.3A10 10 0 1012 2zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.8-.6-3-1.3-5-4.4-5.1-4.6-.2-.2-1.3-1.7-1.3-3.2S7.5 6.5 7.8 6.2c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l.9 2.1c.1.2.1.4 0 .6l-.4.6c-.2.2-.3.4-.1.7.2.3.9 1.4 1.9 2.3 1.3 1.1 2.3 1.5 2.6 1.6.3.1.5.1.7-.1l.8-1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.4.1.2.1.8-.1 1.4z"/></svg>
-        Send my details on WhatsApp
+      <button class="send" id="sendBtn" onclick="sendEnquiry()">
+        <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
+        <span id="sendLbl">Send my details</span>
       </button>
     </div>
   </div>
@@ -213,27 +213,40 @@ h1,h2{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.5px;text-tr
 <div class="toast" id="toast"></div>
 
 <script>
-const KV_WA='917904505226';
-function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2200);}
+const SHEET_URL='https://script.google.com/macros/s/AKfycbzPK_p9HNycLOm6o--osMx6JO9IlWle3ZZedjOmwCdbDdqDP7ZNUEh9mgOCwfPHeE5Wuw/exec';
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2600);}
 
 function sendEnquiry(){
   const name=document.getElementById('f_name');
   const phone=document.getElementById('f_phone');
-  const shop=document.getElementById('f_shop').value.trim();
+  const shopEl=document.getElementById('f_shop');
   let bad=false;
   [name,phone].forEach(f=>{f.classList.remove('err'); if(!f.value.trim()){f.classList.add('err');bad=true;}});
   const digits=phone.value.replace(/\D/g,'');
   if(!bad && digits.length<10){phone.classList.add('err');bad=true;toast('Enter a valid phone number');}
   if(bad){ if(!digits||digits.length>=10) toast('Please fill name & phone'); name.focus(); return; }
 
-  let t='🌿 *New Contact — KRAFT·Vibe Card*%0A%0A';
-  t+='*Name:* '+encodeURIComponent(name.value.trim())+'%0A';
-  t+='*Phone:* '+encodeURIComponent(phone.value.trim())+'%0A';
-  if(shop) t+='*Shop:* '+encodeURIComponent(shop)+'%0A';
-  t+='%0A_Sent from digital visiting card_';
+  const btn=document.getElementById('sendBtn');
+  const lbl=document.getElementById('sendLbl');
+  btn.disabled=true; btn.style.opacity=.75; lbl.textContent='Sending…';
 
-  window.open('https://wa.me/'+KV_WA+'?text='+t,'_blank');
-  toast('Opening WhatsApp… just press Send ✓');
+  const body=new URLSearchParams({
+    name:name.value.trim(),
+    phone:phone.value.trim(),
+    shop:shopEl.value.trim(),
+    source:'Digital Card'
+  });
+  fetch(SHEET_URL,{method:'POST',mode:'no-cors',body})
+    .then(()=>{
+      lbl.textContent='Sent ✓';
+      toast('Thank you! We will contact you soon ✓');
+      name.value='';phone.value='';shopEl.value='';
+      setTimeout(()=>{lbl.textContent='Send my details';btn.disabled=false;btn.style.opacity=1;},2200);
+    })
+    .catch(()=>{
+      toast('Could not send — please try WhatsApp / Call above');
+      lbl.textContent='Send my details';btn.disabled=false;btn.style.opacity=1;
+    });
 }
 function saveContact(){
   const v=[
