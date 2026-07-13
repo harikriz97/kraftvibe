@@ -5,23 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KRAFT·Vibe — Design Catalogue (Covers & Bags)</title>
 <link rel="icon" type="image/svg+xml" href="logo.svg">
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&family=Playfair+Display:wght@600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500&family=Playfair+Display:wght@600;700;800;900&family=Cormorant+Garamond:wght@600;700&family=Bebas+Neue&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:#e9dcc4;--kraft:#c2925a;--kraft-deep:#9c6735;--ink:#262219;--ink-soft:#5c4a37;
-  --eco:#0f6d38;--eco-deep:#0a4a25;--terra:#b5502f;--navy:#1c3a5e;--cream:#f8f0e2;--gold:#b98a2e;
-  --line:rgba(156,103,53,.3);
+  --paper:#e7d8bd;--kraft:#c2925a;--kraft-deep:#9c6735;--ink:#2b2519;--ink-soft:#5c4a37;
+  --eco:#0f6d38;--eco-deep:#0a4a25;--terra:#b5502f;--gold:#a9822e;--cream:#f8f0e2;
+  --line:rgba(156,103,53,.32);
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'DM Sans',system-ui,sans-serif;color:var(--ink);background:#efe6d5;line-height:1.5;padding-bottom:60px}
-.wrap{max-width:1100px;margin:0 auto;padding:0 16px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
 header{background:linear-gradient(150deg,#0f6d38,#0a3f22);color:var(--cream);padding:26px 0 22px;text-align:center}
 header h1{font-family:'Anton';font-weight:400;letter-spacing:1px;font-size:30px}
 header .dot{color:#f3c77e}
 header p{font-family:'DM Mono';font-size:11.5px;letter-spacing:2px;text-transform:uppercase;color:#cfe6d6;margin-top:6px}
 
 .controls{background:var(--cream);border:1px solid var(--line);border-radius:14px;padding:16px;margin:18px 0 6px;
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;align-items:end;position:sticky;top:0;z-index:5;box-shadow:0 4px 16px rgba(70,45,20,.08)}
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;align-items:end;position:sticky;top:0;z-index:5;box-shadow:0 4px 16px rgba(70,45,20,.1)}
 .controls label{display:block;font-family:'DM Mono';font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--kraft-deep);margin-bottom:5px}
 .controls input{width:100%;font-family:inherit;font-size:15px;padding:10px 12px;border:1.5px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
 .controls input:focus{outline:0;border-color:var(--eco)}
@@ -29,18 +29,19 @@ header p{font-family:'DM Mono';font-size:11.5px;letter-spacing:2px;text-transfor
 
 .secttl{font-family:'Anton';font-weight:400;letter-spacing:.5px;font-size:22px;color:var(--eco-deep);margin:30px 0 4px;text-transform:uppercase}
 .secsub{font-size:13px;color:var(--ink-soft);margin-bottom:14px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
 .card{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:transform .15s,box-shadow .15s}
-.card:hover{transform:translateY(-4px);box-shadow:0 12px 26px rgba(70,45,20,.16)}
-.card .art{background:var(--paper);padding:14px;display:flex;align-items:center;justify-content:center}
-.card svg{width:100%;height:auto;display:block}
+.card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(70,45,20,.18)}
+.card .art{background:var(--paper);padding:14px;display:flex;align-items:center;justify-content:center;position:relative}
+.card .art::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.35),transparent 60%);pointer-events:none}
+.card svg{width:100%;height:auto;display:block;filter:drop-shadow(0 4px 8px rgba(70,45,20,.12))}
 .card .meta{padding:11px 13px 13px}
 .card .nm{font-weight:700;font-size:14px}
 .card .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
 .tag{font-family:'DM Mono';font-size:10px;letter-spacing:.5px;padding:3px 8px;border-radius:20px;text-transform:uppercase}
-.t1{background:#e4efe7;color:var(--eco)}       /* 1 colour */
-.t2{background:#f6e7de;color:var(--terra)}      /* 2 colour */
-.ts{background:#eee8db;color:var(--kraft-deep)} /* suits */
+.t1{background:#e4efe7;color:var(--eco)}
+.t2{background:#f6e7de;color:var(--terra)}
+.ts{background:#eee8db;color:var(--kraft-deep)}
 .foot{text-align:center;margin-top:34px;font-family:'DM Mono';font-size:11.5px;color:var(--ink-soft)}
 .foot a{color:var(--eco);text-decoration:none;font-weight:600}
 </style>
@@ -48,23 +49,23 @@ header p{font-family:'DM Mono';font-size:11.5px;letter-spacing:2px;text-transfor
 <body>
 <header>
   <h1>KRAFT<span class="dot">·</span>VIBE — Design Catalogue</h1>
-  <p>Kraft Covers &amp; Bags · Single &amp; Double Colour · Market-Ready Prints</p>
+  <p>Kraft Covers &amp; Bags · Single &amp; Double Colour · Instagram-Ready Prints</p>
 </header>
 
 <div class="wrap">
   <div class="controls">
-    <div><label>Shop / Business name</label><input id="in_name" value="SRI BAKERY" maxlength="22"></div>
-    <div><label>Tagline (optional)</label><input id="in_tag" value="Fresh Cakes &amp; Snacks" maxlength="30"></div>
-    <div><label>Phone (optional)</label><input id="in_ph" value="98765 43210" maxlength="18"></div>
-    <div class="tip">💡 Type the customer's name — it drops into every design live. <b>The die stays the same; only the printing plate (name) changes per customer.</b> 1-colour = cheapest, 2-colour = premium.</div>
+    <div><label>Shop / Business name</label><input id="in_name" value="SRI BAKERY" maxlength="20"></div>
+    <div><label>Tagline (optional)</label><input id="in_tag" value="Fresh Cakes &amp; Bakes" maxlength="28"></div>
+    <div><label>Phone (optional)</label><input id="in_ph" value="98765 43210" maxlength="16"></div>
+    <div class="tip">💡 Type the customer's name — it drops into every design live. <b>Same die, only the printing plate (name) changes per customer.</b> 1-colour = cheapest, 2-colour = premium look.</div>
   </div>
 
   <div class="secttl">Paper Covers</div>
-  <div class="secsub">Priced by KG (with / without printing). Show the customer a style, keep the same die, change only the name.</div>
+  <div class="secsub">Priced by KG (with / without printing). Rich illustrated layouts — show a style, keep the die, change only the name.</div>
   <div class="grid" id="grid_cover"></div>
 
   <div class="secttl">Paper Bags — 10 Designs</div>
-  <div class="secsub">Handle / eyelet bags. Market-standard layouts across shop types.</div>
+  <div class="secsub">Handle / eyelet bags. Illustrated, patterned, market-ready layouts across shop types.</div>
   <div class="grid" id="grid_bag"></div>
 
   <div class="foot">
@@ -74,161 +75,194 @@ header p{font-family:'DM Mono';font-size:11.5px;letter-spacing:2px;text-transfor
 </div>
 
 <script>
-/* ---- shared line-art icon paths (simple, print-friendly) ---- */
-const IC = {
-  cake:'M12 3v3M9 5.5h6M6 12c0-2 1-3 6-3s6 1 6 3v3H6zM5 15h14v6H5zM8 18h.01M12 18h.01M16 18h.01',
-  bread:'M4 10c0-3 3-5 8-5s8 2 8 5v8H4zM8 9v9M12 9v9M16 9v9',
-  cup:'M4 8h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5zM17 9h2a2 2 0 0 1 0 4h-2M7 4c0 1 0 1 0 2M11 4c0 1 0 1 0 2',
-  sweet:'M5 9h14v9H5zM5 9l3-4h8l3 4M9 9v9M15 9v9M9 5v4M15 5v4',
-  saree:'M6 3h12l-2 7 3 11H5l3-11zM9 3c0 4 6 4 6 0',
-  shirt:'M8 3l4 3 4-3 4 3-2 4-2-1v11H6V9L4 10 2 6zM8 3l4 3 4-3',
-  ring:'M12 8a5 5 0 1 0 0 10 5 5 0 0 0 0-10zM9 8l3-4 3 4',
-  leaf:'M12 21c-6-1-9-6-8-13 7-1 12 2 13 8-4 1-4 4-5 5zM8 15c2-2 4-3 8-4',
-  flower:'M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM12 9V4M12 15v5M9 12H4M15 12h5M9.5 9.5L6 6M14.5 9.5L18 6M9.5 14.5L6 18M14.5 14.5L18 18',
-  gift:'M4 9h16v12H4zM4 9l2-4h12l2 4M12 5v16M8 5a2 2 0 1 1 4 0M16 5a2 2 0 1 0-4 0',
-  bag:'M6 8h12l1 12H5zM9 8V6a3 3 0 0 1 6 0v2',
-  medical:'M12 6v12M6 12h12M4 8h16v10H4z'
-};
-function icon(name,x,y,s,color,sw){
-  return `<g transform="translate(${x},${y}) scale(${s/24})" fill="none" stroke="${color}" stroke-width="${(sw||1.6)*24/s}" stroke-linecap="round" stroke-linejoin="round"><path d="${IC[name]}"/></g>`;
+/* ============ MOTIF LIBRARY (rich, print-friendly line-art) ============ */
+function petalRing(cx,cy,r,n,col,fill){
+  let s='';
+  for(let i=0;i<n;i++){const a=360/n*i;
+    s+=`<g transform="rotate(${a} ${cx} ${cy})"><path d="M${cx} ${cy-r} q ${r*.3} ${r*.32} 0 ${r*.6} q ${-r*.3} ${-r*.28} 0 ${-r*.6} z" fill="${fill||'none'}" stroke="${col}" stroke-width="1"/></g>`;}
+  return s;
+}
+function sprig(x,y,rot,sc,col){
+  let leaves='';
+  for(let i=0;i<5;i++){const yy=-6-i*7.5;
+    leaves+=`<path d="M0 ${yy} q 8 -2 11 -9" fill="none" stroke="${col}" stroke-width="1.1"/><path d="M0 ${yy} q -8 -2 -11 -9" fill="none" stroke="${col}" stroke-width="1.1"/>`;}
+  return `<g transform="translate(${x} ${y}) rotate(${rot}) scale(${sc})"><path d="M0 2 C 4 -12 4 -30 0 -46" fill="none" stroke="${col}" stroke-width="1.3"/>${leaves}</g>`;
+}
+function ornFrame(w,h,m,col){
+  return `<rect x="${m}" y="${m}" width="${w-2*m}" height="${h-2*m}" fill="none" stroke="${col}" stroke-width="1.5"/>
+   <rect x="${m+5}" y="${m+5}" width="${w-2*m-10}" height="${h-2*m-10}" fill="none" stroke="${col}" stroke-width="0.6"/>
+   ${[[m,m],[w-m,m],[m,h-m],[w-m,h-m]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="3.2" fill="${col}"/><circle cx="${x}" cy="${y}" r="6" fill="none" stroke="${col}" stroke-width="0.7"/>`).join('')}`;
+}
+function badge(cx,cy,r,col){
+  return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${col}" stroke-width="1.6"/>
+   <circle cx="${cx}" cy="${cy}" r="${r-4}" fill="none" stroke="${col}" stroke-width="0.6" stroke-dasharray="1.5 3"/>`;
+}
+function ribbon(cx,cy,w,col){
+  const h=22,x=cx-w/2;
+  return `<path d="M${x} ${cy-h/2} h${w} l-10 ${h/2} l10 ${h/2} h${-w} l10 ${-h/2} z" fill="${col}"/>`;
+}
+function swash(cx,cy,w,col){
+  return `<path d="M${cx-w/2} ${cy} q ${w*.18} -8 ${w*.34} 0 q ${w*.16} 7 ${w*.32} 0 q ${w*.16} -7 ${w*.34} 0" fill="none" stroke="${col}" stroke-width="1.3" stroke-linecap="round"/><circle cx="${cx-w/2}" cy="${cy}" r="1.8" fill="${col}"/><circle cx="${cx+w/2}" cy="${cy}" r="1.8" fill="${col}"/>`;
+}
+function paisley(x,y,sc,col){
+  return `<g transform="translate(${x} ${y}) scale(${sc})" fill="none" stroke="${col}" stroke-width="1.2"><path d="M0 0 C -18 2 -22 -18 -8 -26 C 4 -32 14 -22 8 -12 C 5 -7 -2 -8 -1 -14"/><circle cx="-4" cy="-18" r="2.4" fill="${col}"/></g>`;
+}
+/* detailed product illustrations */
+function ill(name,x,y,s,col,col2){
+  const C=col,A=col2||col; const g=`<g transform="translate(${x} ${y}) scale(${s/48})" fill="none" stroke="${C}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">`;
+  const P={
+   cupcake:`<path d="M12 22h24l-3 16a3 3 0 0 1-3 3H18a3 3 0 0 1-3-3z"/><path d="M15 28h18M17 35h14"/><path stroke="${A}" d="M12 22c0-6 5-9 12-9s12 3 12 9M14 22c2-4 6-3 10-3s8-1 10 3"/><circle cx="24" cy="8" r="2.6" fill="${A}" stroke="${A}"/>`,
+   coffee:`<path d="M9 18h24v9a10 10 0 0 1-10 10h-4A10 10 0 0 1 9 27z"/><path d="M33 20h4a4 4 0 0 1 0 8h-4"/><path stroke="${A}" d="M15 9c0 2-2 3-2 5s2 3 2 5M23 8c0 2-2 3-2 5s2 3 2 5M31 9c0 2-2 3-2 5s2 3 2 5"/>`,
+   cakeSlice:`<path d="M8 34l16-20 16 20z"/><path d="M8 34v5h32v-5"/><path stroke="${A}" d="M15 25h18M12 30h24"/><circle cx="24" cy="12" r="2.4" fill="${A}" stroke="${A}"/>`,
+   laddu:`<circle cx="16" cy="30" r="9"/><circle cx="30" cy="30" r="9"/><circle cx="23" cy="18" r="9"/><path stroke="${A}" d="M13 30h.01M18 27h.01M28 30h.01M33 28h.01M21 18h.01M26 16h.01" stroke-width="2.6"/>`,
+   rose:`<circle cx="24" cy="22" r="12"/><path stroke="${A}" d="M24 14c-5 2-6 9-1 12M24 14c5 2 6 9 1 12M18 22c2-4 10-4 12 0"/><path d="M24 34v10M20 40c2-2 6-2 8 0" stroke="${A}"/>`,
+   ring:`<circle cx="24" cy="28" r="10"/><path d="M18 20l6-8 6 8" stroke="${A}"/><path d="M22 12h4" stroke="${A}"/>`,
+   bag:`<path d="M12 16h24l2 26H10z"/><path d="M18 16v-3a6 6 0 0 1 12 0v3" stroke="${A}"/>`,
+   leafPlate:`<ellipse cx="24" cy="26" rx="18" ry="12"/><ellipse cx="24" cy="26" rx="11" ry="7" stroke="${A}"/><path d="M24 14v24" stroke="${A}"/>`
+  };
+  return g+(P[name]||'')+`</g>`;
 }
 
-/* ---- design template builders ----
-   each returns an SVG string; uses NM (name), TG (tagline), PH (phone) placeholders replaced live */
-const KP='#e9dcc4'; // kraft
-function bag(inner){ // portrait bag with handles
+/* ============ CANVAS SHAPES ============ */
+const KP='#e7d8bd';
+function bag(inner){
   return `<svg viewBox="0 0 240 300">
-    <path d="M55 40 q45 -34 130 0" fill="none" stroke="#00000022" stroke-width="6"/>
-    <rect x="30" y="40" width="180" height="240" rx="6" fill="${KP}" stroke="#0000001a"/>
+    <path d="M55 42 q45 -36 130 0" fill="none" stroke="#00000022" stroke-width="6"/>
+    <rect x="30" y="42" width="180" height="240" rx="6" fill="${KP}" stroke="#0000001c"/>
+    <rect x="30" y="42" width="180" height="240" rx="6" fill="url(#kt)"/>
     ${inner}</svg>`;
 }
-function cover(inner){ // landscape cover / pouch
+function cover(inner){
   return `<svg viewBox="0 0 300 210">
-    <rect x="14" y="14" width="272" height="182" rx="8" fill="${KP}" stroke="#0000001a"/>
+    <rect x="14" y="14" width="272" height="182" rx="8" fill="${KP}" stroke="#0000001c"/>
+    <rect x="14" y="14" width="272" height="182" rx="8" fill="url(#kt)"/>
     ${inner}</svg>`;
 }
+const DEFS=`<defs><pattern id="kt" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><line x1="0" y1="0" x2="0" y2="7" stroke="#9c673510" stroke-width="1"/></pattern></defs>`;
 function T(x,y,txt,size,color,font,anchor,ls,weight){
   return `<text x="${x}" y="${y}" font-family="${font||'DM Sans'}" font-size="${size}" fill="${color}" text-anchor="${anchor||'middle'}" letter-spacing="${ls||0}" font-weight="${weight||700}">${txt}</text>`;
 }
+const G='#0f6d38', TR='#b5502f', GD='#a9822e';
 
 /* ===================== COVER DESIGNS ===================== */
 const COVERS=[
- {nm:'Classic Centre',c:1,suit:'All shops',build:()=>cover(
-   T(150,95,'{NM}',30,'#0f6d38','Anton','middle',1)+
-   `<line x1="90" y1="112" x2="210" y2="112" stroke="#0f6d38" stroke-width="2"/>`+
-   T(150,134,'{TG}',12,'#5c4a37','DM Sans','middle',1,600)+
-   T(150,170,'{PH}',12,'#0f6d38','DM Mono','middle',1,500))},
+ {nm:'Botanical Frame',c:2,suit:'Bakery / Gift',build:()=>cover(
+   ornFrame(300,210,26,G)+sprig(48,58,-20,0.8,TR)+sprig(252,58,20,0.8,TR)+
+   T(150,100,'{NM}',30,G,'Playfair Display','middle',0,800)+
+   swash(150,116,90,TR)+
+   T(150,140,'{TG}',12,'#5c4a37','Cormorant Garamond','middle',1,700)+
+   T(150,168,'{PH}',11,G,'DM Mono','middle',1,500))},
 
- {nm:'Line Frame',c:1,suit:'Boutique / Gift',build:()=>cover(
-   `<rect x="34" y="34" width="232" height="142" fill="none" stroke="#0f6d38" stroke-width="1.5"/>
-    <rect x="40" y="40" width="220" height="130" fill="none" stroke="#0f6d38" stroke-width="0.8"/>`+
-   T(150,105,'{NM}',28,'#0f6d38','Playfair Display','middle',0,700)+
-   T(150,132,'{TG}',11,'#5c4a37','DM Mono','middle',2,500))},
+ {nm:'Laurel Badge',c:1,suit:'All shops',build:()=>cover(
+   badge(150,100,58,G)+petalRing(150,100,58,24,G)+
+   T(150,86,'{NM}',22,G,'Anton','middle',.5)+
+   `<line x1="120" y1="98" x2="180" y2="98" stroke="${G}" stroke-width="1"/>`+
+   T(150,116,'{TG}',9,'#5c4a37','DM Mono','middle',1,500)+
+   T(150,180,'· EST · UDUMALPET ·',9,G,'DM Mono','middle',2,500))},
 
- {nm:'Emblem Seal',c:1,suit:'Bakery / Sweets',build:()=>cover(
-   `<circle cx="150" cy="88" r="34" fill="none" stroke="#0f6d38" stroke-width="1.6"/>`+
-   icon('bread',132,70,36,'#0f6d38',1.6)+
-   T(150,150,'{NM}',24,'#0f6d38','Anton','middle',1)+
-   T(150,170,'{TG}',10.5,'#5c4a37','DM Mono','middle',1.5,500))},
+ {nm:'Cupcake Studio',c:2,suit:'Bakery / Cake',build:()=>cover(
+   ill('cupcake',124,26,52,TR,G)+
+   T(150,124,'{NM}',28,G,'Anton','middle',1)+
+   swash(150,140,84,TR)+
+   T(150,164,'{TG}',11,'#5c4a37','DM Sans','middle',.5,600))},
 
- {nm:'Two-Tone Band',c:2,suit:'Premium / Cake',build:()=>cover(
-   `<rect x="14" y="14" width="272" height="46" rx="8" fill="#0f6d38"/>
-    <rect x="14" y="52" width="272" height="8" fill="#b5502f"/>`+
-   T(150,45,'{NM}',26,'#f8f0e2','Anton','middle',1)+
-   T(150,110,'{TG}',15,'#b5502f','Playfair Display','middle',0,700)+
-   `<line x1="110" y1="126" x2="190" y2="126" stroke="#0f6d38" stroke-width="1.5"/>`+
-   T(150,158,'{PH}',12,'#0f6d38','DM Mono','middle',1,500))},
+ {nm:'Mandala Two-Tone',c:2,suit:'Premium / Festive',build:()=>cover(
+   `<rect x="14" y="14" width="272" height="40" rx="8" fill="${G}"/>`+
+   T(150,42,'{NM}',22,'#f8f0e2','Anton','middle',1)+
+   petalRing(150,120,40,16,TR)+petalRing(150,120,26,12,GD)+`<circle cx="150" cy="120" r="12" fill="none" stroke="${TR}" stroke-width="1.2"/>`+
+   T(150,182,'{TG}',11,TR,'Cormorant Garamond','middle',1,700))},
 
- {nm:'Icon Accent',c:2,suit:'Café / Tea',build:()=>cover(
-   icon('cup',132,54,36,'#b5502f',1.7)+
-   T(150,130,'{NM}',27,'#0f6d38','Anton','middle',1)+
-   T(150,152,'{TG}',11,'#5c4a37','DM Sans','middle',1,600)+
-   `<line x1="60" y1="30" x2="60" y2="180" stroke="#b5502f" stroke-width="2"/>
-    <line x1="240" y1="30" x2="240" y2="180" stroke="#b5502f" stroke-width="2"/>`)},
+ {nm:'Coffee & Steam',c:1,suit:'Café / Tea',build:()=>cover(
+   `<rect x="22" y="22" width="256" height="166" fill="none" stroke="${G}" stroke-width="1.5" stroke-dasharray="1 5" stroke-linecap="round"/>`+
+   ill('coffee',124,30,52,G,G)+
+   T(150,128,'{NM}',26,G,'Playfair Display','middle',0,800)+
+   T(150,152,'{TG}',10,'#5c4a37','DM Mono','middle',2,500)+
+   T(150,174,'{PH}',10.5,G,'DM Mono','middle',1,500))},
 
- {nm:'Corner Leaf',c:2,suit:'Eco / Organic',build:()=>cover(
-   icon('leaf',26,26,26,'#0f6d38',1.6)+icon('leaf',248,150,26,'#b5502f',1.6)+
-   T(150,100,'{NM}',28,'#0f6d38','Playfair Display','middle',0,800)+
-   T(150,126,'{TG}',11,'#b5502f','DM Mono','middle',2,500)+
-   T(150,160,'{PH}',11.5,'#5c4a37','DM Mono','middle',1,500))}
+ {nm:'Floral Corners',c:2,suit:'Boutique / Wedding',build:()=>cover(
+   ill('rose',24,20,34,TR,G)+ill('rose',242,150,34,TR,G)+
+   sprig(60,190,150,0.6,G)+sprig(240,20,-30,0.6,G)+
+   T(150,102,'{NM}',28,G,'Playfair Display','middle',0,900)+
+   swash(150,118,80,TR)+
+   T(150,144,'{TG}',11,'#5c4a37','Cormorant Garamond','middle',1.5,700))}
 ];
 
 /* ===================== BAG DESIGNS (10) ===================== */
 const BAGS=[
- {nm:'Centre Name + Rule',c:1,suit:'All shops',build:()=>bag(
-   T(120,150,'{NM}',22,'#0f6d38','Anton','middle',1)+
-   `<line x1="70" y1="166" x2="170" y2="166" stroke="#0f6d38" stroke-width="2"/>`+
-   T(120,188,'{TG}',10,'#5c4a37','DM Sans','middle',.5,600)+
-   T(120,250,'{PH}',10,'#0f6d38','DM Mono','middle',1,500))},
+ {nm:'Botanical Frame',c:2,suit:'Bakery / Gift',build:()=>bag(
+   `<rect x="46" y="72" width="148" height="180" fill="none" stroke="${G}" stroke-width="1.4"/><rect x="51" y="77" width="138" height="170" fill="none" stroke="${G}" stroke-width="0.6"/>`+
+   sprig(70,110,-25,0.7,TR)+sprig(170,110,25,0.7,TR)+
+   T(120,158,'{NM}',21,G,'Playfair Display','middle',0,800)+swash(120,174,86,TR)+
+   T(120,198,'{TG}',10,'#5c4a37','Cormorant Garamond','middle',1,700)+
+   T(120,228,'{PH}',9.5,G,'DM Mono','middle',1,500))},
 
- {nm:'Badge Oval',c:1,suit:'Grocery / General',build:()=>bag(
-   `<ellipse cx="120" cy="150" rx="74" ry="46" fill="none" stroke="#0f6d38" stroke-width="1.6"/>
-    <ellipse cx="120" cy="150" rx="66" ry="39" fill="none" stroke="#0f6d38" stroke-width="0.7"/>`+
-   T(120,148,'{NM}',20,'#0f6d38','Anton','middle',.5)+
-   T(120,170,'{TG}',9.5,'#5c4a37','DM Mono','middle',1,500))},
+ {nm:'Petal Badge',c:1,suit:'All shops',build:()=>bag(
+   badge(120,150,62,G)+petalRing(120,150,62,26,G)+
+   T(120,144,'{NM}',20,G,'Anton','middle',.5)+`<line x1="88" y1="156" x2="152" y2="156" stroke="${G}" stroke-width="1"/>`+
+   T(120,172,'{TG}',9,'#5c4a37','DM Mono','middle',1,500)+
+   T(120,236,'· UDUMALPET ·',9,G,'DM Mono','middle',2,500))},
 
- {nm:'Cake Icon Top',c:2,suit:'Bakery / Cake',build:()=>bag(
-   icon('cake',98,80,44,'#b5502f',1.7)+
-   T(120,170,'{NM}',22,'#0f6d38','Anton','middle',1)+
-   `<line x1="72" y1="184" x2="168" y2="184" stroke="#b5502f" stroke-width="1.6"/>`+
-   T(120,206,'{TG}',10,'#5c4a37','DM Sans','middle',.5,600))},
+ {nm:'Cupcake Studio',c:2,suit:'Bakery / Cake',build:()=>bag(
+   ill('cupcake',94,74,52,TR,G)+ribbon(120,150,120,G)+
+   T(120,155,'{NM}',17,'#f8f0e2','Anton','middle',1)+
+   T(120,196,'{TG}',10.5,TR,'Cormorant Garamond','middle',.5,700)+
+   T(120,228,'{PH}',9.5,'#5c4a37','DM Mono','middle',1,500))},
 
- {nm:'Border Bands',c:2,suit:'Sweets / Snacks',build:()=>bag(
-   `<rect x="30" y="70" width="180" height="10" fill="#0f6d38"/>
-    <rect x="30" y="228" width="180" height="10" fill="#b5502f"/>`+
-   T(120,150,'{NM}',22,'#0f6d38','Anton','middle',1)+
-   T(120,178,'{TG}',10.5,'#b5502f','Playfair Display','middle',0,700)+
-   T(120,214,'{PH}',9.5,'#5c4a37','DM Mono','middle',1,500))},
+ {nm:'Festive Sweets',c:2,suit:'Sweets / Snacks',build:()=>bag(
+   `<rect x="30" y="70" width="180" height="9" fill="${TR}"/><rect x="30" y="232" width="180" height="9" fill="${GD}"/>`+
+   ill('laddu',96,92,50,TR,GD)+
+   T(120,178,'{NM}',20,G,'Anton','middle',1)+
+   T(120,202,'{TG}',10,TR,'Playfair Display','middle',0,700)+
+   T(120,222,'{PH}',9,'#5c4a37','DM Mono','middle',1,500))},
 
- {nm:'Saree Line-Art',c:2,suit:'Textile / Boutique',build:()=>bag(
-   icon('saree',98,74,44,'#b5502f',1.6)+
-   T(120,176,'{NM}',20,'#0f6d38','Playfair Display','middle',0,800)+
-   T(120,200,'{TG}',9.5,'#5c4a37','DM Mono','middle',1.5,500)+
-   `<line x1="80" y1="212" x2="160" y2="212" stroke="#0f6d38" stroke-width="1"/>`)},
+ {nm:'Boutique Paisley',c:2,suit:'Textile / Boutique',build:()=>bag(
+   paisley(70,120,1.5,TR)+paisley(170,120,-1.5,TR)+
+   T(120,160,'{NM}',19,G,'Playfair Display','middle',0,900)+
+   `<line x1="82" y1="172" x2="158" y2="172" stroke="${GD}" stroke-width="1"/>`+
+   T(120,192,'{TG}',9.5,'#5c4a37','Cormorant Garamond','middle',1.5,700)+
+   sprig(120,244,180,0.5,G))},
 
- {nm:'Monogram Circle',c:2,suit:'Fashion / Gift',build:()=>bag(
-   `<circle cx="120" cy="112" r="34" fill="#0f6d38"/>`+
-   T(120,124,'{IN}',34,'#f8f0e2','Anton','middle',0)+
-   T(120,176,'{NM}',20,'#0f6d38','Anton','middle',.5)+
-   T(120,198,'{TG}',9.5,'#b5502f','DM Mono','middle',1,500))},
+ {nm:'Monogram Crest',c:2,suit:'Fashion / Gift',build:()=>bag(
+   `<path d="M120 92 l40 14 v26 c0 26 -20 40 -40 50 c-20 -10 -40 -24 -40 -50 v-26 z" fill="none" stroke="${G}" stroke-width="1.6"/>`+
+   `<circle cx="120" cy="128" r="22" fill="${G}"/>`+T(120,138,'{IN}',26,'#f8f0e2','Anton','middle',0)+
+   T(120,182,'{NM}',16,G,'Playfair Display','middle',0,800)+
+   T(120,200,'{TG}',8.5,TR,'DM Mono','middle',1,500))},
 
- {nm:'Thank You',c:1,suit:'Retail / Gift',build:()=>bag(
-   T(120,120,'THANK YOU',13,'#b5502f','Playfair Display','middle',1,700)+
-   T(120,158,'{NM}',22,'#0f6d38','Anton','middle',1)+
-   `<line x1="74" y1="172" x2="166" y2="172" stroke="#0f6d38" stroke-width="1.6"/>`+
-   T(120,196,'{TG}',10,'#5c4a37','DM Sans','middle',.5,600)+
-   icon('leaf',108,214,24,'#0f6d38',1.5))},
+ {nm:'Thank You Floral',c:1,suit:'Retail / Gift',build:()=>bag(
+   ill('rose',96,80,44,G,G)+
+   `<text x="120" y="150" font-family="Dancing Script" font-size="30" fill="${G}" text-anchor="middle" font-weight="700">Thank You</text>`+
+   T(120,178,'{NM}',18,G,'Anton','middle',.5)+`<line x1="86" y1="190" x2="154" y2="190" stroke="${G}" stroke-width="1"/>`+
+   T(120,210,'{TG}',9.5,'#5c4a37','DM Sans','middle',.5,600))},
 
  {nm:'Ribbon Banner',c:2,suit:'Sweets / Festive',build:()=>bag(
-   `<path d="M40 120 h160 l-14 18 14 18 H40 l14-18z" fill="#0f6d38"/>`+
-   T(120,144,'{NM}',18,'#f8f0e2','Anton','middle',1)+
-   T(120,190,'{TG}',11,'#b5502f','Playfair Display','middle',0,700)+
-   T(120,230,'{PH}',10,'#5c4a37','DM Mono','middle',1,500))},
+   sprig(60,130,-30,0.6,GD)+sprig(180,130,30,0.6,GD)+
+   ribbon(120,120,140,G)+T(120,125,'{NM}',17,'#f8f0e2','Anton','middle',1)+
+   T(120,168,'{TG}',12,TR,'Playfair Display','middle',0,700)+
+   T(120,236,'{PH}',10,'#5c4a37','DM Mono','middle',1,500))},
 
- {nm:'Jewellery Seal',c:2,suit:'Jewellery',build:()=>bag(
-   `<circle cx="120" cy="130" r="52" fill="none" stroke="#b98a2e" stroke-width="2"/>
-    <circle cx="120" cy="130" r="44" fill="none" stroke="#b98a2e" stroke-width="0.7"/>`+
-   icon('ring',104,86,32,'#b98a2e',1.6)+
-   T(120,150,'{NM}',17,'#0f6d38','Playfair Display','middle',0,800)+
-   T(120,168,'{TG}',9,'#b98a2e','DM Mono','middle',1.5,500))},
+ {nm:'Jewellery Emblem',c:2,suit:'Jewellery',build:()=>bag(
+   `<circle cx="120" cy="132" r="58" fill="none" stroke="${GD}" stroke-width="2"/>`+petalRing(120,132,58,32,GD)+`<circle cx="120" cy="132" r="46" fill="none" stroke="${GD}" stroke-width="0.7"/>`+
+   ill('ring',96,84,44,GD,G)+
+   T(120,150,'{NM}',16,G,'Playfair Display','middle',0,900)+
+   T(120,168,'{TG}',8.5,GD,'DM Mono','middle',1.5,500))},
 
- {nm:'Pattern Panel',c:2,suit:'Premium / All',build:()=>bag(
-   `<defs><pattern id="dots" width="16" height="16" patternUnits="userSpaceOnUse"><circle cx="4" cy="4" r="1.6" fill="#0f6d3822"/></pattern></defs>
-    <rect x="30" y="40" width="180" height="240" fill="url(#dots)"/>
-    <rect x="46" y="120" width="148" height="72" rx="6" fill="#f8f0e2" stroke="#0f6d38" stroke-width="1.4"/>`+
-   T(120,158,'{NM}',20,'#0f6d38','Anton','middle',.5)+
-   T(120,180,'{TG}',9.5,'#b5502f','DM Mono','middle',1,500))}
+ {nm:'Botanical Pattern',c:2,suit:'Premium / All',build:()=>bag(
+   `<defs><pattern id="bot" width="40" height="40" patternUnits="userSpaceOnUse">${sprig(20,34,0,0.4,'#0f6d3833')}</pattern></defs>
+    <rect x="30" y="42" width="180" height="240" fill="url(#bot)"/>
+    <rect x="48" y="118" width="144" height="86" rx="8" fill="#f8f0e2" stroke="${G}" stroke-width="1.4"/><rect x="53" y="123" width="134" height="76" rx="6" fill="none" stroke="${G}" stroke-width="0.6"/>`+
+   T(120,158,'{NM}',19,G,'Anton','middle',.5)+swash(120,172,96,TR)+
+   T(120,192,'{TG}',9.5,TR,'Cormorant Garamond','middle',1,700))}
 ];
 
 /* ---- render + live update ---- */
 function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function fill(svg,nm,tg,ph){
   const initial=(nm.trim()[0]||'S').toUpperCase();
-  return svg.replace(/{NM}/g,esc(nm)||'SHOP NAME').replace(/{TG}/g,esc(tg)).replace(/{PH}/g,esc(ph)).replace(/{IN}/g,esc(initial));
+  return DEFS+svg.replace(/{NM}/g,esc(nm)||'SHOP NAME').replace(/{TG}/g,esc(tg)).replace(/{PH}/g,esc(ph)).replace(/{IN}/g,esc(initial));
 }
 function card(d){
   const tags=`<span class="tag ${d.c===1?'t1':'t2'}">${d.c===1?'1 colour':'2 colour'}</span><span class="tag ts">${d.suit}</span>`;
-  return `<div class="card"><div class="art" data-tpl="${encodeURIComponent(d.build())}">${''}</div>
+  return `<div class="card"><div class="art" data-tpl="${encodeURIComponent(d.build())}"></div>
     <div class="meta"><div class="nm">${d.nm}</div><div class="tags">${tags}</div></div></div>`;
 }
 function boot(){
@@ -240,9 +274,7 @@ function update(){
   const nm=document.getElementById('in_name').value;
   const tg=document.getElementById('in_tag').value;
   const ph=document.getElementById('in_ph').value;
-  document.querySelectorAll('.art').forEach(a=>{
-    a.innerHTML=fill(decodeURIComponent(a.dataset.tpl),nm,tg,ph);
-  });
+  document.querySelectorAll('.art').forEach(a=>{a.innerHTML=fill(decodeURIComponent(a.dataset.tpl),nm,tg,ph);});
 }
 ['in_name','in_tag','in_ph'].forEach(id=>document.getElementById(id).addEventListener('input',update));
 boot();
