@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KRAFT·Vibe — Design Catalogue (Covers & Bags)</title>
+<title>KRAFT·Vibe — AI Design Studio (Covers & Bags)</title>
 <link rel="icon" type="image/svg+xml" href="logo.svg">
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500&family=Playfair+Display:wght@600;700;800;900&family=Cormorant+Garamond:wght@600;700&family=Bebas+Neue&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500&family=Playfair+Display:wght@600;700;800;900&family=Cormorant+Garamond:wght@600;700&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --paper:#e7d8bd;--kraft:#c2925a;--kraft-deep:#9c6735;--ink:#2b2519;--ink-soft:#5c4a37;
@@ -21,15 +21,15 @@ header .dot{color:#f3c77e}
 header p{font-family:'DM Mono';font-size:11.5px;letter-spacing:2px;text-transform:uppercase;color:#cfe6d6;margin-top:6px}
 
 .controls{background:var(--cream);border:1px solid var(--line);border-radius:14px;padding:16px;margin:18px 0 6px;
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;align-items:end;position:sticky;top:0;z-index:5;box-shadow:0 4px 16px rgba(70,45,20,.1)}
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;align-items:end;position:sticky;top:0;z-index:5;box-shadow:0 4px 16px rgba(70,45,20,.1)}
 .controls label{display:block;font-family:'DM Mono';font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--kraft-deep);margin-bottom:5px}
-.controls input{width:100%;font-family:inherit;font-size:15px;padding:10px 12px;border:1.5px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
-.controls input:focus{outline:0;border-color:var(--eco)}
+.controls input,.controls select{width:100%;font-family:inherit;font-size:15px;padding:10px 12px;border:1.5px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
+.controls input:focus,.controls select:focus{outline:0;border-color:var(--eco)}
 .tip{grid-column:1/-1;font-size:12.5px;color:var(--ink-soft);background:#fffdf7;border-left:3px solid var(--kraft);padding:8px 12px;border-radius:6px}
 
 .secttl{font-family:'Anton';font-weight:400;letter-spacing:.5px;font-size:22px;color:var(--eco-deep);margin:30px 0 4px;text-transform:uppercase}
 .secsub{font-size:13px;color:var(--ink-soft);margin-bottom:14px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
 .card{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:transform .15s,box-shadow .15s}
 .card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(70,45,20,.18)}
 .card .art{background:var(--paper);padding:14px;display:flex;align-items:center;justify-content:center;position:relative}
@@ -42,242 +42,234 @@ header p{font-family:'DM Mono';font-size:11.5px;letter-spacing:2px;text-transfor
 .t1{background:#e4efe7;color:var(--eco)}
 .t2{background:#f6e7de;color:var(--terra)}
 .ts{background:#eee8db;color:var(--kraft-deep)}
+
+/* AI concepts */
+.ai-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:30px 0 4px}
+.gen{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:11px;padding:12px 20px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;
+  background:linear-gradient(120deg,var(--eco),#17924a);color:#fff;box-shadow:0 8px 20px rgba(15,109,56,.3);transition:transform .15s,filter .15s}
+.gen:hover{filter:brightness(1.07);transform:translateY(-2px)}
+.gen:disabled{opacity:.6;transform:none}
+.aigrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.aicard{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.aicard .ph{aspect-ratio:1/1;background:var(--paper);display:flex;align-items:center;justify-content:center;position:relative}
+.aicard img{width:100%;height:100%;object-fit:cover;display:block}
+.aicard .ld{position:absolute;font-family:'DM Mono';font-size:11px;color:var(--kraft-deep);letter-spacing:1px;animation:pulse 1.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+.aicard .cap{padding:9px 12px;font-family:'DM Mono';font-size:10.5px;letter-spacing:.5px;color:var(--ink-soft);text-transform:uppercase}
+.ai-note{font-size:12px;color:var(--ink-soft);background:#fffdf7;border-left:3px solid var(--eco);padding:8px 12px;border-radius:6px;margin-bottom:14px}
 .foot{text-align:center;margin-top:34px;font-family:'DM Mono';font-size:11.5px;color:var(--ink-soft)}
 .foot a{color:var(--eco);text-decoration:none;font-weight:600}
 </style>
 </head>
 <body>
 <header>
-  <h1>KRAFT<span class="dot">·</span>VIBE — Design Catalogue</h1>
-  <p>Kraft Covers &amp; Bags · Single &amp; Double Colour · Instagram-Ready Prints</p>
+  <h1>KRAFT<span class="dot">·</span>VIBE — AI Design Studio</h1>
+  <p>Pick a shop type · Get its matched cover + bag designs · Generate AI concepts</p>
 </header>
 
 <div class="wrap">
   <div class="controls">
+    <div><label>Shop type</label>
+      <select id="in_type">
+        <option value="bakery">Bakery</option>
+        <option value="cake">Cake Shop</option>
+        <option value="sweets">Sweets &amp; Snacks</option>
+        <option value="textile">Textile / Boutique</option>
+        <option value="jewellery">Jewellery</option>
+        <option value="cafe">Café / Tea</option>
+        <option value="gift">Gift / Return Gift</option>
+        <option value="grocery">Grocery / General</option>
+      </select>
+    </div>
     <div><label>Shop / Business name</label><input id="in_name" value="SRI BAKERY" maxlength="20"></div>
     <div><label>Tagline (optional)</label><input id="in_tag" value="Fresh Cakes &amp; Bakes" maxlength="28"></div>
     <div><label>Phone (optional)</label><input id="in_ph" value="98765 43210" maxlength="16"></div>
-    <div class="tip">💡 Type the customer's name — it drops into every design live. <b>Same die, only the printing plate (name) changes per customer.</b> 1-colour = cheapest, 2-colour = premium look.</div>
+    <div class="tip">💡 Select the customer's shop type — the matched cover &amp; bag set changes to suit it. Covers keep a simple lengthwise side band + name (easy 1–2 colour flexo). Bags get a fuller filled design.</div>
   </div>
 
-  <div class="secttl">Paper Covers</div>
-  <div class="secsub">Priced by KG (with / without printing). Rich illustrated layouts — show a style, keep the die, change only the name.</div>
-  <div class="grid" id="grid_cover"></div>
+  <div class="secttl" id="setttl">Matched Set — Bakery</div>
+  <div class="secsub">Two cover options (side-band print) + two bag options (filled design), relevant to this shop type.</div>
+  <div class="grid" id="grid_set"></div>
 
-  <div class="secttl">Paper Bags — 10 Designs</div>
-  <div class="secsub">Handle / eyelet bags. Illustrated, patterned, market-ready layouts across shop types.</div>
-  <div class="grid" id="grid_bag"></div>
+  <div class="ai-head">
+    <div>
+      <div class="secttl" style="margin:0">AI Concepts</div>
+      <div class="secsub" style="margin:2px 0 0">Fresh AI-generated packaging concepts for this shop — tap Generate for new ones.</div>
+    </div>
+    <button class="gen" id="genBtn" onclick="genAI()">✨ Generate new concepts</button>
+  </div>
+  <div class="ai-note">These AI images are <b>inspiration mockups</b> (needs internet). The final printing die is redrawn as clean vector artwork from the concept you pick.</div>
+  <div class="aigrid" id="grid_ai"></div>
 
   <div class="foot">
     KRAFT·Vibe · Udumalpet · <a href="https://kraftvibe.in/" target="_blank">kraftvibe.in</a><br>
-    Every layout is a template — we print your customer's name on it. Ask for a 1-colour or 2-colour quote.
+    Same die per layout — only the printing plate (name) changes per customer. 1-colour = cheapest · 2-colour = premium.
   </div>
 </div>
 
 <script>
-/* ============ MOTIF LIBRARY (rich, print-friendly line-art) ============ */
-function petalRing(cx,cy,r,n,col,fill){
-  let s='';
-  for(let i=0;i<n;i++){const a=360/n*i;
-    s+=`<g transform="rotate(${a} ${cx} ${cy})"><path d="M${cx} ${cy-r} q ${r*.3} ${r*.32} 0 ${r*.6} q ${-r*.3} ${-r*.28} 0 ${-r*.6} z" fill="${fill||'none'}" stroke="${col}" stroke-width="1"/></g>`;}
-  return s;
+/* ---------- motif + illustration library ---------- */
+const G='#0f6d38', TR='#b5502f', GD='#a9822e', CR='#f8f0e2';
+function ill(name,x,y,s,col,col2){
+  const C=col,A=col2||col;
+  const P={
+   cupcake:`<path d="M12 22h24l-3 16a3 3 0 0 1-3 3H18a3 3 0 0 1-3-3z"/><path d="M15 28h18M17 35h14"/><path stroke="${A}" d="M12 22c0-6 5-9 12-9s12 3 12 9M14 22c2-4 6-3 10-3s8-1 10 3"/><circle cx="24" cy="8" r="2.6" fill="${A}" stroke="${A}"/>`,
+   bread:`<path d="M8 26c0-8 7-12 16-12s16 4 16 12v10H8z"/><path stroke="${A}" d="M16 20c-2 2-3 5-3 8M24 18c-2 2-3 5-3 8M32 20c-2 2-3 5-3 8"/>`,
+   cakeSlice:`<path d="M8 34l16-20 16 20z"/><path d="M8 34v5h32v-5"/><path stroke="${A}" d="M15 25h18M12 30h24"/><circle cx="24" cy="12" r="2.4" fill="${A}" stroke="${A}"/>`,
+   laddu:`<circle cx="16" cy="30" r="9"/><circle cx="30" cy="30" r="9"/><circle cx="23" cy="18" r="9"/><path stroke="${A}" d="M13 30h.01M18 27h.01M28 30h.01M33 28h.01M21 18h.01M26 16h.01" stroke-width="2.6"/>`,
+   saree:`<path d="M16 6h16l-3 10 5 26H14l5-26z"/><path d="M20 6c0 5 8 5 8 0" stroke="${A}"/><path d="M18 30h12M17 36h14" stroke="${A}" stroke-width="1.4"/>`,
+   ring:`<circle cx="24" cy="28" r="10"/><path d="M18 20l6-8 6 8" stroke="${A}"/><path d="M22 12h4" stroke="${A}"/>`,
+   coffee:`<path d="M9 18h24v9a10 10 0 0 1-10 10h-4A10 10 0 0 1 9 27z"/><path d="M33 20h4a4 4 0 0 1 0 8h-4"/><path stroke="${A}" d="M15 9c0 2-2 3-2 5s2 3 2 5M23 8c0 2-2 3-2 5s2 3 2 5"/>`,
+   gift:`<path d="M10 20h28v22H10z"/><path d="M10 20l4-8h20l4 8"/><path d="M24 12v30" stroke="${A}"/><path d="M24 20c-7 0-9-8-3-8s3 8 3 8m0 0c7 0 9-8 3-8s-3 8-3 8" stroke="${A}"/>`,
+   basket:`<path d="M10 20h28l-4 22H14z"/><path d="M16 20l8-12 8 12" stroke="${A}"/><path d="M16 28h16M15 34h18" stroke="${A}" stroke-width="1.4"/>`,
+   rose:`<circle cx="24" cy="22" r="12"/><path stroke="${A}" d="M24 14c-5 2-6 9-1 12M24 14c5 2 6 9 1 12M18 22c2-4 10-4 12 0"/><path d="M24 34v10M20 40c2-2 6-2 8 0" stroke="${A}"/>`
+  };
+  return `<g transform="translate(${x} ${y}) scale(${s/48})" fill="none" stroke="${C}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${P[name]||''}</g>`;
 }
 function sprig(x,y,rot,sc,col){
-  let leaves='';
-  for(let i=0;i<5;i++){const yy=-6-i*7.5;
-    leaves+=`<path d="M0 ${yy} q 8 -2 11 -9" fill="none" stroke="${col}" stroke-width="1.1"/><path d="M0 ${yy} q -8 -2 -11 -9" fill="none" stroke="${col}" stroke-width="1.1"/>`;}
-  return `<g transform="translate(${x} ${y}) rotate(${rot}) scale(${sc})"><path d="M0 2 C 4 -12 4 -30 0 -46" fill="none" stroke="${col}" stroke-width="1.3"/>${leaves}</g>`;
-}
-function ornFrame(w,h,m,col){
-  return `<rect x="${m}" y="${m}" width="${w-2*m}" height="${h-2*m}" fill="none" stroke="${col}" stroke-width="1.5"/>
-   <rect x="${m+5}" y="${m+5}" width="${w-2*m-10}" height="${h-2*m-10}" fill="none" stroke="${col}" stroke-width="0.6"/>
-   ${[[m,m],[w-m,m],[m,h-m],[w-m,h-m]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="3.2" fill="${col}"/><circle cx="${x}" cy="${y}" r="6" fill="none" stroke="${col}" stroke-width="0.7"/>`).join('')}`;
-}
-function badge(cx,cy,r,col){
-  return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${col}" stroke-width="1.6"/>
-   <circle cx="${cx}" cy="${cy}" r="${r-4}" fill="none" stroke="${col}" stroke-width="0.6" stroke-dasharray="1.5 3"/>`;
-}
-function ribbon(cx,cy,w,col){
-  const h=22,x=cx-w/2;
-  return `<path d="M${x} ${cy-h/2} h${w} l-10 ${h/2} l10 ${h/2} h${-w} l10 ${-h/2} z" fill="${col}"/>`;
+  let l='';for(let i=0;i<5;i++){const yy=-6-i*7.5;
+    l+=`<path d="M0 ${yy} q 8 -2 11 -9" fill="none" stroke="${col}" stroke-width="1.1"/><path d="M0 ${yy} q -8 -2 -11 -9" fill="none" stroke="${col}" stroke-width="1.1"/>`;}
+  return `<g transform="translate(${x} ${y}) rotate(${rot}) scale(${sc})"><path d="M0 2 C 4 -12 4 -30 0 -46" fill="none" stroke="${col}" stroke-width="1.3"/>${l}</g>`;
 }
 function swash(cx,cy,w,col){
   return `<path d="M${cx-w/2} ${cy} q ${w*.18} -8 ${w*.34} 0 q ${w*.16} 7 ${w*.32} 0 q ${w*.16} -7 ${w*.34} 0" fill="none" stroke="${col}" stroke-width="1.3" stroke-linecap="round"/><circle cx="${cx-w/2}" cy="${cy}" r="1.8" fill="${col}"/><circle cx="${cx+w/2}" cy="${cy}" r="1.8" fill="${col}"/>`;
 }
-function paisley(x,y,sc,col){
-  return `<g transform="translate(${x} ${y}) scale(${sc})" fill="none" stroke="${col}" stroke-width="1.2"><path d="M0 0 C -18 2 -22 -18 -8 -26 C 4 -32 14 -22 8 -12 C 5 -7 -2 -8 -1 -14"/><circle cx="-4" cy="-18" r="2.4" fill="${col}"/></g>`;
+function ribbon(cx,cy,w,col){const h=22,x=cx-w/2;
+  return `<path d="M${x} ${cy-h/2} h${w} l-10 ${h/2} l10 ${h/2} h${-w} l10 ${-h/2} z" fill="${col}"/>`;}
+function scallop(y,w0,w1,col,flip){
+  let d=`M${w0} ${y}`;for(let x=w0;x<w1;x+=16){d+=` q 8 ${flip?12:-12} 16 0`;}
+  return `<path d="${d}" fill="none" stroke="${col}" stroke-width="1.4"/>`;
 }
-/* detailed product illustrations */
-function ill(name,x,y,s,col,col2){
-  const C=col,A=col2||col; const g=`<g transform="translate(${x} ${y}) scale(${s/48})" fill="none" stroke="${C}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">`;
-  const P={
-   cupcake:`<path d="M12 22h24l-3 16a3 3 0 0 1-3 3H18a3 3 0 0 1-3-3z"/><path d="M15 28h18M17 35h14"/><path stroke="${A}" d="M12 22c0-6 5-9 12-9s12 3 12 9M14 22c2-4 6-3 10-3s8-1 10 3"/><circle cx="24" cy="8" r="2.6" fill="${A}" stroke="${A}"/>`,
-   coffee:`<path d="M9 18h24v9a10 10 0 0 1-10 10h-4A10 10 0 0 1 9 27z"/><path d="M33 20h4a4 4 0 0 1 0 8h-4"/><path stroke="${A}" d="M15 9c0 2-2 3-2 5s2 3 2 5M23 8c0 2-2 3-2 5s2 3 2 5M31 9c0 2-2 3-2 5s2 3 2 5"/>`,
-   cakeSlice:`<path d="M8 34l16-20 16 20z"/><path d="M8 34v5h32v-5"/><path stroke="${A}" d="M15 25h18M12 30h24"/><circle cx="24" cy="12" r="2.4" fill="${A}" stroke="${A}"/>`,
-   laddu:`<circle cx="16" cy="30" r="9"/><circle cx="30" cy="30" r="9"/><circle cx="23" cy="18" r="9"/><path stroke="${A}" d="M13 30h.01M18 27h.01M28 30h.01M33 28h.01M21 18h.01M26 16h.01" stroke-width="2.6"/>`,
-   rose:`<circle cx="24" cy="22" r="12"/><path stroke="${A}" d="M24 14c-5 2-6 9-1 12M24 14c5 2 6 9 1 12M18 22c2-4 10-4 12 0"/><path d="M24 34v10M20 40c2-2 6-2 8 0" stroke="${A}"/>`,
-   ring:`<circle cx="24" cy="28" r="10"/><path d="M18 20l6-8 6 8" stroke="${A}"/><path d="M22 12h4" stroke="${A}"/>`,
-   bag:`<path d="M12 16h24l2 26H10z"/><path d="M18 16v-3a6 6 0 0 1 12 0v3" stroke="${A}"/>`,
-   leafPlate:`<ellipse cx="24" cy="26" rx="18" ry="12"/><ellipse cx="24" cy="26" rx="11" ry="7" stroke="${A}"/><path d="M24 14v24" stroke="${A}"/>`
-  };
-  return g+(P[name]||'')+`</g>`;
-}
-
-/* ============ CANVAS SHAPES ============ */
 const KP='#e7d8bd';
-function bag(inner){
-  return `<svg viewBox="0 0 240 300">
+const DEFS=`<defs><pattern id="kt" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><line x1="0" y1="0" x2="0" y2="7" stroke="#9c673510" stroke-width="1"/></pattern></defs>`;
+function bagShape(inner){
+  return `<svg viewBox="0 0 240 300">${DEFS}
     <path d="M55 42 q45 -36 130 0" fill="none" stroke="#00000022" stroke-width="6"/>
     <rect x="30" y="42" width="180" height="240" rx="6" fill="${KP}" stroke="#0000001c"/>
     <rect x="30" y="42" width="180" height="240" rx="6" fill="url(#kt)"/>
     ${inner}</svg>`;
 }
-function cover(inner){
-  return `<svg viewBox="0 0 300 210">
+function coverShape(inner){
+  return `<svg viewBox="0 0 300 210">${DEFS}
     <rect x="14" y="14" width="272" height="182" rx="8" fill="${KP}" stroke="#0000001c"/>
     <rect x="14" y="14" width="272" height="182" rx="8" fill="url(#kt)"/>
     ${inner}</svg>`;
 }
-const DEFS=`<defs><pattern id="kt" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><line x1="0" y1="0" x2="0" y2="7" stroke="#9c673510" stroke-width="1"/></pattern></defs>`;
 function T(x,y,txt,size,color,font,anchor,ls,weight){
   return `<text x="${x}" y="${y}" font-family="${font||'DM Sans'}" font-size="${size}" fill="${color}" text-anchor="${anchor||'middle'}" letter-spacing="${ls||0}" font-weight="${weight||700}">${txt}</text>`;
 }
-const G='#0f6d38', TR='#b5502f', GD='#a9822e';
 
-/* ===================== COVER DESIGNS ===================== */
-const COVERS=[
- {nm:'Botanical Frame',c:2,suit:'Bakery / Gift',build:()=>cover(
-   ornFrame(300,210,26,G)+sprig(48,58,-20,0.8,TR)+sprig(252,58,20,0.8,TR)+
-   T(150,100,'{NM}',30,G,'Playfair Display','middle',0,800)+
-   swash(150,116,90,TR)+
-   T(150,140,'{TG}',12,'#5c4a37','Cormorant Garamond','middle',1,700)+
-   T(150,168,'{PH}',11,G,'DM Mono','middle',1,500))},
+/* ---------- per-type config ---------- */
+const TYPES={
+ bakery:{label:'Bakery',icon:'cupcake',icon2:'bread',ai:'bakery, cupcake and bread motif'},
+ cake:{label:'Cake Shop',icon:'cakeSlice',icon2:'cupcake',ai:'cake shop, cake slice motif'},
+ sweets:{label:'Sweets & Snacks',icon:'laddu',icon2:'gift',ai:'indian sweets shop, laddu motif'},
+ textile:{label:'Textile / Boutique',icon:'saree',icon2:'rose',ai:'textile boutique, saree and paisley motif'},
+ jewellery:{label:'Jewellery',icon:'ring',icon2:'rose',ai:'jewellery store, elegant gold ring motif'},
+ cafe:{label:'Café / Tea',icon:'coffee',icon2:'cupcake',ai:'coffee shop cafe, coffee cup motif'},
+ gift:{label:'Gift / Return Gift',icon:'gift',icon2:'rose',ai:'gift shop return gifts, gift box and flower motif'},
+ grocery:{label:'Grocery / General',icon:'basket',icon2:'bread',ai:'grocery store, shopping basket motif'}
+};
 
- {nm:'Laurel Badge',c:1,suit:'All shops',build:()=>cover(
-   badge(150,100,58,G)+petalRing(150,100,58,24,G)+
-   T(150,86,'{NM}',22,G,'Anton','middle',.5)+
-   `<line x1="120" y1="98" x2="180" y2="98" stroke="${G}" stroke-width="1"/>`+
-   T(150,116,'{TG}',9,'#5c4a37','DM Mono','middle',1,500)+
-   T(150,180,'· EST · UDUMALPET ·',9,G,'DM Mono','middle',2,500))},
+/* ---------- COVER: lengthwise side band + name (classic flexo) ---------- */
+function coverSideBand(t){ // 1-colour: green band left with stacked motifs, name centre
+  const band=`<rect x="14" y="14" width="60" height="182" fill="${G}"/>
+    ${ill(t.icon,26,32,34,CR,CR)}${ill(t.icon2,26,88,34,CR,CR)}${ill(t.icon,26,144,34,CR,CR)}
+    <line x1="80" y1="24" x2="80" y2="186" stroke="${G}" stroke-width="1.2"/>`;
+  return coverShape(band+
+    T(183,96,'{NM}',26,G,'Anton','middle',1)+
+    `<line x1="128" y1="112" x2="238" y2="112" stroke="${G}" stroke-width="1.6"/>`+
+    T(183,134,'{TG}',11,'#5c4a37','DM Sans','middle',.5,600)+
+    T(183,168,'{PH}',10.5,G,'DM Mono','middle',1,500));
+}
+function coverSideBand2(t){ // 2-colour: terra band right + pinstripes, serif name
+  const band=`<rect x="226" y="14" width="60" height="182" fill="${TR}"/>
+    ${ill(t.icon,238,40,34,CR,CR)}${ill(t.icon2,238,100,34,CR,CR)}${ill(t.icon,238,156,30,CR,CR)}
+    <line x1="218" y1="24" x2="218" y2="186" stroke="${TR}" stroke-width="1.2"/>
+    <line x1="214" y1="24" x2="214" y2="186" stroke="${G}" stroke-width="2.4"/>`;
+  return coverShape(band+
+    T(114,92,'{NM}',26,G,'Playfair Display','middle',0,800)+
+    swash(114,110,86,TR)+
+    T(114,134,'{TG}',11,TR,'Cormorant Garamond','middle',1,700)+
+    T(114,166,'{PH}',10.5,'#5c4a37','DM Mono','middle',1,500));
+}
 
- {nm:'Cupcake Studio',c:2,suit:'Bakery / Cake',build:()=>cover(
-   ill('cupcake',124,26,52,TR,G)+
-   T(150,124,'{NM}',28,G,'Anton','middle',1)+
-   swash(150,140,84,TR)+
-   T(150,164,'{TG}',11,'#5c4a37','DM Sans','middle',.5,600))},
+/* ---------- BAG: filled designs ---------- */
+function bagFilled(t){ // pattern-filled + cream centre panel + big motif
+  return bagShape(
+   `<defs><pattern id="pf" width="34" height="34" patternUnits="userSpaceOnUse">${ill(t.icon,4,4,24,'#0f6d3822','#0f6d3822')}</pattern></defs>
+    <rect x="30" y="42" width="180" height="240" fill="url(#pf)"/>
+    <rect x="30" y="42" width="180" height="16" fill="${G}"/><rect x="30" y="266" width="180" height="16" fill="${G}"/>
+    <rect x="48" y="104" width="144" height="118" rx="10" fill="${CR}" stroke="${G}" stroke-width="1.6"/>
+    <rect x="53" y="109" width="134" height="108" rx="8" fill="none" stroke="${G}" stroke-width="0.6"/>`+
+    ill(t.icon,102,116,38,TR,G)+
+    T(120,182,'{NM}',19,G,'Anton','middle',.5)+
+    swash(120,196,92,TR)+
+    T(120,212,'{TG}',9.5,'#5c4a37','DM Sans','middle',.5,600)+
+    T(120,246,'{PH}',10,CR==='#f8f0e2'?'#f8f0e2':'#fff','DM Mono','middle',1,500)+
+    T(120,246,'{PH}',10,'#f8f0e2','DM Mono','middle',1,500));
+}
+function bagFilled2(t){ // scallops + ribbon + sprigs + motif — festive full layout
+  return bagShape(
+    scallop(64,34,206,TR,false)+scallop(258,34,206,TR,true)+
+    sprig(58,150,-26,0.62,G)+sprig(182,150,26,0.62,G)+
+    ill(t.icon,96,76,48,TR,G)+
+    ribbon(120,158,132,G)+
+    T(120,163,'{NM}',16,'#f8f0e2','Anton','middle',1)+
+    T(120,196,'{TG}',11,TR,'Playfair Display','middle',0,700)+
+    `<circle cx="120" cy="222" r="2" fill="${GD}"/><line x1="86" y1="222" x2="112" y2="222" stroke="${GD}" stroke-width="1"/><line x1="128" y1="222" x2="154" y2="222" stroke="${GD}" stroke-width="1"/>`+
+    T(120,244,'{PH}',9.5,'#5c4a37','DM Mono','middle',1,500));
+}
 
- {nm:'Mandala Two-Tone',c:2,suit:'Premium / Festive',build:()=>cover(
-   `<rect x="14" y="14" width="272" height="40" rx="8" fill="${G}"/>`+
-   T(150,42,'{NM}',22,'#f8f0e2','Anton','middle',1)+
-   petalRing(150,120,40,16,TR)+petalRing(150,120,26,12,GD)+`<circle cx="150" cy="120" r="12" fill="none" stroke="${TR}" stroke-width="1.2"/>`+
-   T(150,182,'{TG}',11,TR,'Cormorant Garamond','middle',1,700))},
-
- {nm:'Coffee & Steam',c:1,suit:'Café / Tea',build:()=>cover(
-   `<rect x="22" y="22" width="256" height="166" fill="none" stroke="${G}" stroke-width="1.5" stroke-dasharray="1 5" stroke-linecap="round"/>`+
-   ill('coffee',124,30,52,G,G)+
-   T(150,128,'{NM}',26,G,'Playfair Display','middle',0,800)+
-   T(150,152,'{TG}',10,'#5c4a37','DM Mono','middle',2,500)+
-   T(150,174,'{PH}',10.5,G,'DM Mono','middle',1,500))},
-
- {nm:'Floral Corners',c:2,suit:'Boutique / Wedding',build:()=>cover(
-   ill('rose',24,20,34,TR,G)+ill('rose',242,150,34,TR,G)+
-   sprig(60,190,150,0.6,G)+sprig(240,20,-30,0.6,G)+
-   T(150,102,'{NM}',28,G,'Playfair Display','middle',0,900)+
-   swash(150,118,80,TR)+
-   T(150,144,'{TG}',11,'#5c4a37','Cormorant Garamond','middle',1.5,700))}
-];
-
-/* ===================== BAG DESIGNS (10) ===================== */
-const BAGS=[
- {nm:'Botanical Frame',c:2,suit:'Bakery / Gift',build:()=>bag(
-   `<rect x="46" y="72" width="148" height="180" fill="none" stroke="${G}" stroke-width="1.4"/><rect x="51" y="77" width="138" height="170" fill="none" stroke="${G}" stroke-width="0.6"/>`+
-   sprig(70,110,-25,0.7,TR)+sprig(170,110,25,0.7,TR)+
-   T(120,158,'{NM}',21,G,'Playfair Display','middle',0,800)+swash(120,174,86,TR)+
-   T(120,198,'{TG}',10,'#5c4a37','Cormorant Garamond','middle',1,700)+
-   T(120,228,'{PH}',9.5,G,'DM Mono','middle',1,500))},
-
- {nm:'Petal Badge',c:1,suit:'All shops',build:()=>bag(
-   badge(120,150,62,G)+petalRing(120,150,62,26,G)+
-   T(120,144,'{NM}',20,G,'Anton','middle',.5)+`<line x1="88" y1="156" x2="152" y2="156" stroke="${G}" stroke-width="1"/>`+
-   T(120,172,'{TG}',9,'#5c4a37','DM Mono','middle',1,500)+
-   T(120,236,'· UDUMALPET ·',9,G,'DM Mono','middle',2,500))},
-
- {nm:'Cupcake Studio',c:2,suit:'Bakery / Cake',build:()=>bag(
-   ill('cupcake',94,74,52,TR,G)+ribbon(120,150,120,G)+
-   T(120,155,'{NM}',17,'#f8f0e2','Anton','middle',1)+
-   T(120,196,'{TG}',10.5,TR,'Cormorant Garamond','middle',.5,700)+
-   T(120,228,'{PH}',9.5,'#5c4a37','DM Mono','middle',1,500))},
-
- {nm:'Festive Sweets',c:2,suit:'Sweets / Snacks',build:()=>bag(
-   `<rect x="30" y="70" width="180" height="9" fill="${TR}"/><rect x="30" y="232" width="180" height="9" fill="${GD}"/>`+
-   ill('laddu',96,92,50,TR,GD)+
-   T(120,178,'{NM}',20,G,'Anton','middle',1)+
-   T(120,202,'{TG}',10,TR,'Playfair Display','middle',0,700)+
-   T(120,222,'{PH}',9,'#5c4a37','DM Mono','middle',1,500))},
-
- {nm:'Boutique Paisley',c:2,suit:'Textile / Boutique',build:()=>bag(
-   paisley(70,120,1.5,TR)+paisley(170,120,-1.5,TR)+
-   T(120,160,'{NM}',19,G,'Playfair Display','middle',0,900)+
-   `<line x1="82" y1="172" x2="158" y2="172" stroke="${GD}" stroke-width="1"/>`+
-   T(120,192,'{TG}',9.5,'#5c4a37','Cormorant Garamond','middle',1.5,700)+
-   sprig(120,244,180,0.5,G))},
-
- {nm:'Monogram Crest',c:2,suit:'Fashion / Gift',build:()=>bag(
-   `<path d="M120 92 l40 14 v26 c0 26 -20 40 -40 50 c-20 -10 -40 -24 -40 -50 v-26 z" fill="none" stroke="${G}" stroke-width="1.6"/>`+
-   `<circle cx="120" cy="128" r="22" fill="${G}"/>`+T(120,138,'{IN}',26,'#f8f0e2','Anton','middle',0)+
-   T(120,182,'{NM}',16,G,'Playfair Display','middle',0,800)+
-   T(120,200,'{TG}',8.5,TR,'DM Mono','middle',1,500))},
-
- {nm:'Thank You Floral',c:1,suit:'Retail / Gift',build:()=>bag(
-   ill('rose',96,80,44,G,G)+
-   `<text x="120" y="150" font-family="Dancing Script" font-size="30" fill="${G}" text-anchor="middle" font-weight="700">Thank You</text>`+
-   T(120,178,'{NM}',18,G,'Anton','middle',.5)+`<line x1="86" y1="190" x2="154" y2="190" stroke="${G}" stroke-width="1"/>`+
-   T(120,210,'{TG}',9.5,'#5c4a37','DM Sans','middle',.5,600))},
-
- {nm:'Ribbon Banner',c:2,suit:'Sweets / Festive',build:()=>bag(
-   sprig(60,130,-30,0.6,GD)+sprig(180,130,30,0.6,GD)+
-   ribbon(120,120,140,G)+T(120,125,'{NM}',17,'#f8f0e2','Anton','middle',1)+
-   T(120,168,'{TG}',12,TR,'Playfair Display','middle',0,700)+
-   T(120,236,'{PH}',10,'#5c4a37','DM Mono','middle',1,500))},
-
- {nm:'Jewellery Emblem',c:2,suit:'Jewellery',build:()=>bag(
-   `<circle cx="120" cy="132" r="58" fill="none" stroke="${GD}" stroke-width="2"/>`+petalRing(120,132,58,32,GD)+`<circle cx="120" cy="132" r="46" fill="none" stroke="${GD}" stroke-width="0.7"/>`+
-   ill('ring',96,84,44,GD,G)+
-   T(120,150,'{NM}',16,G,'Playfair Display','middle',0,900)+
-   T(120,168,'{TG}',8.5,GD,'DM Mono','middle',1.5,500))},
-
- {nm:'Botanical Pattern',c:2,suit:'Premium / All',build:()=>bag(
-   `<defs><pattern id="bot" width="40" height="40" patternUnits="userSpaceOnUse">${sprig(20,34,0,0.4,'#0f6d3833')}</pattern></defs>
-    <rect x="30" y="42" width="180" height="240" fill="url(#bot)"/>
-    <rect x="48" y="118" width="144" height="86" rx="8" fill="#f8f0e2" stroke="${G}" stroke-width="1.4"/><rect x="53" y="123" width="134" height="76" rx="6" fill="none" stroke="${G}" stroke-width="0.6"/>`+
-   T(120,158,'{NM}',19,G,'Anton','middle',.5)+swash(120,172,96,TR)+
-   T(120,192,'{TG}',9.5,TR,'Cormorant Garamond','middle',1,700))}
-];
-
-/* ---- render + live update ---- */
+/* ---------- render ---------- */
 function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function fill(svg,nm,tg,ph){
-  const initial=(nm.trim()[0]||'S').toUpperCase();
-  return DEFS+svg.replace(/{NM}/g,esc(nm)||'SHOP NAME').replace(/{TG}/g,esc(tg)).replace(/{PH}/g,esc(ph)).replace(/{IN}/g,esc(initial));
+  return svg.replace(/{NM}/g,esc(nm)||'SHOP NAME').replace(/{TG}/g,esc(tg)).replace(/{PH}/g,esc(ph));
 }
-function card(d){
-  const tags=`<span class="tag ${d.c===1?'t1':'t2'}">${d.c===1?'1 colour':'2 colour'}</span><span class="tag ts">${d.suit}</span>`;
-  return `<div class="card"><div class="art" data-tpl="${encodeURIComponent(d.build())}"></div>
-    <div class="meta"><div class="nm">${d.nm}</div><div class="tags">${tags}</div></div></div>`;
+function card(nm,c,suitTag,svg){
+  return `<div class="card"><div class="art">${svg}</div>
+    <div class="meta"><div class="nm">${nm}</div><div class="tags">
+    <span class="tag ${c===1?'t1':'t2'}">${c===1?'1 colour':'2 colour'}</span><span class="tag ts">${suitTag}</span></div></div></div>`;
 }
-function boot(){
-  document.getElementById('grid_cover').innerHTML=COVERS.map(card).join('');
-  document.getElementById('grid_bag').innerHTML=BAGS.map(card).join('');
-  update();
+function renderSet(){
+  const key=document.getElementById('in_type').value;
+  const t=TYPES[key];
+  const nm=document.getElementById('in_name').value, tg=document.getElementById('in_tag').value, ph=document.getElementById('in_ph').value;
+  document.getElementById('setttl').textContent='Matched Set — '+t.label;
+  document.getElementById('grid_set').innerHTML=
+    card('Cover · Side Band',1,'Cover',fill(coverSideBand(t),nm,tg,ph))+
+    card('Cover · Side Band Serif',2,'Cover',fill(coverSideBand2(t),nm,tg,ph))+
+    card('Bag · Pattern Panel',2,'Bag',fill(bagFilled(t),nm,tg,ph))+
+    card('Bag · Festive Full',2,'Bag',fill(bagFilled2(t),nm,tg,ph));
 }
-function update(){
-  const nm=document.getElementById('in_name').value;
-  const tg=document.getElementById('in_tag').value;
-  const ph=document.getElementById('in_ph').value;
-  document.querySelectorAll('.art').forEach(a=>{a.innerHTML=fill(decodeURIComponent(a.dataset.tpl),nm,tg,ph);});
+
+/* ---------- AI concepts (Pollinations, no key needed) ---------- */
+function genAI(){
+  const key=document.getElementById('in_type').value;
+  const t=TYPES[key];
+  const nm=document.getElementById('in_name').value||'SHOP NAME';
+  const btn=document.getElementById('genBtn');btn.disabled=true;btn.textContent='✨ Generating…';
+  const base=`green and terracotta ink print on brown kraft paper, indian ${t.ai}, shop name "${nm}", clean professional packaging design, studio product photo`;
+  const shots=[
+    ['Cover concept A',`brown kraft paper grocery cover packet with printed side band design, ${base}`],
+    ['Cover concept B',`flat brown kraft paper cover with simple elegant printed design, ${base}`],
+    ['Bag concept A',`brown kraft paper shopping bag with twisted handles, fully patterned printed design, ${base}`],
+    ['Bag concept B',`kraft paper gift bag with decorative filled print layout, ${base}`]
+  ];
+  const g=document.getElementById('grid_ai');
+  g.innerHTML=shots.map((s,i)=>{
+    const seed=Math.floor(Math.random()*100000);
+    const u='https://image.pollinations.ai/prompt/'+encodeURIComponent(s[1])+`?width=560&height=560&nologo=true&seed=${seed}&model=flux`;
+    return `<div class="aicard"><div class="ph"><span class="ld">GENERATING…</span><img src="${u}" alt="${s[0]}" onload="this.previousElementSibling.style.display='none'" onerror="this.previousElementSibling.textContent='⚠ retry — tap Generate'"></div><div class="cap">${s[0]}</div></div>`;
+  }).join('');
+  setTimeout(()=>{btn.disabled=false;btn.textContent='✨ Generate new concepts';},4000);
 }
-['in_name','in_tag','in_ph'].forEach(id=>document.getElementById(id).addEventListener('input',update));
-boot();
+
+/* ---------- boot ---------- */
+['in_type','in_name','in_tag','in_ph'].forEach(id=>document.getElementById(id).addEventListener('input',renderSet));
+document.getElementById('in_type').addEventListener('change',()=>{renderSet();});
+renderSet();
+genAI();
 </script>
 </body>
 </html>
