@@ -649,7 +649,7 @@ const TYPE_CATALOG={
  'Supermarket':{cats:['Cover','Handle Bag'],title:'SUPERMARKET COVERS & BAGS',note:'Ellaa size covers + billing counter bags.'},
  'Pharmacy':{cats:['Cover'],title:'MEDICAL COVERS PRICE LIST',note:'Medicine covers unga pharmacy perula.'},
  'Tea Shop':{cats:['Cover'],title:'TEA SHOP COVERS',note:'Parcel/snacks covers – plain vilaila print.'},
- 'Jewellery':{cats:['Handle Bag'],title:'JEWELLERY CARRY BAGS',note:'Premium handle bags – unga brand-ku etha maari.'},
+ 'Jewellery':{cats:['Handle Bag'],title:'JEWELLERY CARRY BAGS',note:'Premium handle bags – matched to your brand.'},
  'Gift':{cats:['Handle Bag','Return Gift'],title:'GIFT BAGS PRICE LIST',note:'Gift wrap bags + return gift bags.'},
  'Footwear':{cats:['Handle Bag'],title:'FOOTWEAR CARRY BAGS',note:'Strong handle bags unga shop perula.'},
  'Function/Family':{cats:['Return Gift','Cloth Bag'],title:'RETURN GIFT BAGS',note:'Family name + date print – function ready! (one-time order)'},
@@ -659,28 +659,28 @@ function catalogCfg(c){return TYPE_CATALOG[c.type]||TYPE_CATALOG.Other;}
 function catalogMsg(c){
   const cfg=catalogCfg(c);
   const items=DB.products.filter(p=>cfg.cats.includes(p.cat));
-  const lines=items.length?items.map(p=>`▫️ ${p.name}${p.size&&p.size!=='-'?' – '+p.size:''} : ₹${p.price}/${p.unit==='piece'?'pc':p.unit}`).join('\n'):'(products list update aagum)';
+  const lines=items.length?items.map(p=>`▫️ ${p.name}${p.size&&p.size!=='-'?' – '+p.size:''} : ₹${p.price}/${p.unit==='piece'?'pc':p.unit}`).join('\n'):'(product list will be updated)';
   const arecaOnly=cfg.cats.length===1&&cfg.cats[0]==='Areca Plate';
   const bene=arecaOnly
-    ?`⭐ *UV-rays la clean + shrink pack – full hygiene* (engaloda USP!)\n✅ Bulk/carton-ku innum kammi rate\n✅ Free local delivery (Udumalpet 30km)`
-    :`✅ Unga per/logo print – FREE design\n${cfg.cats.includes('Areca Plate')?'⭐ Areca plates: UV clean + shrink pack – hygiene guarantee\n':''}✅ Bulk-ku innum kammi rate\n✅ Free local delivery (Udumalpet 30km)`;
-  return `Vanakkam ${c.name} 🙏\n\n*KRAFT·Vibe – ${cfg.title}*\n${cfg.note}\n\n${lines}\n\n${bene}\n\nOrder venum-na indha message-ku *reply* pannunga – confirm pannidalam! 👍\n– KRAFT·Vibe · 7904505226`;
+    ?`⭐ *UV-cleaned + shrink packed – full hygiene* (our USP!)\n✅ Even lower rate for bulk / cartons\n✅ Free local delivery (Udumalpet 30km)`
+    :`✅ Your name/logo printed – FREE design\n${cfg.cats.includes('Areca Plate')?'⭐ Areca plates: UV clean + shrink pack – hygiene guarantee\n':''}✅ Even lower rate for bulk\n✅ Free local delivery (Udumalpet 30km)`;
+  return `Hello ${c.name} 🙏\n\n*KRAFT·Vibe – ${cfg.title}*\n${cfg.note}\n\n${lines}\n\n${bene}\n\nTo order, just *reply* to this message – we'll confirm! 👍\n– KRAFT·Vibe · 7904505226`;
 }
 function sendCatalog(id){
   const c=DB.customers.find(x=>x.id===id);if(!c)return;
-  if(!c.phone){toast('Phone number venum — edit panni add pannunga');editCust(id);return;}
+  if(!c.phone){toast('Phone number needed — edit and add it');editCust(id);return;}
   window.open(waLink(c.phone,catalogMsg(c)),'_blank');
   c.catalogSent=today();upgradeStage(c,'catalog');save();render();
-  toast('Catalog anuppiyaachu — 3 naal-la follow-up varum');
+  toast('Catalog sent — follow-up in 3 days');
 }
 
 /* stage-based follow-up messages */
-function noReplyMsg(c){return `Vanakkam ${c.name} 🙏 KRAFT·Vibe (Udumalpet). Munnadi anuppina message paathingala? Unga ${c.type==='Catering'?'catering-ku areca plates':'kadaikku free sample'} kondu varalama? Oru "OK" podunga podhum! 😊`;}
-function catalogFollowMsg(c){return `Vanakkam ${c.name} 🙏 KRAFT·Vibe catalog paathingala? 😊 Edhavadhu size/design pidichirundha sollunga – first order-ku special rate + free delivery! 🙏`;}
-function sampleFollowMsg(c){return `Vanakkam ${c.name} 🙏 Sample eppadi irundhuchu? Pidichirundha ippove first order podalam – chinna quantity kooda OK. Special opening rate! 🎉 – KRAFT·Vibe`;}
-function reorderMsg(c){return `Vanakkam ${c.name} 🙏 KRAFT·Vibe. Unga ${c.type==='Catering'||c.type==='Hotel'?'plates':'covers'} stock mudiyara neram aachu-nu ninaikkirom. Adhe order repeat pannalama? Quantity mattum sollunga – delivery free! 🚚`;}
-function reviewMsg(c){return `Vanakkam ${c.name} 🙏 Function nalla nadandhirukkum-nu nambarom! 🎉 Engaloda ${c.type==='Function/Family'?'return gift bags':'products'} pidichirundha:\n1️⃣ Oru Google review podunga\n2️⃣ Friends/relatives-ku engala refer pannunga\nAdutha function-ku *10% OFF*! 🎁 – KRAFT·Vibe`;}
-function thanksMsg(c){return `Vanakkam ${c.name} 🙏 KRAFT·Vibe. Edhavadhu venum-na oru message podunga – stock ready, delivery free! 😊`;}
+function noReplyMsg(c){return `Hello ${c.name} 🙏 KRAFT·Vibe (Udumalpet). Did you see the message we sent earlier? Can we bring ${c.type==='Catering'?'areca plates for your catering':'a free sample to your shop'}? Just reply "OK"! 😊`;}
+function catalogFollowMsg(c){return `Hello ${c.name} 🙏 Did you get a chance to see the KRAFT·Vibe catalog? 😊 If any size/design caught your eye, let us know – special rate + free delivery on your first order! 🙏`;}
+function sampleFollowMsg(c){return `Hello ${c.name} 🙏 How was the sample? If you liked it, we can start your first order now – even a small quantity is fine. Special opening rate! 🎉 – KRAFT·Vibe`;}
+function reorderMsg(c){return `Hello ${c.name} 🙏 KRAFT·Vibe. We think your ${c.type==='Catering'||c.type==='Hotel'?'plates':'covers'} stock may be running low. Shall we repeat the same order? Just tell us the quantity – free delivery! 🚚`;}
+function reviewMsg(c){return `Hello ${c.name} 🙏 We hope the function went well! 🎉 If you liked our ${c.type==='Function/Family'?'return gift bags':'products'}:\n1️⃣ Please leave a Google review\n2️⃣ Refer us to friends/relatives\nGet *10% OFF* your next function! 🎁 – KRAFT·Vibe`;}
+function thanksMsg(c){return `Hello ${c.name} 🙏 KRAFT·Vibe. Whenever you need anything, just send a message – stock ready, delivery free! 😊`;}
 function nextMsg(c){
   const st=stageOf(c);const r=reminderState(c);
   if(!c.oneTime&&r&&r.s!=='ok')return reorderMsg(c);
@@ -701,18 +701,18 @@ function followUps(){
     const r=reminderState(c);
     if(c.funcDate){
       const d=daysBetween(t,c.funcDate);
-      if(d>=0&&d<=15&&!c.lastOrder){list.push({c,tag:'FUNCTION '+d+'d',why:'Function '+c.funcDate+' — order finalize pannanum!',msg:`Vanakkam ${c.name} 🙏 Unga function-ku ${d} naal dhaan! Return gift bags order finalize pannalama? Design + quantity sollunga — time-ku ready pannidrom. 🎁 – KRAFT·Vibe · 7904505226`,p:0});return;}
-      if(d>=0&&d<=5&&c.lastOrder){list.push({c,tag:'DELIVERY '+d+'d',why:'Function '+c.funcDate+' — ready/delivery update kudunga',msg:`Vanakkam ${c.name} 🙏 Unga order ready aagudhu! Function-ku munnadi ${d<=1?'inaikke':'time-ku'} delivery pannidrom. 🎁 – KRAFT·Vibe`,p:0});return;}
+      if(d>=0&&d<=15&&!c.lastOrder){list.push({c,tag:'FUNCTION '+d+'d',why:'Function '+c.funcDate+' — finalize the order!',msg:`Hello ${c.name} 🙏 Only ${d} days to your function! Shall we finalize the return gift bags? Send the design + quantity — we'll have them ready in time. 🎁 – KRAFT·Vibe · 7904505226`,p:0});return;}
+      if(d>=0&&d<=5&&c.lastOrder){list.push({c,tag:'DELIVERY '+d+'d',why:'Function '+c.funcDate+' — give a ready/delivery update',msg:`Hello ${c.name} 🙏 Your order is getting ready! We'll deliver ${d<=1?'today':'on time'} before the function. 🎁 – KRAFT·Vibe`,p:0});return;}
     }
-    if(!c.oneTime&&r&&r.s!=='ok'){list.push({c,tag:r.s==='due'?'REORDER DUE':'DUE '+r.left+'d',why:'Reorder time – '+(c.cycle||'?')+' naal cycle',msg:reorderMsg(c),p:r.s==='due'?0:1});return;}
-    if(c.oneTime&&c.lastOrder&&!c.reviewAsked&&daysBetween(c.lastOrder,t)>=7){list.push({c,tag:'REVIEW',why:'Function mudinjadhu – review/referral kelunga',msg:reviewMsg(c),p:3,review:1});return;}
+    if(!c.oneTime&&r&&r.s!=='ok'){list.push({c,tag:r.s==='due'?'REORDER DUE':'DUE '+r.left+'d',why:'Reorder time – '+(c.cycle||'?')+'-day cycle',msg:reorderMsg(c),p:r.s==='due'?0:1});return;}
+    if(c.oneTime&&c.lastOrder&&!c.reviewAsked&&daysBetween(c.lastOrder,t)>=7){list.push({c,tag:'REVIEW',why:'Function done – ask for review/referral',msg:reviewMsg(c),p:3,review:1});return;}
     if(st==='sample'&&c.sampleDate){
       const sd=daysBetween(c.sampleDate,t);
-      if(sd>=14){list.push({c,tag:'STALE SAMPLE',why:'Sample kuduthu '+sd+' naal aachu — innum decision edukala, final-a kekkunga',msg:sampleFollowMsg(c),p:0});return;}
-      if(sd>=2){list.push({c,tag:'SAMPLE',why:'Sample kuduthu '+sd+' naal – feedback kelunga',msg:sampleFollowMsg(c),p:1});return;}
+      if(sd>=14){list.push({c,tag:'STALE SAMPLE',why:'Sample given '+sd+' days ago — no decision yet, ask for a final answer',msg:sampleFollowMsg(c),p:0});return;}
+      if(sd>=2){list.push({c,tag:'SAMPLE',why:'Sample given '+sd+' days – ask for feedback',msg:sampleFollowMsg(c),p:1});return;}
     }
-    if(st==='catalog'&&c.catalogSent&&daysBetween(c.catalogSent,t)>=3){list.push({c,tag:'CATALOG',why:'Catalog anuppi '+daysBetween(c.catalogSent,t)+' naal – reply illa',msg:catalogFollowMsg(c),p:2});return;}
-    if(st==='msg'&&c.lastMsg&&daysBetween(c.lastMsg,t)>=2){list.push({c,tag:'NO REPLY',why:'Message anuppi '+daysBetween(c.lastMsg,t)+' naal – reply illa',msg:noReplyMsg(c),p:2});return;}
+    if(st==='catalog'&&c.catalogSent&&daysBetween(c.catalogSent,t)>=3){list.push({c,tag:'CATALOG',why:'Catalog sent '+daysBetween(c.catalogSent,t)+' days – no reply',msg:catalogFollowMsg(c),p:2});return;}
+    if(st==='msg'&&c.lastMsg&&daysBetween(c.lastMsg,t)>=2){list.push({c,tag:'NO REPLY',why:'Message sent '+daysBetween(c.lastMsg,t)+' days – no reply',msg:noReplyMsg(c),p:2});return;}
   });
   return list.sort((a,b)=>a.p-b.p);
 }
@@ -746,7 +746,7 @@ function jobCardContacts(){
   const plan=getPlan();
   const daily=plan.ids.filter(id=>!plan.done.includes(id)&&!fuIds.has(id))
     .map(id=>DB.customers.find(c=>c.id===id)).filter(Boolean)
-    .map(c=>({c,tag:'DAILY-10',why:'Puthu lead — first message anuppunga',msg:nextMsg(c),p:4,kind:'daily10'}));
+    .map(c=>({c,tag:'DAILY-10',why:'New lead — send first message',msg:nextMsg(c),p:4,kind:'daily10'}));
   return fu.concat(daily).sort((a,b)=>a.p-b.p);
 }
 function todayContactRow(f){
@@ -791,7 +791,7 @@ function renderToday(){
     <div class="row">
       <div class="meta">
         <div class="t">${x.prod} <span class="pill customer">${x.qty} pending</span></div>
-        <div class="s">${x.material?(x.material.ok?`✅ ${x.material.name} stock podhum (${x.material.stock} ${x.material.unit})`:`⚠️ ${x.material.name} ${x.material.short} ${x.material.unit} short (stock ${x.material.stock})`):'No BOM set — Products-la consumes material add pannunga'}</div>
+        <div class="s">${x.material?(x.material.ok?`✅ ${x.material.name} stock sufficient (${x.material.stock} ${x.material.unit})`:`⚠️ ${x.material.name} ${x.material.short} ${x.material.unit} short (stock ${x.material.stock})`):'No BOM set — add "consumes material" in Products'}</div>
       </div>
     </div>`).join(''):'<div class="empty">Pending orders illa — produce panna onnum illa inaikku.</div>';
   const plog=(DB.production||[]).filter(x=>x.date===today());
@@ -810,7 +810,7 @@ function digestMsg(){
   m+=short.length?`⚠️ Material short: ${short.map(x=>x.material.name+' -'+x.material.short+x.material.unit).join(', ')}\n`:'';
   m+=low.length?`📦 Low stock: ${low.map(i=>i.name).join(', ')}\n`:'';
   if(!short.length&&!low.length)m+=`✅ Stock/material okay\n`;
-  m+=`\nApp open pannunga full details-ku 👍`;
+  m+=`\nOpen the app for full details 👍`;
   return m;
 }
 function sendDigest(){window.open(waLink(DB.settings.phone,digestMsg()),'_blank');}
@@ -899,7 +899,7 @@ const FIND_GROUPS=[
 let findTown='Udumalpet';
 function openFindLeads(){
   openM(`<h3>🔍 Find Leads on Google Maps</h3>
-   <p style="font-size:12.5px;color:var(--ink-soft);margin-bottom:12px">Oru category thattunga → Google Maps antha search-oda open aagum (real shops + phone numbers). Pidicha shop-a paathu, inga <b>+ Add</b> pannunga (name, phone, area type pannunga).</p>
+   <p style="font-size:12.5px;color:var(--ink-soft);margin-bottom:12px">Tap a category → Google Maps opens with that search (real shops + phone numbers). Find a shop you like and <b>+ Add</b> it here (type name, phone, area).</p>
    <div class="fg"><label>Area / town</label><select id="findTown" onchange="findTown=this.value;drawFindLeads()">${FIND_TOWNS.map(t=>`<option ${t===findTown?'selected':''}>${t}</option>`).join('')}</select></div>
    <div id="findBody"></div>
    <div class="mbtns"><button class="btn out" onclick="closeM()">Close</button><button class="btn eco" onclick="closeM();editCust()">+ Add a shop now</button></div>`);
@@ -987,7 +987,7 @@ function renderRemind(){
   document.getElementById('remindList').innerHTML=fl.length?fl.map(followRow).join(''):'<div class="empty">Inaikku follow-ups illa 🎉<br>Daily 10-la pudhu shops-ku message anuppunga.</div>';
 }
 function orderConfirmMsg(o,c){
-  return `✅ *Order Confirm – KRAFT·Vibe*\n\nVanakkam ${c.name} 🙏\n▫️ ${o.prod} × ${o.qty}\n▫️ Rate: ₹${o.rate}/pc\n▫️ Total: *${money(o.qty*o.rate)}*\n▫️ Date: ${o.date}\n\nReady aanadhum delivery pannidrom! Nandri 🙏\n– KRAFT·Vibe · 7904505226`;
+  return `✅ *Order Confirmed – KRAFT·Vibe*\n\nHello ${c.name} 🙏\n▫️ ${o.prod} × ${o.qty}\n▫️ Rate: ₹${o.rate}/pc\n▫️ Total: *${money(o.qty*o.rate)}*\n▫️ Date: ${o.date}\n\nWe'll deliver as soon as it's ready! Thank you 🙏\n– KRAFT·Vibe · 7904505226`;
 }
 function advOrder(id){
   const o=DB.orders.find(x=>x.id===id);if(!o)return;
@@ -996,7 +996,7 @@ function advOrder(id){
 }
 function renderOrders(){
   const t=document.getElementById('orderTbl');
-  if(!DB.orders.length){t.innerHTML='<tr><td class="empty">No orders. Tap “+ New order”.<br><br>WhatsApp-la order vandha odane inga add pannunga — appo dhaan track aagum.</td></tr>';return;}
+  if(!DB.orders.length){t.innerHTML='<tr><td class="empty">No orders. Tap “+ New order”.<br><br>When an order comes on WhatsApp, add it here right away — only then it gets tracked.</td></tr>';return;}
   const SEGLBL={direct:'Direct',reseller:'Reseller',gift:'Gift'};
   t.innerHTML='<tr><th>Date</th><th>Customer</th><th>Product</th><th class="num">Qty</th><th class="num">Amount</th><th>Segment</th><th>Status</th><th></th></tr>'+
     DB.orders.slice().reverse().map(o=>{const c=DB.customers.find(x=>x.id===o.cust);const seg=o.segment||'direct';const commTxt=(seg==='reseller'&&o.commission)?`<div class="s" style="font-size:10px;color:var(--warn)">comm ${money(o.commission)}</div>`:'';return `<tr><td style="white-space:nowrap">${o.date}</td><td>${c?c.name:'-'}</td><td>${o.prod}</td><td class="num">${o.qty}</td><td class="num">${money(o.qty*o.rate)}</td><td><span class="pill ${seg==='reseller'?'sample':seg==='gift'?'given':'prospect'}">${SEGLBL[seg]}</span>${commTxt}</td><td><button class="pill ${o.status}" style="border:0;cursor:pointer" title="Tap to change status" onclick="advOrder('${o.id}')">${o.status} ▸</button></td><td style="white-space:nowrap">${c&&c.phone?`<a class="ic wa" style="display:inline-flex" target="_blank" title="Confirm on WhatsApp" href="${waLink(c.phone,orderConfirmMsg(o,c))}">${WA_SVG}</a> `:''}<button class="ic del" style="display:inline-flex" onclick="del('orders','${o.id}')"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button></td></tr>`;}).join('');
@@ -1087,7 +1087,7 @@ function editOrder(custId){
      <input type="hidden" id="o_cust" value="${custId||''}">
      <div id="o_custResults"></div>
    </div>
-   <div class="fg"><label>Product${rel?' (avanga type-ku etha maari munnadi)':''}</label><select id="o_prod" onchange="o_setrate()">${po}</select></div>
+   <div class="fg"><label>Product${rel?' (matched to their type first)':''}</label><select id="o_prod" onchange="o_setrate()">${po}</select></div>
    <div class="frow"><div class="fg"><label>Quantity</label><input id="o_qty" type="number" value="100" inputmode="numeric" oninput="o_total()"></div>
    <div class="fg"><label>Rate (₹)</label><input id="o_rate" type="number" step="0.01" oninput="o_total()"></div></div>
    <div class="frow"><div class="fg"><label>Date</label><input id="o_date" type="date" value="${today()}"></div>
@@ -1135,7 +1135,7 @@ function o_refreshProds(c){
   o_setrate();
 }
 function saveOrder(){
-  if(!val('o_cust')){toast('Customer thevai — search-la select pannunga');return;}
+  if(!val('o_cust')){toast('Customer needed — select one from search');return;}
   const prodSel=document.getElementById('o_prod');
   const qty=+val('o_qty')||0,rate=+val('o_rate')||0,seg=val('o_seg');
   const o={id:uid(),cust:val('o_cust'),prod:prodSel.options[prodSel.selectedIndex].text.split(' (')[0],qty,rate,date:val('o_date'),status:val('o_status'),src:val('o_src'),segment:seg,commission:segCommission(seg,qty,qty*rate)};
@@ -1254,7 +1254,7 @@ function savePurch(){
 /* ---------- billing ---------- */
 let billItems=[];
 function newBill(){
-  if(!DB.customers.some(c=>c.status==='customer')){toast('Munnadi oru Lead-a Customer-a convert pannunga');return;}
+  if(!DB.customers.some(c=>c.status==='customer')){toast('First convert a Lead into a Customer');return;}
   billItems=[{prod:DB.products[0]?.name||'',qty:1,rate:DB.products[0]?.price||0}];
   drawBill();
 }
@@ -1352,15 +1352,15 @@ function markMsg(id){
 }
 function outreachMsg(c){
   if(c.type==='Catering'||c.type==='Hotel'||c.type==='Restaurant'){
-    return `Vanakkam ${c.name} 🙏\n\n*KRAFT·Vibe – Udumalpet.*\nNamma oorula-ye *ARECA (paaku mattai) PLATES* ready stock! 🍽️\n\n⭐ *Engaloda USP: UV-rays la clean panni, shrink pack pannirom* – full hygiene, dust illa, neraa serve pannalam\n✅ 6"–12" plates · bowls · 5-comp meal trays\n✅ Marriage / function / buffet-ku special bulk rate\n✅ Free local delivery\n\nOru *FREE sample set* anuppatuma? Reply podunga! 🙏\n\n– KRAFT·Vibe, Udumalpet · 7904505226`;
+    return `Hello ${c.name} 🙏\n\n*KRAFT·Vibe – Udumalpet.*\nRight here in town — *ARECA (palm-leaf) PLATES* in ready stock! 🍽️\n\n⭐ *Our USP: UV-ray cleaned & shrink-packed* – fully hygienic, dust-free, serve straight away\n✅ 6"–12" plates · bowls · 5-compartment meal trays\n✅ Special bulk rates for marriages / functions / buffets\n✅ Free local delivery\n\nShall we send a *FREE sample set*? Just reply! 🙏\n\n– KRAFT·Vibe, Udumalpet · 7904505226`;
   }
   if(['Cake Shop','Textile','Jewellery','Gift','Footwear'].includes(c.type)){
-    return `Vanakkam ${c.name} 🙏\n\n*KRAFT·Vibe – Udumalpet.*\nUnga ${c.type==='Cake Shop'?'cake box carry panna':'kadaikku'} *strong HANDLE BAGS* – unga kadai peru print-oda! 🛍️\n\n✅ Ovvoru bag-um unga kadaikku FREE advertisement\n✅ ${c.type==='Cake Shop'?'Cake weight thaangura strong bags':'Premium look – customer kaila unga brand'}\n✅ Low minimum · Free local delivery\n\nUnga kadai peroda oru *FREE sample design* photo anuppiyirukkom 👆\nPidichirundha oru reply podunga – sample neraa kadaikke!\n\n– KRAFT·Vibe, Udumalpet · 7904505226`;
+    return `Hello ${c.name} 🙏\n\n*KRAFT·Vibe – Udumalpet.*\nStrong *HANDLE BAGS* for your ${c.type==='Cake Shop'?'cake boxes':'shop'} – printed with your shop name! 🛍️\n\n✅ Every bag is FREE advertising for your shop\n✅ ${c.type==='Cake Shop'?'Strong bags that hold cake weight':"Premium look – your brand in the customer's hand"}\n✅ Low minimum · Free local delivery\n\nWe've sent a *FREE sample design* with your shop name 👆\nIf you like it, just reply – sample delivered to your door!\n\n– KRAFT·Vibe, Udumalpet · 7904505226`;
   }
   if(c.type==='Function/Family'){
-    return `Vanakkam ${c.name} 🙏\n\n*KRAFT·Vibe – Udumalpet.*\nUnga function-ku *RETURN GIFT BAGS* – family name + date print-oda! 🎁\n\n✅ Paper / cloth / jute bags\n✅ Theme colour match\n✅ Function-ready packing\n\nOru *FREE sample design* photo anuppiyirukkom 👆\nDate sollunga – time-ku ready pannidrom!\n\n– KRAFT·Vibe, Udumalpet · 7904505226`;
+    return `Hello ${c.name} 🙏\n\n*KRAFT·Vibe – Udumalpet.*\n*RETURN GIFT BAGS* for your function – printed with the family name + date! 🎁\n\n✅ Paper / cloth / jute bags\n✅ Theme colour match\n✅ Function-ready packing\n\nWe've sent a *FREE sample design* 👆\nJust tell us the date – we'll have them ready on time!\n\n– KRAFT·Vibe, Udumalpet · 7904505226`;
   }
-  return `Vanakkam ${c.name} 🙏\n\n*KRAFT·Vibe – Udumalpet.*\nUnga kadai perula print pannina *KRAFT PAPER COVERS* – plain cover *athey vilaila!* 🛍️\n\n✅ Ovvoru cover-um unga kadaikku FREE advertisement\n✅ Low minimum · Local free delivery\n✅ Handle bags, return-gift bags & *areca (paaku mattai) plates* – UV cleaned + shrink packed\n\nUnga kadai peroda oru *FREE sample design* photo anuppiyirukkom 👆\nPidichirundha oru reply podunga – sample-a neraa kadaikke kondu varrom!\n\n– KRAFT·Vibe, Udumalpet · 7904505226`;
+  return `Hello ${c.name} 🙏\n\n*KRAFT·Vibe – Udumalpet.*\n*KRAFT PAPER COVERS* printed with your shop name – at the *same price as plain covers!* 🛍️\n\n✅ Every cover is FREE advertising for your shop\n✅ Low minimum · Free local delivery\n✅ Handle bags, return-gift bags & *areca (palm-leaf) plates* – UV cleaned + shrink packed\n\nWe've sent a *FREE sample design* with your shop name 👆\nIf you like it, just reply – we'll bring the sample to your door!\n\n– KRAFT·Vibe, Udumalpet · 7904505226`;
 }
 const WA_SVG='<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-8.6 15l-1.3 4.8 4.9-1.3A10 10 0 1012 2zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.8-.6-3-1.3-5-4.4-5.1-4.6-.2-.2-1.3-1.7-1.3-3.2s.8-2.3 1.1-2.6c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l.9 2.1c.1.2.1.4 0 .6l-.4.6c-.2.2-.3.4-.1.7.2.3.9 1.4 1.9 2.3 1.3 1.1 2.3 1.5 2.6 1.6.3.1.5.1.7-.1l.8-1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.4.1.2.1.8-.1 1.4z"/></svg>';
 function renderPlan(){
@@ -1376,7 +1376,7 @@ function renderPlan(){
       <div class="av" style="${done?'background:var(--eco)':''}">${done?'✓':(i+1)}</div>
       <div class="meta">
         <div class="t">${c.name}</div>
-        <div class="s">${c.type} · ${c.area||''}${c.phone?' · '+c.phone:' · ⚠ number venum'}</div>
+        <div class="s">${c.type} · ${c.area||''}${c.phone?' · '+c.phone:' · ⚠ number needed'}</div>
       </div>
       <div class="acts">
         <button class="ic" title="Sample photo" style="font-size:16px" onclick="openSample('${c.id}')">📷</button>
@@ -1384,7 +1384,7 @@ function renderPlan(){
         ${c.phone?`<a class="ic wa" target="_blank" href="${waLink(c.phone,outreachMsg(c))}" onclick="if(!getPlan().done.includes('${c.id}'))markMsg('${c.id}')">${WA_SVG}</a>`:`<button class="ic ed" onclick="editCust('${c.id}')"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></button>`}
         <button class="ic" title="Done" style="border-color:var(--eco);color:var(--eco);font-weight:800" onclick="markMsg('${c.id}')">✓</button>
       </div></div>`;
-  }).join(''):'<div class="empty">Leads ellam mudinjadhu! Leads tab-la pudhu shops add pannunga.</div>';
+  }).join(''):'<div class="empty">All leads done! Add new shops in the Leads tab.</div>';
   document.getElementById('areaTbl').innerHTML='<tr><th>Area</th><th>Dist</th><th>Target shops</th></tr>'+
     AREAS.map(a=>`<tr><td style="white-space:nowrap"><b>${a[0]}</b></td><td style="white-space:nowrap">${a[1]}</td><td style="font-size:12.5px">${a[2]}</td></tr>`).join('');
 }
@@ -1396,7 +1396,7 @@ function openSample(id){
   const c=id?DB.customers.find(x=>x.id===id):null;
   sampCustId=id||'';
   const name=c?c.name:(document.getElementById('sampName')?document.getElementById('sampName').value.trim():'');
-  if(!name){toast('Shop name type pannunga');return;}
+  if(!name){toast('Type a shop name');return;}
   sampTpl=c?(['Catering','Hotel','Restaurant'].includes(c.type)?'areca':(c.type==='Function/Family'||c.oneTime?'gift':'cover')):'cover';
   openM(`<h3>Sample Photo — ${name}</h3>
    <div class="filters" style="margin-bottom:10px">
@@ -1411,7 +1411,7 @@ function openSample(id){
      <div class="fg"><label>Phone (cover template)</label><input id="samp_p" value="${c?(c.phone||''):''}" oninput="drawSample()"></div>
    </div>
    <div class="mbtns"><button class="btn out" onclick="downloadSample()">⬇ Download</button><button class="btn eco" onclick="shareSample()">📤 Photo + Message</button></div>
-   <div style="margin-top:10px;font-size:11.5px;color:var(--ink-soft);font-family:'DM Mono'">📤 = phone-la photo + ready message rendum onnave WhatsApp share aagum. PC-la photo download aagi message-oda WhatsApp open aagum.</div>`);
+   <div style="margin-top:10px;font-size:11.5px;color:var(--ink-soft);font-family:'DM Mono'">📤 = on a phone, the photo + ready message share together on WhatsApp. On a PC, the photo downloads and WhatsApp opens with the message.</div>`);
   drawSample();
   if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>drawSample());
 }
@@ -1666,7 +1666,7 @@ if(!DB.lastBackup||daysBetween(DB.lastBackup,today())>=7){
   const b=document.createElement('div');
   b.id='bkban';
   b.style.cssText='background:var(--warn);color:#fff;padding:9px 16px;font-size:12.5px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap';
-  b.innerHTML='<span>⚠ '+(DB.lastBackup?daysBetween(DB.lastBackup,today())+' naal aachu backup eduthu':'Backup innum edukkala')+' — data indha phone/browser-la mattum irukku!</span><button onclick="exportData()" style="background:#fff;color:var(--warn);border-radius:5px;padding:5px 14px;font-weight:700;flex:none">⬇ Backup now</button>';
+  b.innerHTML='<span>⚠ '+(DB.lastBackup?daysBetween(DB.lastBackup,today())+' days since last backup':'No backup taken yet')+' — data is only on this phone/browser!</span><button onclick="exportData()" style="background:#fff;color:var(--warn);border-radius:5px;padding:5px 14px;font-weight:700;flex:none">⬇ Backup now</button>';
   document.querySelector('header').after(b);
 }
 
