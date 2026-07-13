@@ -247,9 +247,15 @@ footer a{color:#c8b79f}footer a:hover{color:var(--paper)}
 .spec td{padding:10px 0;border-bottom:1px dashed rgba(156,103,53,.4);font-size:14.5px;color:var(--ink)}
 .pm-cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
 .pm-note{font-family:'DM Mono',monospace;font-size:11px;color:var(--kraft-deep);margin-top:12px;letter-spacing:.3px}
+
+/* brand illustration placeholders (replaces stock photos) */
+.ph svg.illus,.ind-ph svg.illus{width:100%;height:100%;display:block}
+svg.illus{background:radial-gradient(circle at 32% 26%,#efe2c8,#dcc79f)}
+svg.illus use{transform-box:fill-box}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="il-covers" viewBox="0 0 100 100"><path d="M32 40h36v33a3 3 0 0 1-3 3H35a3 3 0 0 1-3-3z" fill="none" stroke="#0f6d38" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 40l7-9h22l7 9" fill="none" stroke="#0f6d38" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M44 54h12" fill="none" stroke="#b5502f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="il-handlebag" viewBox="0 0 100 100"><path d="M30 44h40l-3 31a3 3 0 0 1-3 3H36a3 3 0 0 1-3-3z" fill="none" stroke="#0f6d38" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M39 44v-5a11 11 0 0 1 22 0v5" fill="none" stroke="#b5502f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="il-printing" viewBox="0 0 100 100"><path d="M28 44h44v16H28z" fill="none" stroke="#0f6d38" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M34 60v14h32V60" fill="none" stroke="#0f6d38" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M40 44v-12h20v12" fill="none" stroke="#b5502f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M44 66h16" fill="none" stroke="#b5502f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="il-giftbag" viewBox="0 0 100 100"><path d="M32 46h36l-3 30H35z" fill="none" stroke="#0f6d38" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 46l5-8h26l5 8" fill="none" stroke="#0f6d38" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M50 38v38" fill="none" stroke="#b5502f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M50 46c-8 0-10-8-4-8s4 8 4 8m0 0c8 0 10-8 4-8s-4 8-4 8" fill="none" stroke="#b5502f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="il-jute" viewBox="0 0 100 100"><path d="M32 44h36l-3 32H35z" fill="none" stroke="#0f6d38" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M40 44v-4a10 10 0 0 1 20 0v4" fill="none" stroke="#b5502f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M38 48v24" fill="none" stroke="#0f6d38" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/><path d="M42 48v24" fill="none" stroke="#0f6d38" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/><path d="M46 48v24" fill="none" stroke="#0f6d38" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/><path d="M50 48v24" fill="none" stroke="#0f6d38" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/><path d="M54 48v24" fill="none" stroke="#0f6d38" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/><path d="M58 48v24" fill="none" stroke="#0f6d38" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/><path d="M62 48v24" fill="none" stroke="#0f6d38" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="il-combo" viewBox="0 0 100 100"><path d="M30 50h26v26H30z" fill="none" stroke="#0f6d38" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M30 50l4-8h18l4 8" fill="none" stroke="#0f6d38" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M43 42v34" fill="none" stroke="#b5502f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M60 58h12l-2 18H62z" fill="none" stroke="#b5502f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="il-wedding" viewBox="0 0 100 100"><circle cx="44" cy="52" r="11" fill="none" stroke="#0f6d38" stroke-width="2.6"/><circle cx="56" cy="52" r="11" fill="none" stroke="#b5502f" stroke-width="2.6"/><path d="M40 40l4-8 4 8" fill="none" stroke="#0f6d38" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M52 40l4-8 4 8" fill="none" stroke="#b5502f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="il-arecaplate" viewBox="0 0 100 100"><ellipse cx="50" cy="52" rx="26" ry="17" fill="none" stroke="#0f6d38" stroke-width="2.6"/><ellipse cx="50" cy="52" rx="16" ry="10" fill="none" stroke="#b5502f" stroke-width="1.8"/><path d="M50 35v34" fill="none" stroke="#b5502f" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="il-arecabowl" viewBox="0 0 100 100"><path d="M30 50h40l-6 22a4 4 0 0 1-4 3H40a4 4 0 0 1-4-3z" fill="none" stroke="#0f6d38" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M30 50c0-6 9-9 20-9s20 3 20 9" fill="none" stroke="#b5502f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M50 41v-6" fill="none" stroke="#b5502f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="il-catering" viewBox="0 0 100 100"><path d="M28 62h44" fill="none" stroke="#0f6d38" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 62a18 12 0 0 1 36 0" fill="none" stroke="#0f6d38" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M50 44v-6" fill="none" stroke="#b5502f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="50" cy="40" r="3" fill="none" stroke="#b5502f" stroke-width="1.8"/><path d="M26 68h48v6H26z" fill="none" stroke="#0f6d38" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="il-bakery" viewBox="0 0 100 100"><path d="M36 48h28l-3 20a3 3 0 0 1-3 3H42a3 3 0 0 1-3-3z" fill="none" stroke="#0f6d38" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M36 48c0-7 6-10 14-10s14 3 14 10" fill="none" stroke="#b5502f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="50" cy="32" r="3" fill="none" stroke="#b5502f" stroke-width="1.8"/></symbol><symbol id="il-sweets" viewBox="0 0 100 100"><circle cx="42" cy="60" r="9" fill="none" stroke="#0f6d38" stroke-width="2.6"/><circle cx="58" cy="60" r="9" fill="none" stroke="#0f6d38" stroke-width="2.6"/><circle cx="50" cy="46" r="9" fill="none" stroke="#b5502f" stroke-width="2.6"/></symbol><symbol id="il-saree" viewBox="0 0 100 100"><path d="M40 34h20l-4 12 6 30H38l6-30z" fill="none" stroke="#0f6d38" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M44 34c0 6 12 6 12 0" fill="none" stroke="#b5502f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="il-restaurant" viewBox="0 0 100 100"><circle cx="50" cy="52" r="17" fill="none" stroke="#0f6d38" stroke-width="2.6"/><circle cx="50" cy="52" r="7" fill="none" stroke="#b5502f" stroke-width="2.6"/><path d="M30 40v24M74 40v24" fill="none" stroke="#0f6d38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="il-grocery" viewBox="0 0 100 100"><path d="M30 44h6l6 26h26l5-16H40" fill="none" stroke="#0f6d38" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="44" cy="76" r="3" fill="none" stroke="#0f6d38" stroke-width="2.6"/><circle cx="64" cy="76" r="3" fill="none" stroke="#0f6d38" stroke-width="2.6"/><path d="M52 40v-8h8" fill="none" stroke="#b5502f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="il-pharmacy" viewBox="0 0 100 100"><path d="M34 38h32v32a4 4 0 0 1-4 4H38a4 4 0 0 1-4-4z" fill="none" stroke="#0f6d38" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M50 48v14M43 55h14" fill="none" stroke="#b5502f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="il-jewellery" viewBox="0 0 100 100"><circle cx="50" cy="58" r="12" fill="none" stroke="#0f6d38" stroke-width="2.6"/><path d="M42 48l8-12 8 12" fill="none" stroke="#b5502f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M46 36h8" fill="none" stroke="#b5502f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="il-giftshop" viewBox="0 0 100 100"><path d="M32 48h36v28H32z" fill="none" stroke="#0f6d38" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 48l4-8h28l4 8" fill="none" stroke="#0f6d38" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M50 40v36" fill="none" stroke="#b5502f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M50 48c-7 0-9-8-3-8s3 8 3 8m0 0c7 0 9-8 3-8s-3 8-3 8" fill="none" stroke="#b5502f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="il-footwear" viewBox="0 0 100 100"><path d="M28 58c4-2 8-6 10-12l6 4 8-2 6 6 14 2v6H28z" fill="none" stroke="#0f6d38" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M44 50l4 4" fill="none" stroke="#b5502f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="il-tea" viewBox="0 0 100 100"><path d="M34 46h28v10a12 12 0 0 1-12 12h-4A12 12 0 0 1 34 56z" fill="none" stroke="#0f6d38" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M62 48h6a4 4 0 0 1 0 8h-6" fill="none" stroke="#0f6d38" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M42 38c0 2-2 3-2 5M52 38c0 2-2 3-2 5" fill="none" stroke="#b5502f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol></svg>
 
 <!-- ===== EDIT: replace 917904505226 with your WhatsApp number (country code + number, no +) everywhere ===== -->
 <!-- ===== IMAGES: each .ph block holds a sample illustration. Replace with <img src="your-photo.jpg" alt="" style="width:100%;height:100%;object-fit:cover"> when you have real product photos ===== -->
@@ -323,17 +329,17 @@ footer a{color:#c8b79f}footer a:hover{color:var(--paper)}
     <div class="gallery">
       <div class="gitem reveal">
         <div class="ph"><span class="pill">Bestseller</span>
-          <img src="https://loremflickr.com/600/450/kraft,paper,bag/all?lock=11" alt="Kraft paper covers" loading="lazy"></div>
+          <svg class="illus" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"><use href="#il-covers"/></svg></div>
         <div class="gcap"><h3>Kraft Covers</h3><p>Flat &amp; V-bottom covers, 1 kg to 5 kg. Sold by kg or piece. Plain or printed.</p><button class="more" onclick="openProd('kraftcovers')">Sizes &amp; MOQ →</button></div>
       </div>
       <div class="gitem reveal">
         <div class="ph"><span class="pill alt">Branded</span>
-          <img src="https://loremflickr.com/600/450/paper,shopping,bag/all?lock=22" alt="Branded handle bags" loading="lazy"></div>
+          <svg class="illus" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"><use href="#il-handlebag"/></svg></div>
         <div class="gcap"><h3>Handle Bags</h3><p>Square-bottom bags with handles — premium carry for textiles &amp; boutiques. Single-colour print.</p><button class="more" onclick="openProd('handlebags')">Sizes &amp; MOQ →</button></div>
       </div>
       <div class="gitem reveal">
         <div class="ph"><span class="pill">Custom</span>
-          <img src="https://loremflickr.com/600/450/printing,press/all?lock=33" alt="Custom printing" loading="lazy"></div>
+          <svg class="illus" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"><use href="#il-printing"/></svg></div>
         <div class="gcap"><h3>Custom Printing</h3><p>Low minimum — even 50–100 pieces. Any design, your logo, name and address. No huge factory minimums.</p><button class="more" onclick="openProd('custom')">Details &amp; MOQ →</button></div>
       </div>
     </div>
@@ -353,22 +359,22 @@ footer a{color:#c8b79f}footer a:hover{color:var(--paper)}
       <div class="gallery">
         <div class="gitem reveal">
           <div class="ph"><span class="pill">Affordable</span>
-            <img src="https://loremflickr.com/600/450/gift,bag/all?lock=44" alt="Paper return gift bags" loading="lazy"></div>
+            <svg class="illus" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"><use href="#il-giftbag"/></svg></div>
           <div class="gcap"><h3>Paper Return Bags</h3><p>Kraft bags printed with the family name and a thank-you. Quick, affordable, function-ready.</p><button class="more" onclick="openProd('paperreturn')">Sizes &amp; MOQ →</button></div>
         </div>
         <div class="gitem reveal">
           <div class="ph"><span class="pill alt">Premium</span>
-            <img src="https://loremflickr.com/600/450/jute,bag/all?lock=55" alt="Cloth and jute return gift bags" loading="lazy"></div>
+            <svg class="illus" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"><use href="#il-jute"/></svg></div>
           <div class="gcap"><h3>Cloth &amp; Jute Bags</h3><p>Reusable potli, jute and cotton bags, custom printed. A favourite for weddings and thamboolam.</p><button class="more" onclick="openProd('jute')">Sizes &amp; MOQ →</button></div>
         </div>
         <div class="gitem reveal">
           <div class="ph"><span class="pill">Ready-to-give</span>
-            <img src="https://loremflickr.com/600/450/wedding,favor/all?lock=66" alt="Combo return gift packing" loading="lazy"></div>
+            <svg class="illus" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"><use href="#il-combo"/></svg></div>
           <div class="gcap"><h3>Combo Packing</h3><p>Return gift item + your branded bag + haldi-kumkum, packed and ready to hand to guests.</p><button class="more" onclick="openProd('combo')">Details &amp; MOQ →</button></div>
         </div>
         <div class="gitem reveal">
           <div class="ph"><span class="pill alt">Festive</span>
-            <img src="https://loremflickr.com/600/450/wedding,decoration,india/all?lock=77" alt="Festive function gift bags" loading="lazy"></div>
+            <svg class="illus" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"><use href="#il-wedding"/></svg></div>
           <div class="gcap"><h3>Wedding &amp; Function Sets</h3><p>Bulk sets with date, names and theme colours — matched to your invitation. Order early, delivered on time.</p><button class="more" onclick="openProd('wedding')">Details &amp; MOQ →</button></div>
         </div>
       </div>
@@ -392,17 +398,17 @@ footer a{color:#c8b79f}footer a:hover{color:var(--paper)}
     <div class="gallery">
       <div class="gitem reveal">
         <div class="ph"><span class="pill">New</span>
-          <img src="https://loremflickr.com/600/450/banana,leaf,meal/all?lock=91" alt="Areca leaf plates" loading="lazy"></div>
+          <svg class="illus" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"><use href="#il-arecaplate"/></svg></div>
         <div class="gcap"><h3>Areca Round Plates</h3><p>6″ to 12″ round &amp; square plates. UV sterilized, shrink packed — sturdy enough for full buffet meals.</p><button class="more" onclick="openProd('arecaplates')">Sizes &amp; MOQ →</button></div>
       </div>
       <div class="gitem reveal">
         <div class="ph"><span class="pill alt">Hygienic</span>
-          <img src="https://loremflickr.com/600/450/bowl,leaf,natural/all?lock=89" alt="Areca bowls and trays" loading="lazy"></div>
+          <svg class="illus" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"><use href="#il-arecabowl"/></svg></div>
         <div class="gcap"><h3>Bowls &amp; Meal Trays</h3><p>Bowls, cups and 5-compartment meal trays — for sweets, payasam and full meals.</p><button class="more" onclick="openProd('arecabowls')">Sizes &amp; MOQ →</button></div>
       </div>
       <div class="gitem reveal">
         <div class="ph"><span class="pill">For Caterers</span>
-          <img src="https://loremflickr.com/600/450/indian,food,buffet/all?lock=92" alt="Catering bulk packs" loading="lazy"></div>
+          <svg class="illus" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"><use href="#il-catering"/></svg></div>
         <div class="gcap"><h3>Catering Bulk Packs</h3><p>Master cartons for samayal contractors, buffet caterers and function orders — special bulk rates, free delivery.</p><button class="more" onclick="openProd('arecacatering')">Bulk rates →</button></div>
       </div>
     </div>
@@ -428,17 +434,17 @@ footer a{color:#c8b79f}footer a:hover{color:var(--paper)}
   <div class="wrap">
     <div class="sec-head reveal"><span class="eyebrow">Who We Serve</span><h2>Every shop that hands out a cover</h2></div>
     <div class="industry-grid reveal">
-      <div class="ind-card"><div class="ind-ph"><img src="https://loremflickr.com/400/400/bakery,cake/all?lock=101" alt="Bakery" loading="lazy"></div><b>Bakeries &amp; Cakes</b></div>
-      <div class="ind-card"><div class="ind-ph"><img src="https://loremflickr.com/400/400/indian,sweets/all?lock=102" alt="Sweet shop" loading="lazy"></div><b>Sweet Shops</b></div>
-      <div class="ind-card"><div class="ind-ph"><img src="https://loremflickr.com/400/400/saree,textile,shop/all?lock=103" alt="Textiles" loading="lazy"></div><b>Textiles &amp; Boutiques</b></div>
-      <div class="ind-card"><div class="ind-ph"><img src="https://loremflickr.com/400/400/restaurant,food/all?lock=104" alt="Restaurant" loading="lazy"></div><b>Hotels &amp; Restaurants</b></div>
-      <div class="ind-card"><div class="ind-ph"><img src="https://loremflickr.com/400/400/supermarket,grocery/all?lock=105" alt="Supermarket" loading="lazy"></div><b>Supermarkets</b></div>
-      <div class="ind-card"><div class="ind-ph"><img src="https://loremflickr.com/400/400/pharmacy,medicine/all?lock=106" alt="Pharmacy" loading="lazy"></div><b>Pharmacies</b></div>
-      <div class="ind-card"><div class="ind-ph"><img src="https://loremflickr.com/400/400/jewellery,gold/all?lock=107" alt="Jewellery" loading="lazy"></div><b>Jewellery</b></div>
-      <div class="ind-card"><div class="ind-ph"><img src="https://loremflickr.com/400/400/gift,shop/all?lock=108" alt="Gift shop" loading="lazy"></div><b>Gift &amp; Fancy</b></div>
-      <div class="ind-card"><div class="ind-ph"><img src="https://loremflickr.com/400/400/shoes,store/all?lock=109" alt="Footwear" loading="lazy"></div><b>Footwear</b></div>
-      <div class="ind-card"><div class="ind-ph"><img src="https://loremflickr.com/400/400/tea,cup/all?lock=110" alt="Tea shop" loading="lazy"></div><b>Tea Shops</b></div>
-      <div class="ind-card"><div class="ind-ph"><img src="https://loremflickr.com/400/400/catering,buffet/all?lock=111" alt="Caterers" loading="lazy"></div><b>Caterers &amp; Buffets</b></div>
+      <div class="ind-card"><div class="ind-ph"><svg class="illus" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"><use href="#il-bakery"/></svg></div><b>Bakeries &amp; Cakes</b></div>
+      <div class="ind-card"><div class="ind-ph"><svg class="illus" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"><use href="#il-sweets"/></svg></div><b>Sweet Shops</b></div>
+      <div class="ind-card"><div class="ind-ph"><svg class="illus" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"><use href="#il-saree"/></svg></div><b>Textiles &amp; Boutiques</b></div>
+      <div class="ind-card"><div class="ind-ph"><svg class="illus" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"><use href="#il-restaurant"/></svg></div><b>Hotels &amp; Restaurants</b></div>
+      <div class="ind-card"><div class="ind-ph"><svg class="illus" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"><use href="#il-grocery"/></svg></div><b>Supermarkets</b></div>
+      <div class="ind-card"><div class="ind-ph"><svg class="illus" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"><use href="#il-pharmacy"/></svg></div><b>Pharmacies</b></div>
+      <div class="ind-card"><div class="ind-ph"><svg class="illus" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"><use href="#il-jewellery"/></svg></div><b>Jewellery</b></div>
+      <div class="ind-card"><div class="ind-ph"><svg class="illus" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"><use href="#il-giftshop"/></svg></div><b>Gift &amp; Fancy</b></div>
+      <div class="ind-card"><div class="ind-ph"><svg class="illus" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"><use href="#il-footwear"/></svg></div><b>Footwear</b></div>
+      <div class="ind-card"><div class="ind-ph"><svg class="illus" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"><use href="#il-tea"/></svg></div><b>Tea Shops</b></div>
+      <div class="ind-card"><div class="ind-ph"><svg class="illus" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"><use href="#il-catering"/></svg></div><b>Caterers &amp; Buffets</b></div>
     </div>
   </div>
 </section>
@@ -537,34 +543,34 @@ footer a{color:#c8b79f}footer a:hover{color:var(--paper)}
   /* ===== product details ===== edit sizes / MOQ / price here anytime ===== */
   const WA='917904505226';
   const PRODUCTS={
-    kraftcovers:{title:'Kraft Covers',pill:'Bestseller',img:'https://loremflickr.com/700/420/kraft,paper,bag/all?lock=11',
+    kraftcovers:{title:'Kraft Covers',pill:'Bestseller',img:'covers',
       blurb:'Strong kraft paper covers for everyday shop use — plain, or printed with your shop name at the same price.',
       specs:[['Sizes','¼ kg · ½ kg · 1 kg · 2 kg · 5 kg (flat & V-bottom)'],['Paper','80–100 GSM kraft'],['MOQ – plain','Sold by kg — no minimum'],['MOQ – printed','50–100 pieces'],['Printing','1–2 colour: shop name, logo, address'],['Lead time','Sample 1–2 days · bulk 4–6 days'],['Price','From ₹1.30 / piece (printed near plain-cover price)']]},
-    handlebags:{title:'Handle Bags',pill:'Branded',img:'https://loremflickr.com/700/420/paper,shopping,bag/all?lock=22',
+    handlebags:{title:'Handle Bags',pill:'Branded',img:'handlebag',
       blurb:'Square-bottom kraft bags with handles — a premium carry for textiles, boutiques and gifting.',
       specs:[['Sizes','S 8×10 in · M 10×13 in · L 13×16 in (custom on request)'],['Paper','120–150 GSM'],['Handles','Twisted paper or flat'],['MOQ','100 pieces (printed)'],['Printing','1–3 colour'],['Lead time','Sample 2–3 days · bulk 6–8 days'],['Price','From ₹6 / piece (size & print based)']]},
-    custom:{title:'Custom Printing',pill:'Custom',img:'https://loremflickr.com/700/420/printing,press/all?lock=33',
+    custom:{title:'Custom Printing',pill:'Custom',img:'printing',
       blurb:'Your logo, name and address printed on covers and bags — low minimums and we design it for you free.',
       specs:[['Applies to','Covers · handle bags · return bags'],['MOQ','As low as 50–100 pieces'],['Colours','1–3 colours'],['Design','Free design help — share a logo or idea'],['Proof','Free printed sample before bulk'],['Lead time','Sample 1–2 days']]},
-    paperreturn:{title:'Paper Return Bags',pill:'Affordable',img:'https://loremflickr.com/700/420/gift,bag/all?lock=44',
+    paperreturn:{title:'Paper Return Bags',pill:'Affordable',img:'giftbag',
       blurb:'Kraft return-gift bags printed with the family name and a thank-you — quick, affordable and function-ready.',
       specs:[['Sizes','Small & medium gift sizes'],['Paper','120 GSM'],['MOQ','50–100 pieces'],['Printing','Family name, date, thank-you, theme colour'],['Lead time','3–5 days']]},
-    jute:{title:'Cloth & Jute Bags',pill:'Premium',img:'https://loremflickr.com/700/420/jute,bag/all?lock=55',
+    jute:{title:'Cloth & Jute Bags',pill:'Premium',img:'jute',
       blurb:'Reusable potli, jute and cotton bags, custom printed — a favourite for weddings and thamboolam.',
       specs:[['Types','Jute · cotton · potli'],['Sizes','Small & medium'],['MOQ','50 pieces'],['Printing','Screen-print logo or names'],['Lead time','5–8 days']]},
-    combo:{title:'Combo Packing',pill:'Ready-to-give',img:'https://loremflickr.com/700/420/wedding,favor/all?lock=66',
+    combo:{title:'Combo Packing',pill:'Ready-to-give',img:'combo',
       blurb:'Return-gift item + your branded bag + haldi-kumkum, packed and ready to hand to guests.',
       specs:[['Includes','Gift item + branded bag + haldi-kumkum'],['MOQ','On request (by function size)'],['Packing','Assembled & ready to hand'],['Lead time','5–10 days']]},
-    wedding:{title:'Wedding & Function Sets',pill:'Festive',img:'https://loremflickr.com/700/420/wedding,decoration,india/all?lock=77',
+    wedding:{title:'Wedding & Function Sets',pill:'Festive',img:'wedding',
       blurb:'Bulk return-gift sets matched to your invitation — names, date and theme colours.',
       specs:[['Includes','Names · date · theme colours'],['MOQ','100+ pieces'],['Match','To your invitation / theme'],['Lead time','Order 1–2 weeks early']]},
-    arecaplates:{title:'Areca Round Plates',pill:'New',img:'https://loremflickr.com/700/420/banana,leaf,meal/all?lock=91',
+    arecaplates:{title:'Areca Round Plates',pill:'New',img:'arecaplate',
       blurb:'Natural paaku-mattai plates — UV-ray sterilized and shrink-wrap packed. Hygienic, sturdy and fully compostable.',
       specs:[['Sizes','6″ · 7″ · 8″ · 10″ · 12″ — round & square'],['Hygiene (our USP)','Cleaned with UV rays + shrink-wrap packed — dust-free'],['Strength','Thick sheath — no leak, no bend, buffet-ready'],['MOQ','25 pieces · carton rates for bulk'],['Eco','100% natural areca leaf — compostable, plastic-ban ready'],['Price','From ₹2.50 / plate (size based)']]},
-    arecabowls:{title:'Areca Bowls & Meal Trays',pill:'Hygienic',img:'https://loremflickr.com/700/420/bowl,leaf,natural/all?lock=89',
+    arecabowls:{title:'Areca Bowls & Meal Trays',pill:'Hygienic',img:'arecabowl',
       blurb:'Areca bowls, cups and 5-compartment meal trays — UV sterilized and shrink packed like all our areca products.',
       specs:[['Types','Bowls 4″–5″ · cups · 5-compartment meal trays'],['Hygiene','UV-ray sterilized + shrink-wrap packed'],['Best for','Sweets, payasam, tiffin and full meals'],['MOQ','25–50 pieces'],['Price','From ₹1.60 / bowl']]},
-    arecacatering:{title:'Catering Bulk Packs',pill:'For Caterers',img:'https://loremflickr.com/700/420/indian,food,buffet/all?lock=92',
+    arecacatering:{title:'Catering Bulk Packs',pill:'For Caterers',img:'catering',
       blurb:'Master cartons for samayal contractors, buffet caterers, hotels, mess and function orders — delivered to your kitchen.',
       specs:[['Pack','Shrink-wrapped sleeves inside master carton'],['For','Caterers · buffets · marriages · temples · mess & hotels'],['Rates','Special bulk / carton pricing — ask for quote'],['Delivery','Free local delivery — Udumalpet 30 km'],['Sample','Free sample set for caterers — 1 WhatsApp message']]}
   };
@@ -573,7 +579,7 @@ footer a{color:#c8b79f}footer a:hover{color:var(--paper)}
     const rows=p.specs.map(s=>`<tr><th>${s[0]}</th><td>${s[1]}</td></tr>`).join('');
     const wa=`https://wa.me/${WA}?text=`+encodeURIComponent(`Hi, I want details about ${p.title} — sizes, MOQ and price please.`);
     document.getElementById('pm').innerHTML=`
-      <div class="pm-img"><span class="pill">${p.pill}</span><button class="pm-close" onclick="closeProd()" aria-label="Close">×</button><img src="${p.img}" alt="${p.title}"></div>
+      <div class="pm-img"><span class="pill">${p.pill}</span><button class="pm-close" onclick="closeProd()" aria-label="Close">×</button><svg class="illus" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"><use href="#il-${p.img}"/></svg></div>
       <div class="pm-body">
         <h3>${p.title}</h3><p class="blurb">${p.blurb}</p>
         <table class="spec"><tbody>${rows}</tbody></table>
