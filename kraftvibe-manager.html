@@ -827,7 +827,7 @@ function produceTodayList(){
 function renderToday(){
   const contacts=jobCardContacts();
   document.getElementById('todayContactCount').textContent=contacts.length;
-  document.getElementById('todayContacts').innerHTML=contacts.length?contacts.map(todayContactRow).join(''):'<div class="empty">Inaikku contact panna vendiyadhu illa 🎉</div>';
+  document.getElementById('todayContacts').innerHTML=contacts.length?contacts.map(todayContactRow).join(''):'<div class="empty">No one to contact today 🎉</div>';
   const prod=produceTodayList();
   document.getElementById('todayProduce').innerHTML=prod.length?prod.map(x=>`
     <div class="row">
@@ -837,7 +837,7 @@ function renderToday(){
       </div>
     </div>`).join(''):'<div class="empty">No pending orders — nothing to produce today. 🎉</div>';
   const plog=(DB.production||[]).filter(x=>x.date===today());
-  document.getElementById('todayProdLog').innerHTML=plog.length?plog.map(x=>`<div class="row"><div class="meta"><div class="t">${x.prod} × ${x.qty}</div><div class="s">${x.worker?'by '+x.worker:'worker not noted'}</div></div></div>`).join(''):'<div class="empty">Inaikku production log pannalai.</div>';
+  document.getElementById('todayProdLog').innerHTML=plog.length?plog.map(x=>`<div class="row"><div class="meta"><div class="t">${x.prod} × ${x.qty}</div><div class="s">${x.worker?'by '+x.worker:'worker not noted'}</div></div></div>`).join(''):'<div class="empty">Nothing logged today yet.</div>';
 }
 function digestMsg(){
   const contacts=jobCardContacts();
@@ -888,7 +888,7 @@ function renderDash(){
   document.getElementById('lowcount').textContent=low.length;
   document.getElementById('dash-low').innerHTML=low.length?low.map(i=>`<div class="row"><div class="meta"><div class="t">${i.name}</div><div class="s">${i.stock} ${i.unit} left · reorder at ${i.reorder}</div></div><span class="pill low">LOW</span></div>`).join(''):'<div class="empty">All stock healthy.</div>';
   const workers=workerWeekSummary();
-  document.getElementById('dash-workers').innerHTML=workers.length?workers.map(([w,qty])=>`<div class="row"><div class="meta"><div class="t">${w}</div></div><span class="pill customer">${qty} pcs</span></div>`).join(''):'<div class="empty">Inaikku production log illa innum.</div>';
+  document.getElementById('dash-workers').innerHTML=workers.length?workers.map(([w,qty])=>`<div class="row"><div class="meta"><div class="t">${w}</div></div><span class="pill customer">${qty} pcs</span></div>`).join(''):'<div class="empty">Nothing produced today yet.</div>';
   const segAgg={direct:0,reseller:0,gift:0},commOwed=mo.reduce((s,o)=>s+((o.segment==='reseller'&&o.commission)?o.commission:0),0);
   mo.forEach(o=>{segAgg[o.segment||'direct']+=o.qty*o.rate;});
   const SEGN={direct:'Direct sale',reseller:'Reseller',gift:'Gift / Premium'};
@@ -1026,7 +1026,7 @@ function custRow(c,r,full,isLead){
 }
 function renderRemind(){
   const fl=followUps();
-  document.getElementById('remindList').innerHTML=fl.length?fl.map(followRow).join(''):'<div class="empty">Inaikku follow-ups illa 🎉<br>Daily 10-la pudhu shops-ku message anuppunga.</div>';
+  document.getElementById('remindList').innerHTML=fl.length?fl.map(followRow).join(''):'<div class="empty">No follow-ups today 🎉<br>Message new shops from the Daily-10 list.</div>';
 }
 function orderConfirmMsg(o,c){
   return `✅ *Order Confirmed – KRAFT·Vibe*\n\nHello ${c.name} 🙏\n▫️ ${o.prod} × ${o.qty}\n▫️ Rate: ₹${o.rate}/pc\n▫️ Total: *${money(o.qty*o.rate)}*\n▫️ Date: ${o.date}\n\nWe'll deliver as soon as it's ready! Thank you 🙏\n– KRAFT·Vibe · 7904505226`;
