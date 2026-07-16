@@ -213,8 +213,8 @@ main{max-width:1000px;margin:0 auto;padding:16px}
   <div class="hbtns">
     <button style="background:var(--eco)" onclick="editOrder()">🛒 Quick Order</button>
     <button style="background:var(--kraft-deep,#9c6735);color:#fff" onclick="window.open('kraftvibe-designs.html','_blank')">🎨 Designs</button>
-    <button style="background:#1c3a5e;color:#fff" onclick="window.open('kraftvibe-worker.html','_blank')">👷 Worker</button>
     <button style="background:#12253d;color:#fff" onclick="window.open('kraftvibe-agent.html','_blank')">🧑‍💼 Agent</button>
+    <button style="background:#5c4a37;color:#fff" onclick="printJobSheet()">🖨 Job Sheet</button>
     <button onclick="exportData()">⬇ Backup</button>
     <button onclick="document.getElementById('importFile').click()">⬆ Restore</button>
     <button onclick="openSettings()">⚙</button>
@@ -229,6 +229,10 @@ main{max-width:1000px;margin:0 auto;padding:16px}
   <section class="view on" id="v-today">
     <div class="vhead"><h2>Today</h2><span class="sub" id="todayDate"></span></div>
     <button class="btn eco" style="width:100%;justify-content:center;margin-bottom:14px" onclick="sendDigest()">📲 WhatsApp me today's digest</button>
+    <div class="panel">
+      <div class="ph">🧑‍💼 New orders from agent <span style="display:flex;gap:8px;align-items:center"><span class="pill due" id="agentOrderCount">0</span><button class="btn sm out" onclick="syncAgentOrders()">↻</button></span></div>
+      <div id="agentOrders"></div>
+    </div>
     <div class="panel">
       <div class="ph">💰 Payments to collect <span class="pill due" id="payAlertCount">0</span></div>
       <div id="payAlerts"></div>
@@ -1009,7 +1013,7 @@ function renderOrders(){
   if(!DB.orders.length){t.innerHTML='<tr><td class="empty">No orders. Tap “+ New order”.<br><br>When an order comes on WhatsApp, add it here right away — only then it gets tracked.</td></tr>';return;}
   const SEGLBL={direct:'Direct',reseller:'Reseller',gift:'Gift'};
   t.innerHTML='<tr><th>Date</th><th>Customer</th><th>Product</th><th class="num">Qty</th><th class="num">Amount</th><th>Segment</th><th>Status</th><th></th></tr>'+
-    DB.orders.slice().reverse().map(o=>{const c=DB.customers.find(x=>x.id===o.cust);const seg=o.segment||'direct';const commTxt=(seg==='reseller'&&o.commission)?`<div class="s" style="font-size:10px;color:var(--warn)">comm ${money(o.commission)}</div>`:'';const wb=o.wstatus==='done'?' <span class="pill paid" title="Worker finished">👷✓</span>':o.wstatus==='doing'?' <span class="pill sample" title="Worker started">👷…</span>':'';const pp=o.pay==='credit'?` <span class="pill ${o.status==='paid'?'paid':'due'}" title="Credit till ${o.payDue||''}">📒${o.status==='paid'?'✓':' '+(o.payDue||'')}</span>`:o.pay==='gpay'?' <span class="pill ok" title="GPay">📱</span>':o.pay==='cash'?' <span class="pill ok" title="Cash">💵</span>':'';return `<tr><td style="white-space:nowrap">${o.date}</td><td>${c?c.name:'-'}</td><td>${o.prod}${wb}</td><td class="num">${o.qty}</td><td class="num">${money(o.qty*o.rate)}${pp}</td><td><span class="pill ${seg==='reseller'?'sample':seg==='gift'?'given':'prospect'}">${SEGLBL[seg]}</span>${commTxt}</td><td><button class="pill ${o.status}" style="border:0;cursor:pointer" title="Tap to change status" onclick="advOrder('${o.id}')">${o.status} ▸</button></td><td style="white-space:nowrap">${c&&c.phone?`<a class="ic wa" style="display:inline-flex" target="_blank" title="Confirm on WhatsApp" href="${waLink(c.phone,orderConfirmMsg(o,c))}">${WA_SVG}</a> `:''}<button class="ic del" style="display:inline-flex" onclick="del('orders','${o.id}')"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button></td></tr>`;}).join('');
+    DB.orders.slice().reverse().map(o=>{const c=DB.customers.find(x=>x.id===o.cust);const seg=o.segment||'direct';const commTxt=(seg==='reseller'&&o.commission)?`<div class="s" style="font-size:10px;color:var(--warn)">comm ${money(o.commission)}</div>`:'';const wb=o.wstatus==='done'?' <span class="pill paid" title="Worker finished">👷✓</span>':o.wstatus==='doing'?' <span class="pill sample" title="Worker started">👷…</span>':'';const pp=o.pay==='credit'?` <span class="pill ${o.status==='paid'?'paid':'due'}" title="Credit till ${o.payDue||''}">📒${o.status==='paid'?'✓':' '+(o.payDue||'')}</span>`:o.pay==='gpay'?' <span class="pill ok" title="GPay">📱</span>':o.pay==='cash'?' <span class="pill ok" title="Cash">💵</span>':'';return `<tr><td style="white-space:nowrap">${o.date}</td><td>${c?c.name:(o.agentShop||'-')}</td><td>${o.prod}${wb}</td><td class="num">${o.qty}</td><td class="num">${money(o.qty*o.rate)}${pp}</td><td><span class="pill ${seg==='reseller'?'sample':seg==='gift'?'given':'prospect'}">${SEGLBL[seg]}</span>${commTxt}</td><td><button class="pill ${o.status}" style="border:0;cursor:pointer" title="Tap to change status" onclick="advOrder('${o.id}')">${o.status} ▸</button></td><td style="white-space:nowrap">${c&&c.phone?`<a class="ic wa" style="display:inline-flex" target="_blank" title="Confirm on WhatsApp" href="${waLink(c.phone,orderConfirmMsg(o,c))}">${WA_SVG}</a> `:''}<button class="ic del" style="display:inline-flex" onclick="del('orders','${o.id}')"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button></td></tr>`;}).join('');
 }
 let stockSeg='prod';
 function renderStock(){
@@ -1735,6 +1739,65 @@ function renderPayments(){
     :'<div class="empty" style="padding:14px">No credit payments pending. 👍</div>';
 }
 function markPaid(id){const o=DB.orders.find(x=>x.id===id);if(!o)return;o.status='paid';save();render();renderPayments();toast('Marked paid ₹✓');}
+
+/* ---------- agent orders -> manager ---------- */
+let AGENT_ORDERS=[];
+function agentShopOf(note){const m=(note||'').split('·');return m.length>1?m[1].trim():(note||'');}
+async function syncAgentOrders(){
+  const el=document.getElementById('agentOrders');if(!el)return;
+  try{
+    const r=await fetch(WORKER_SHEET+'?action=orders&t='+Date.now());
+    const j=await r.json();
+    const have=new Set(DB.orders.map(o=>o.id));
+    AGENT_ORDERS=(j.orders||[]).filter(o=>String(o.id).startsWith('ag')&&!have.has(o.id)).reverse();
+    document.getElementById('agentOrderCount').textContent=AGENT_ORDERS.length;
+    el.innerHTML=AGENT_ORDERS.length
+      ?AGENT_ORDERS.map(o=>{
+        const pp=o.pay==='credit'?`<span class="pill due">📒 credit till ${o.payDue||'?'}</span>`:o.pay==='gpay'?'<span class="pill ok">📱 GPay</span>':'<span class="pill ok">💵 Cash</span>';
+        return `<div class="row">
+          <div class="meta"><div class="t">${o.prod} × <b>${o.qty}</b> ${pp}</div>
+          <div class="s">🧑‍💼 ${agentShopOf(o.note)} · ${o.due?'due '+o.due:''}</div></div>
+          <div class="acts"><button class="btn sm eco" onclick="importAgentOrder('${o.id}')">➕ Add to orders</button></div>
+        </div>`;}).join('')
+      :'<div class="empty" style="padding:14px">No new agent orders.</div>';
+  }catch(e){}
+}
+function importAgentOrder(id){
+  const a=AGENT_ORDERS.find(x=>x.id===id);if(!a)return;
+  const shop=agentShopOf(a.note);
+  const c=DB.customers.find(x=>(x.name||'').toLowerCase()===shop.toLowerCase());
+  const prod=DB.products.find(p=>p.name.toLowerCase()===String(a.prod).toLowerCase());
+  DB.orders.push({id:a.id,cust:c?c.id:'',agentShop:shop,prod:a.prod,qty:+a.qty||0,
+    rate:prod?prod.price:0,date:today(),status:'pending',src:'Agent',
+    segment:'direct',commission:0,pay:a.pay||'cash',payDue:a.payDue||''});
+  if(c){c.lastOrder=today();if(c.status!=='customer')c.status='customer';}
+  save();render();syncAgentOrders();renderPayments();
+  toast('Agent order added ✓'+(prod?'':' — set rate later'));
+}
+
+/* ---------- printable job sheet for workers ---------- */
+function printJobSheet(){
+  const jobs=DB.orders.filter(o=>o.status==='pending').map(o=>{
+    const c=DB.customers.find(x=>x.id===o.cust);
+    const d=new Date(o.date||today());d.setDate(d.getDate()+3);
+    return {prod:o.prod,qty:o.qty,who:c?c.name:(o.agentShop||'-'),date:o.date,due:d.toISOString().slice(0,10),src:o.src||''};
+  });
+  AGENT_ORDERS.forEach(a=>jobs.push({prod:a.prod,qty:a.qty,who:agentShopOf(a.note),date:'',due:a.due||'',src:'Agent (not imported)'}));
+  const rows=jobs.map((jb,i)=>`<tr><td>${i+1}</td><td style="font-size:17px;font-weight:700">${jb.prod}</td><td style="font-size:20px;font-weight:800">×${jb.qty}</td><td>${jb.who}</td><td>${jb.due}</td><td style="width:80px"></td></tr>`).join('');
+  const w=window.open('','_blank');
+  w.document.write(`<html><head><title>KRAFT·Vibe — Job Sheet</title><style>
+    body{font-family:Arial,sans-serif;padding:24px}
+    h1{margin:0 0 4px;font-size:22px} .d{color:#555;font-size:13px;margin-bottom:16px}
+    table{width:100%;border-collapse:collapse} th,td{border:1.5px solid #333;padding:10px 8px;text-align:left;font-size:14px}
+    th{background:#eee;text-transform:uppercase;font-size:11px;letter-spacing:1px}
+    .f{margin-top:26px;font-size:12px;color:#555}</style></head><body>
+    <h1>KRAFT·VIBE — TODAY'S JOB SHEET</h1>
+    <div class="d">${new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'})} · ${jobs.length} pending jobs · do in this order</div>
+    <table><tr><th>#</th><th>Product</th><th>Qty</th><th>For</th><th>Deadline</th><th>Done ✓</th></tr>${rows||'<tr><td colspan="6">No pending jobs 🎉</td></tr>'}</table>
+    <div class="f">Rules: max 2×80 GSM feed · jam = STOP → REVERSE → clear · tick Done column and return sheet in the evening.</div>
+    <script>print()<\/script></body></html>`);
+  w.document.close();
+}
 async function syncWorker(){
   try{
     const r=await fetch(WORKER_SHEET+'?action=orders&t='+Date.now());
@@ -1751,7 +1814,7 @@ setInterval(syncAgentVisits,180000);
 
 /* hook Today tab extras */
 const _go=go;
-go=function(t){_go(t);if(t==='today'){renderPayments();syncAgentVisits();}};
+go=function(t){_go(t);if(t==='today'){renderPayments();syncAgentVisits();syncAgentOrders();}};
 
 buildNav();go('today');
 syncWorker();
