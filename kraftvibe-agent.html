@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KRAFT·Vibe — Field Agent</title>
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#1c3a5e">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#ece0cb;--kraft:#c2925a;--kraft-deep:#9c6735;--ink:#262219;--ink-soft:#5c4a37;
+--eco:#0f6d38;--eco-lt:#17924a;--navy:#1c3a5e;--cream:#f8f0e2;--stamp:#9c1824;--line:rgba(156,103,53,.3)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--paper);color:var(--ink);min-height:100vh;line-height:1.5}
+header{background:linear-gradient(150deg,#1c3a5e,#122档840)}
+header{background:linear-gradient(150deg,#1c3a5e,#12253d);color:var(--cream);padding:15px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10;box-shadow:0 4px 14px rgba(0,0,0,.2)}
+header .lg{width:40px;height:40px;border-radius:11px;background:#f79f1f;display:flex;align-items:center;justify-content:center;font-size:22px}
+header h1{font-family:'Anton';font-weight:400;font-size:19px;letter-spacing:.5px}
+header .st{font-family:'DM Mono';font-size:10px;letter-spacing:1px;color:#9fc0e2}
+header .rf{margin-left:auto;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:9px;padding:8px 12px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer}
+main{max-width:560px;margin:0 auto;padding:14px 14px 60px}
+.tabs{display:flex;gap:8px;margin-bottom:13px}
+.tab{flex:1;text-align:center;padding:11px 6px;border-radius:11px;font-weight:800;font-size:13.5px;background:var(--cream);border:1.5px solid var(--line);color:var(--ink-soft);cursor:pointer}
+.tab.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.tab .n{font-family:'DM Mono';font-size:11px;opacity:.85}
+.search{width:100%;padding:11px 14px;border:1.5px solid var(--line);border-radius:11px;background:#fff;font-size:14.5px;font-family:inherit;margin-bottom:12px}
+.search:focus{outline:0;border-color:var(--navy)}
+.sect{font-family:'DM Mono';font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--kraft-deep);margin:16px 2px 8px}
+.sc{background:var(--cream);border:1px solid var(--line);border-left:6px solid var(--navy);border-radius:14px;padding:13px 14px;margin-bottom:11px;box-shadow:0 4px 10px rgba(70,45,20,.07)}
+.sc.due{border-left-color:var(--stamp)}
+.sc.visited{border-left-color:var(--eco);opacity:.82}
+.sc .top{display:flex;align-items:center;gap:9px}
+.sc .nm{font-weight:800;font-size:16px;flex:1}
+.sc .meta{font-size:12px;color:var(--ink-soft);font-family:'DM Mono';margin-top:3px}
+.pill{font-family:'DM Mono';font-size:9.5px;letter-spacing:.5px;padding:3px 9px;border-radius:20px;text-transform:uppercase;white-space:nowrap}
+.p-due{background:#fbe3e5;color:var(--stamp)}
+.p-wish{background:#fdf0d5;color:#9a6a10}
+.p-cust{background:#e4efe7;color:var(--eco)}
+.p-vis{background:#e4efe7;color:var(--eco)}
+.sc .acts{display:flex;gap:8px;margin-top:11px;flex-wrap:wrap}
+.sc .acts>*{flex:1;min-width:86px;display:flex;align-items:center;justify-content:center;gap:6px;border:0;border-radius:10px;
+  padding:10px 8px;font-family:inherit;font-weight:800;font-size:13px;cursor:pointer;text-decoration:none;transition:.15s}
+.a-call{background:#e8e2d4;color:var(--ink)}
+.a-wa{background:#25d366;color:#fff}
+.a-vis{background:var(--navy);color:#fff}
+.a-ord{background:var(--eco);color:#fff}
+.sc .acts>*:active{transform:scale(.96)}
+.empty{text-align:center;padding:44px 20px;color:var(--ink-soft)}
+.empty .e{font-size:42px;margin-bottom:8px}
+/* modal */
+.ov{position:fixed;inset:0;background:rgba(38,34,25,.65);z-index:80;display:none;align-items:flex-end;justify-content:center}
+.ov.on{display:flex}
+.md{background:var(--cream);border-radius:20px 20px 0 0;width:100%;max-width:560px;padding:20px 18px 26px;animation:up .25s ease}
+@keyframes up{from{transform:translateY(40px);opacity:.6}to{transform:none;opacity:1}}
+.md h3{font-family:'Anton';font-weight:400;font-size:20px;color:var(--navy);margin-bottom:12px}
+.fg{margin-bottom:11px}
+.fg label{display:block;font-family:'DM Mono';font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--kraft-deep);margin-bottom:5px}
+.fg input,.fg select{width:100%;padding:12px;border:1.5px solid var(--line);border-radius:10px;background:#fff;font-size:15px;font-family:inherit}
+.fg input:focus{outline:0;border-color:var(--eco)}
+.md .row{display:flex;gap:9px;margin-top:12px}
+.md .row button{flex:1;border:0;border-radius:11px;padding:13px;font-family:inherit;font-weight:800;font-size:15px;cursor:pointer}
+.b-go{background:var(--eco);color:#fff}
+.b-x{background:transparent;border:1.5px solid var(--line)!important;color:var(--ink-soft)}
+/* gate */
+#gate{position:fixed;inset:0;z-index:99;background:#12253d;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center}
+#gate .lg2{font-size:46px}
+#gate h2{font-family:'Anton';font-weight:400;color:#fff;font-size:24px;letter-spacing:1px}
+#gate p{color:#9fc0e2;font-family:'DM Mono';font-size:11px;letter-spacing:2px}
+#gatePin{margin-top:6px;padding:13px;border-radius:10px;border:0;font-size:22px;width:180px;text-align:center;letter-spacing:8px;font-family:'DM Mono'}
+#gate button{background:#1c3a5e;border:1px solid #3a5f8e;color:#fff;border-radius:9px;padding:12px 26px;font-weight:800;font-size:15px;cursor:pointer;font-family:inherit}
+#gErr{color:#e06a55;font-size:13px;height:16px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(16px);background:var(--ink);color:var(--cream);padding:11px 20px;border-radius:30px;font-size:13.5px;font-weight:700;opacity:0;transition:.3s;pointer-events:none;z-index:120}
+.toast.on{opacity:1;transform:translateX(-50%)}
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <div class="lg2">🧑‍💼</div>
+  <h2>KRAFT·VIBE</h2>
+  <p>FIELD AGENT · STAFF ONLY</p>
+  <input id="gatePin" type="tel" inputmode="numeric" maxlength="4" placeholder="PIN">
+  <button onclick="tryPin()">Open</button>
+  <div id="gErr"></div>
+</div>
+
+<header>
+  <div class="lg">🧑‍💼</div>
+  <div><h1>FIELD AGENT</h1><div class="st" id="hdSt">loading…</div></div>
+  <button class="rf" onclick="load(true)">⟳</button>
+</header>
+
+<main>
+  <div class="tabs">
+    <div class="tab on" id="tabR" onclick="show('route')">Today Route <span class="n" id="nR"></span></div>
+    <div class="tab" id="tabA" onclick="show('all')">All Shops <span class="n" id="nA"></span></div>
+  </div>
+  <input class="search" id="q" placeholder="🔍 Search shop / area…" oninput="render()">
+  <div id="list"></div>
+</main>
+
+<!-- order modal -->
+<div class="ov" id="ov" onclick="if(event.target===this)closeM()">
+  <div class="md">
+    <h3 id="mTitle">Take Order</h3>
+    <div class="fg"><label>Product</label>
+      <input id="m_prod" list="prodList" placeholder="Type or pick product">
+      <datalist id="prodList"></datalist>
+    </div>
+    <div class="fg"><label>Quantity</label><input id="m_qty" type="number" inputmode="numeric" placeholder="e.g. 500"></div>
+    <div class="fg"><label>Note (optional)</label><input id="m_note" placeholder="size / colour / urgent…"></div>
+    <div class="fg"><label>Payment</label>
+      <select id="m_pay" onchange="document.getElementById('m_cred').style.display=this.value==='credit'?'block':'none'">
+        <option value="cash">💵 Cash</option>
+        <option value="gpay">📱 GPay / UPI</option>
+        <option value="credit">📒 Credit (pay later)</option>
+      </select>
+    </div>
+    <div class="fg" id="m_cred" style="display:none"><label>Credit — pay within</label>
+      <select id="m_credDays">
+        <option value="7">7 days</option>
+        <option value="15">15 days</option>
+        <option value="30">30 days</option>
+      </select>
+    </div>
+    <div class="row">
+      <button class="b-x" onclick="closeM()">Cancel</button>
+      <button class="b-go" onclick="sendOrder()">✅ Send Order</button>
+    </div>
+    <div style="text-align:center;font-family:'DM Mono';font-size:10.5px;color:var(--ink-soft);margin-top:10px">goes straight to the production queue · 3-day deadline auto-set</div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SHEET='https://script.google.com/macros/s/AKfycbzPK_p9HNycLOm6o--osMx6JO9IlWle3ZZedjOmwCdbDdqDP7ZNUEh9mgOCwfPHeE5Wuw/exec';
+/* agent PIN (SHA-256). Default: 4712 */
+const PIN_HASH='4f0e70f993083de9a594904cfe6aef5bdfe134a45c4cb7c24a4fb483d2fc1211';
+let CUST=[],PRODS=[],VISITED=new Set(),VIEW='route',SEL=null;
+
+async function sha(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));
+  return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');}
+async function tryPin(){
+  const v=document.getElementById('gatePin').value.trim();
+  if(await sha(v)===PIN_HASH){sessionStorage.setItem('kva','1');document.getElementById('gate').style.display='none';load(true);}
+  else{document.getElementById('gErr').textContent='Wrong PIN';document.getElementById('gatePin').value='';}
+}
+document.getElementById('gatePin').addEventListener('keydown',e=>{if(e.key==='Enter')tryPin();});
+if(sessionStorage.getItem('kva')==='1')document.getElementById('gate').style.display='none';
+
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2200);}
+function esc(s){return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+function today(){return new Date().toISOString().slice(0,10);}
+function daysSince(d){if(!d)return 9999;return Math.floor((new Date(today())-new Date(d))/86400000);}
+
+async function load(manual){
+  if(document.getElementById('gate').style.display!=='none'&&!sessionStorage.getItem('kva'))return;
+  document.getElementById('hdSt').textContent='syncing…';
+  try{
+    const r=await fetch(SHEET+'?action=agentData&t='+Date.now());
+    const j=await r.json();
+    CUST=j.customers||[];PRODS=j.products||[];VISITED=new Set(j.visitedToday||[]);
+    document.getElementById('prodList').innerHTML=PRODS.map(p=>`<option value="${esc(p)}">`).join('');
+    document.getElementById('hdSt').textContent='updated '+new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+    render();if(manual)toast('Updated ✓');
+  }catch(e){document.getElementById('hdSt').textContent='offline — retry';}
+}
+function show(v){VIEW=v;
+  document.getElementById('tabR').classList.toggle('on',v==='route');
+  document.getElementById('tabA').classList.toggle('on',v==='all');
+  render();}
+
+function classify(c){
+  // reorder due: customer with lastOrder older than cycle
+  if(c.status==='customer'&&c.lastOrder&&c.cycle&&daysSince(c.lastOrder)>=+c.cycle)return 'due';
+  if(c.status!=='customer')return 'wish';   // wishlist / prospect
+  return 'cust';
+}
+function card(c){
+  const k=classify(c);
+  const vis=VISITED.has(c.id);
+  const pill=vis?'<span class="pill p-vis">✓ VISITED</span>'
+    :k==='due'?`<span class="pill p-due">REORDER DUE</span>`
+    :k==='wish'?'<span class="pill p-wish">WISHLIST</span>'
+    :'<span class="pill p-cust">CUSTOMER</span>';
+  const meta=[c.type,c.area,(k==='due'&&c.lastOrder)?('last order '+daysSince(c.lastOrder)+'d ago'):''].filter(Boolean).join(' · ');
+  return `<div class="sc ${k==='due'?'due':''} ${vis?'visited':''}">
+    <div class="top"><div class="nm">${esc(c.name)}</div>${pill}</div>
+    <div class="meta">${esc(meta)}</div>
+    <div class="acts">
+      ${c.phone?`<a class="a-call" href="tel:${esc(c.phone)}">📞 Call</a>
+      <a class="a-wa" target="_blank" href="https://wa.me/91${esc(c.phone.replace(/\D/g,'').slice(-10))}">💬</a>`:''}
+      <button class="a-vis" onclick="checkin('${c.id}')">${vis?'📍 Again':'📍 Check-in'}</button>
+      <button class="a-ord" onclick="openOrder('${c.id}')">🛒 Order</button>
+    </div></div>`;
+}
+function render(){
+  const q=document.getElementById('q').value.toLowerCase();
+  const match=c=>!q||(c.name+' '+(c.area||'')+' '+(c.type||'')).toLowerCase().includes(q);
+  const due=CUST.filter(c=>classify(c)==='due'&&match(c));
+  const wish=CUST.filter(c=>classify(c)==='wish'&&match(c));
+  const rest=CUST.filter(c=>classify(c)==='cust'&&match(c));
+  document.getElementById('nR').textContent='('+(due.length+wish.length)+')';
+  document.getElementById('nA').textContent='('+CUST.length+')';
+  const el=document.getElementById('list');
+  if(!CUST.length){el.innerHTML='<div class="empty"><div class="e">📭</div>No shop list yet.<br>Ask owner to open the Manager once — it syncs automatically.</div>';return;}
+  if(VIEW==='route'){
+    let h='';
+    h+=`<div class="sect">🔴 Reorder due — visit first (${due.length})</div>`+(due.length?due.map(card).join(''):'<div class="empty" style="padding:14px">None today 🎉</div>');
+    h+=`<div class="sect">⭐ Wishlist — new shops to win (${wish.length})</div>`+(wish.length?wish.map(card).join(''):'<div class="empty" style="padding:14px">Empty</div>');
+    el.innerHTML=h;
+  }else{
+    const all=[...due,...wish,...rest];
+    el.innerHTML=all.length?all.map(card).join(''):'<div class="empty"><div class="e">🔍</div>No match.</div>';
+  }
+}
+
+/* ---- check-in (digital sign) ---- */
+function checkin(id){
+  const c=CUST.find(x=>x.id===id);if(!c)return;
+  toast('📍 Signing in at '+c.name+'…');
+  const send=(lat,lng)=>{
+    fetch(SHEET,{method:'POST',mode:'no-cors',body:new URLSearchParams({action:'visit',custId:id,shop:c.name,note:'',lat:lat||'',lng:lng||''})})
+      .then(()=>{VISITED.add(id);render();toast('✓ Visit logged — '+c.name);})
+      .catch(()=>toast('⚠ Network — try again'));
+  };
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(
+      p=>send(p.coords.latitude.toFixed(5),p.coords.longitude.toFixed(5)),
+      ()=>send('',''),{timeout:5000,maximumAge:60000});
+  }else send('','');
+}
+
+/* ---- take order ---- */
+function openOrder(id){
+  SEL=CUST.find(x=>x.id===id);if(!SEL)return;
+  document.getElementById('mTitle').textContent='Order — '+SEL.name;
+  document.getElementById('m_prod').value='';document.getElementById('m_qty').value='';document.getElementById('m_note').value='';
+  document.getElementById('ov').classList.add('on');
+}
+function closeM(){document.getElementById('ov').classList.remove('on');}
+function sendOrder(){
+  const prod=document.getElementById('m_prod').value.trim();
+  const qty=document.getElementById('m_qty').value.trim();
+  if(!prod||!qty){toast('Product & quantity needed');return;}
+  const note='Agent order · '+SEL.name+(document.getElementById('m_note').value.trim()?' · '+document.getElementById('m_note').value.trim():'');
+  const pay=document.getElementById('m_pay').value;
+  let payDue='';
+  if(pay==='credit'){const d=new Date();d.setDate(d.getDate()+(+document.getElementById('m_credDays').value||7));payDue=d.toISOString().slice(0,10);}
+  fetch(SHEET,{method:'POST',mode:'no-cors',body:new URLSearchParams({action:'addOrder',id:'ag'+Date.now(),prod,qty,note,pay,payDue})})
+    .then(()=>{closeM();toast('✅ Order sent to production — '+SEL.name);
+      if(!VISITED.has(SEL.id))checkin(SEL.id);})
+    .catch(()=>toast('⚠ Network — try again'));
+}
+
+setInterval(()=>load(false),120000);
+if(sessionStorage.getItem('kva')==='1')load(true);
+</script>
+</body>
+</html>

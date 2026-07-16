@@ -213,7 +213,8 @@ main{max-width:1000px;margin:0 auto;padding:16px}
   <div class="hbtns">
     <button style="background:var(--eco)" onclick="editOrder()">🛒 Quick Order</button>
     <button style="background:var(--kraft-deep,#9c6735);color:#fff" onclick="window.open('kraftvibe-designs.html','_blank')">🎨 Designs</button>
-    <button style="background:#1c3a5e;color:#fff" onclick="window.open('kraftvibe-worker.html','_blank')">👷 Worker Board</button>
+    <button style="background:#1c3a5e;color:#fff" onclick="window.open('kraftvibe-worker.html','_blank')">👷 Worker</button>
+    <button style="background:#12253d;color:#fff" onclick="window.open('kraftvibe-agent.html','_blank')">🧑‍💼 Agent</button>
     <button onclick="exportData()">⬇ Backup</button>
     <button onclick="document.getElementById('importFile').click()">⬆ Restore</button>
     <button onclick="openSettings()">⚙</button>
@@ -229,8 +230,16 @@ main{max-width:1000px;margin:0 auto;padding:16px}
     <div class="vhead"><h2>Today</h2><span class="sub" id="todayDate"></span></div>
     <button class="btn eco" style="width:100%;justify-content:center;margin-bottom:14px" onclick="sendDigest()">📲 WhatsApp me today's digest</button>
     <div class="panel">
+      <div class="ph">💰 Payments to collect <span class="pill due" id="payAlertCount">0</span></div>
+      <div id="payAlerts"></div>
+    </div>
+    <div class="panel">
       <div class="ph">Contact today <span style="display:flex;gap:8px;align-items:center"><span class="pill soon" id="todayContactCount">0</span><button class="btn sm out" onclick="go('plan')">Daily&#8209;10 list</button><button class="btn sm out" onclick="go('remind')">All follow&#8209;ups</button></span></div>
       <div id="todayContacts"></div>
+    </div>
+    <div class="panel">
+      <div class="ph">🧑‍💼 Agent visits today <span style="display:flex;gap:8px;align-items:center"><span class="pill soon" id="agentVisitCount">0</span><button class="btn sm out" onclick="syncAgentVisits()">↻</button></span></div>
+      <div id="agentVisits"></div>
     </div>
     <div class="panel">
       <div class="ph">Produce today <button class="btn sm eco" onclick="openProdLog()">+ Log production</button></div>
@@ -1000,7 +1009,7 @@ function renderOrders(){
   if(!DB.orders.length){t.innerHTML='<tr><td class="empty">No orders. Tap “+ New order”.<br><br>When an order comes on WhatsApp, add it here right away — only then it gets tracked.</td></tr>';return;}
   const SEGLBL={direct:'Direct',reseller:'Reseller',gift:'Gift'};
   t.innerHTML='<tr><th>Date</th><th>Customer</th><th>Product</th><th class="num">Qty</th><th class="num">Amount</th><th>Segment</th><th>Status</th><th></th></tr>'+
-    DB.orders.slice().reverse().map(o=>{const c=DB.customers.find(x=>x.id===o.cust);const seg=o.segment||'direct';const commTxt=(seg==='reseller'&&o.commission)?`<div class="s" style="font-size:10px;color:var(--warn)">comm ${money(o.commission)}</div>`:'';const wb=o.wstatus==='done'?' <span class="pill paid" title="Worker finished">👷✓</span>':o.wstatus==='doing'?' <span class="pill sample" title="Worker started">👷…</span>':'';return `<tr><td style="white-space:nowrap">${o.date}</td><td>${c?c.name:'-'}</td><td>${o.prod}${wb}</td><td class="num">${o.qty}</td><td class="num">${money(o.qty*o.rate)}</td><td><span class="pill ${seg==='reseller'?'sample':seg==='gift'?'given':'prospect'}">${SEGLBL[seg]}</span>${commTxt}</td><td><button class="pill ${o.status}" style="border:0;cursor:pointer" title="Tap to change status" onclick="advOrder('${o.id}')">${o.status} ▸</button></td><td style="white-space:nowrap">${c&&c.phone?`<a class="ic wa" style="display:inline-flex" target="_blank" title="Confirm on WhatsApp" href="${waLink(c.phone,orderConfirmMsg(o,c))}">${WA_SVG}</a> `:''}<button class="ic del" style="display:inline-flex" onclick="del('orders','${o.id}')"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button></td></tr>`;}).join('');
+    DB.orders.slice().reverse().map(o=>{const c=DB.customers.find(x=>x.id===o.cust);const seg=o.segment||'direct';const commTxt=(seg==='reseller'&&o.commission)?`<div class="s" style="font-size:10px;color:var(--warn)">comm ${money(o.commission)}</div>`:'';const wb=o.wstatus==='done'?' <span class="pill paid" title="Worker finished">👷✓</span>':o.wstatus==='doing'?' <span class="pill sample" title="Worker started">👷…</span>':'';const pp=o.pay==='credit'?` <span class="pill ${o.status==='paid'?'paid':'due'}" title="Credit till ${o.payDue||''}">📒${o.status==='paid'?'✓':' '+(o.payDue||'')}</span>`:o.pay==='gpay'?' <span class="pill ok" title="GPay">📱</span>':o.pay==='cash'?' <span class="pill ok" title="Cash">💵</span>':'';return `<tr><td style="white-space:nowrap">${o.date}</td><td>${c?c.name:'-'}</td><td>${o.prod}${wb}</td><td class="num">${o.qty}</td><td class="num">${money(o.qty*o.rate)}${pp}</td><td><span class="pill ${seg==='reseller'?'sample':seg==='gift'?'given':'prospect'}">${SEGLBL[seg]}</span>${commTxt}</td><td><button class="pill ${o.status}" style="border:0;cursor:pointer" title="Tap to change status" onclick="advOrder('${o.id}')">${o.status} ▸</button></td><td style="white-space:nowrap">${c&&c.phone?`<a class="ic wa" style="display:inline-flex" target="_blank" title="Confirm on WhatsApp" href="${waLink(c.phone,orderConfirmMsg(o,c))}">${WA_SVG}</a> `:''}<button class="ic del" style="display:inline-flex" onclick="del('orders','${o.id}')"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button></td></tr>`;}).join('');
 }
 let stockSeg='prod';
 function renderStock(){
@@ -1097,6 +1106,10 @@ function editOrder(custId){
    <div class="fg"><label>Status</label><select id="o_status"><option>pending</option><option>delivered</option><option>paid</option></select></div></div>
    <div class="frow"><div class="fg"><label>Amount</label><input id="o_amt" readonly style="background:var(--paper2);font-weight:700"></div>
    <div class="fg"><label>Reseller commission</label><input id="o_comm" readonly style="background:var(--paper2)"></div></div>
+   <div class="frow"><div class="fg"><label>Payment</label><select id="o_pay" onchange="document.getElementById('o_credwrap').style.display=this.value==='credit'?'':'none'">
+     <option value="cash">💵 Cash</option><option value="gpay">📱 GPay / UPI</option><option value="credit">📒 Credit (pay later)</option></select></div>
+   <div class="fg" id="o_credwrap" style="display:none"><label>Credit — collect within</label><select id="o_credDays">
+     <option value="7">7 days</option><option value="15">15 days</option><option value="30">30 days</option></select></div></div>
    <div class="mbtns"><button class="btn out" onclick="closeM()">Cancel</button><button class="btn eco" onclick="saveOrder()">Save order</button></div>`);
   o_setrate();
 }
@@ -1139,7 +1152,10 @@ function saveOrder(){
   if(!val('o_cust')){toast('Customer needed — select one from search');return;}
   const prodSel=document.getElementById('o_prod');
   const qty=+val('o_qty')||0,rate=+val('o_rate')||0,seg=val('o_seg');
-  const o={id:uid(),cust:val('o_cust'),prod:prodSel.options[prodSel.selectedIndex].text.split(' (')[0],qty,rate,date:val('o_date'),status:val('o_status'),src:val('o_src'),segment:seg,commission:segCommission(seg,qty,qty*rate)};
+  const pay=val('o_pay')||'cash';
+  let payDue='';
+  if(pay==='credit'){const d=new Date();d.setDate(d.getDate()+(+val('o_credDays')||7));payDue=d.toISOString().slice(0,10);}
+  const o={id:uid(),cust:val('o_cust'),prod:prodSel.options[prodSel.selectedIndex].text.split(' (')[0],qty,rate,date:val('o_date'),status:val('o_status'),src:val('o_src'),segment:seg,commission:segCommission(seg,qty,qty*rate),pay,payDue};
   const prevOrders=DB.orders.filter(x=>x.cust===o.cust).length;
   DB.orders.push(o);
   const c=DB.customers.find(x=>x.id===o.cust);
@@ -1664,10 +1680,61 @@ function shareSample(){
 /* ---------- worker board sync (Google Sheet) ---------- */
 const WORKER_SHEET='https://script.google.com/macros/s/AKfycbzPK_p9HNycLOm6o--osMx6JO9IlWle3ZZedjOmwCdbDdqDP7ZNUEh9mgOCwfPHeE5Wuw/exec';
 function pushOrderToWorker(o,custName){
+  const d=new Date();d.setDate(d.getDate()+3);           // production deadline: 3 days
   try{fetch(WORKER_SHEET,{method:'POST',mode:'no-cors',body:new URLSearchParams({
     action:'addOrder',id:o.id,prod:o.prod,qty:o.qty,
-    note:custName?('For '+custName):'',due:o.date||''})});}catch(e){}
+    note:custName?('For '+custName):'',due:d.toISOString().slice(0,10),
+    pay:o.pay||'',payDue:o.payDue||''})});}catch(e){}
 }
+/* push customer + product list for the field agent (throttled 2h) */
+function syncCustomersToAgent(force){
+  const last=+localStorage.getItem('kv_custsync')||0;
+  if(!force&&Date.now()-last<7200000)return;
+  localStorage.setItem('kv_custsync',Date.now());
+  const data=DB.customers.filter(c=>c.status!=='lost').map(c=>({id:c.id,name:c.name,type:c.type||'',area:c.area||'',phone:c.phone||'',status:c.status||'prospect',cycle:c.cycle||'',lastOrder:c.lastOrder||''}));
+  const products=DB.products.map(p=>p.name);
+  try{fetch(WORKER_SHEET,{method:'POST',mode:'no-cors',body:new URLSearchParams({action:'syncCust',data:JSON.stringify(data),products:JSON.stringify(products)})});}catch(e){}
+}
+/* agent visits today -> Today tab panel */
+async function syncAgentVisits(){
+  const el=document.getElementById('agentVisits');if(!el)return;
+  try{
+    const r=await fetch(WORKER_SHEET+'?action=visits&t='+Date.now());
+    const j=await r.json();const vs=j.visits||[];
+    document.getElementById('agentVisitCount').textContent=vs.length;
+    el.innerHTML=vs.length
+      ?vs.map(v=>`<div class="row"><div class="meta"><div class="t">📍 ${v.shop} <span class="pill soon">${v.time}</span></div>${v.note?`<div class="s">${v.note}</div>`:''}</div>${v.map?`<a class="ic ed" style="display:inline-flex" target="_blank" title="See location" href="${v.map}"><svg viewBox="0 0 24 24"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1112 6.5a2.5 2.5 0 010 5z"/></svg></a>`:''}</div>`).join('')
+      :'<div class="empty" style="padding:14px">No agent check-ins yet today.</div>';
+  }catch(e){}
+}
+/* credit payment alerts */
+function paymentsDue(){
+  const t=today();
+  return DB.orders.filter(o=>o.pay==='credit'&&o.status!=='paid'&&o.payDue)
+    .map(o=>{const c=DB.customers.find(x=>x.id===o.cust);
+      const dd=daysBetween(t,o.payDue);
+      return {o,c,dd,overdue:dd<0,amt:o.qty*o.rate};})
+    .filter(x=>x.dd<=2)
+    .sort((a,b)=>a.dd-b.dd);
+}
+function payRemindMsg(x){
+  return `Hello ${x.c?x.c.name:''} 🙏 KRAFT·Vibe. Gentle reminder — payment of *${money(x.amt)}* for your order (${x.o.prod} × ${x.o.qty}) ${x.overdue?'was due on':'is due by'} ${x.o.payDue}. GPay: 7904505226. Thank you! 🙏`;
+}
+function renderPayments(){
+  const el=document.getElementById('payAlerts');if(!el)return;
+  const list=paymentsDue();
+  document.getElementById('payAlertCount').textContent=list.length;
+  el.innerHTML=list.length
+    ?list.map(x=>`<div class="row">
+      <div class="meta"><div class="t">${x.c?x.c.name:'—'} <span class="pill ${x.overdue?'due':'soon'}">${x.overdue?'OVERDUE '+(-x.dd)+'d':x.dd===0?'DUE TODAY':'due in '+x.dd+'d'}</span></div>
+      <div class="s">${x.o.prod} × ${x.o.qty} · <b>${money(x.amt)}</b> · credit till ${x.o.payDue}</div></div>
+      <div class="acts">
+        ${x.c&&x.c.phone?`<a class="ic wa" target="_blank" href="${waLink(x.c.phone,payRemindMsg(x))}">${WA_SVG}</a>`:''}
+        <button class="ic" title="Mark paid" style="border-color:var(--eco);color:var(--eco);font-weight:800" onclick="markPaid('${x.o.id}')">₹✓</button>
+      </div></div>`).join('')
+    :'<div class="empty" style="padding:14px">No credit payments pending. 👍</div>';
+}
+function markPaid(id){const o=DB.orders.find(x=>x.id===id);if(!o)return;o.status='paid';save();render();renderPayments();toast('Marked paid ₹✓');}
 async function syncWorker(){
   try{
     const r=await fetch(WORKER_SHEET+'?action=orders&t='+Date.now());
@@ -1680,9 +1747,15 @@ async function syncWorker(){
   }catch(e){}
 }
 setInterval(syncWorker,120000);
+setInterval(syncAgentVisits,180000);
+
+/* hook Today tab extras */
+const _go=go;
+go=function(t){_go(t);if(t==='today'){renderPayments();syncAgentVisits();}};
 
 buildNav();go('today');
 syncWorker();
+syncCustomersToAgent();
 
 /* ---------- backup nag (data is localStorage-only!) ---------- */
 if(!DB.lastBackup||daysBetween(DB.lastBackup,today())>=7){
