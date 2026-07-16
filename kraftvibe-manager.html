@@ -1775,7 +1775,7 @@ function shareSample(){
 }
 
 /* ---------- worker board sync (Google Sheet) ---------- */
-const WORKER_SHEET='https://script.google.com/macros/s/AKfycbzPK_p9HNycLOm6o--osMx6JO9IlWle3ZZedjOmwCdbDdqDP7ZNUEh9mgOCwfPHeE5Wuw/exec';
+const WORKER_SHEET='https://script.google.com/macros/s/AKfycbxYqmFCmFOE2gVjSiN-F1zItU_rS9bw8UvyfgbWUkajSRnWkFSBCTLt4kxxjVV3Tzn0ZA/exec';
 function pushOrderToWorker(o,custName){
   const d=new Date();d.setDate(d.getDate()+3);           // production deadline: 3 days
   try{fetch(WORKER_SHEET,{method:'POST',mode:'no-cors',body:new URLSearchParams({
