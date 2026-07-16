@@ -395,7 +395,10 @@ main{max-width:1000px;margin:0 auto;padding:16px}
 
   <!-- BILLING -->
   <section class="view" id="v-bill">
-    <div class="vhead"><h2>Billing</h2><button class="btn" onclick="newBill()">+ New invoice</button></div>
+    <div class="vhead"><h2>Billing</h2><span style="display:flex;gap:8px;flex-wrap:wrap">
+   <button class="btn sm out" onclick="openPriceSheet()">📋 Price Sheet</button>
+   <button class="btn sm out" onclick="newBill('proforma')">📄 Proforma</button>
+   <button class="btn" onclick="newBill()">+ New invoice</button></span></div>
     <div class="panel scroll"><table class="tbl" id="billTbl"></table></div>
   </section>
 </main>
@@ -1072,7 +1075,7 @@ function renderBills(){
   const t=document.getElementById('billTbl');
   if(!DB.bills.length){t.innerHTML='<tr><td class="empty">No invoices. Tap “+ New invoice”.</td></tr>';return;}
   t.innerHTML='<tr><th>Bill #</th><th>Date</th><th>Customer</th><th class="num">Total</th><th></th></tr>'+
-    DB.bills.slice().reverse().map(b=>`<tr><td>#${b.no}</td><td>${b.date}</td><td>${b.custName}</td><td class="num">${money(b.total)}</td><td><button class="btn sm out" onclick="printBill('${b.id}')">Print</button></td></tr>`).join('');
+    DB.bills.slice().reverse().map(b=>`<tr><td>${b.kind==='proforma'?'<span class="pill sample">PI</span> ':''}#${b.no}</td><td>${b.date}</td><td>${b.custName}</td><td class="num">${money(b.total)}</td><td><button class="btn sm out" onclick="printBill('${b.id}')">Print</button></td></tr>`).join('');
 }
 
 /* ---------- modal infra ---------- */
@@ -1303,13 +1306,17 @@ function savePurch(){
 
 /* ---------- billing ---------- */
 let billItems=[];
-function newBill(){
-  if(!DB.customers.some(c=>c.status==='customer')){toast('First convert a Lead into a Customer');return;}
+let billKind='invoice';
+function newBill(kind){
+  billKind=kind==='proforma'?'proforma':'invoice';
+  if(billKind==='invoice'&&!DB.customers.some(c=>c.status==='customer')){toast('First convert a Lead into a Customer');return;}
+  if(!DB.customers.length){toast('Add a customer/lead first');return;}
   billItems=[{prod:DB.products[0]?.name||'',qty:1,rate:DB.products[0]?.price||0}];
   drawBill();
 }
 function drawBill(){
-  const co=DB.customers.filter(c=>c.status==='customer').map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+  const pool=billKind==='proforma'?DB.customers:DB.customers.filter(c=>c.status==='customer');
+  const co=pool.map(c=>`<option value="${c.id}">${c.name}${c.status!=='customer'?' (lead)':''}</option>`).join('');
   const po=DB.products.map(p=>`<option value="${p.name}" data-rate="${p.price}">${p.name}</option>`).join('');
   const rows=billItems.map((it,ix)=>`<div class="frow" style="align-items:flex-end">
      <div class="fg" style="flex:2"><label>Item</label><select onchange="billItems[${ix}].prod=this.value;billItems[${ix}].rate=+this.options[this.selectedIndex].dataset.rate||billItems[${ix}].rate;drawBill()">${DB.products.map(p=>`<option value="${p.name}" data-rate="${p.price}" ${p.name===it.prod?'selected':''}>${p.name}</option>`).join('')}</select></div>
@@ -1317,7 +1324,7 @@ function drawBill(){
      <div class="fg"><label>Rate</label><input type="number" step="0.01" value="${it.rate}" oninput="billItems[${ix}].rate=+this.value;billTotals()"></div>
      <button class="ic del" style="margin-bottom:12px" onclick="billItems.splice(${ix},1);drawBill()"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
    </div>`).join('');
-  openM(`<h3>New Invoice</h3>
+  openM(`<h3>${billKind==='proforma'?'New Proforma (Quote)':'New Invoice'}</h3>
    <div class="fg"><label>Customer</label><select id="b_cust">${co}</select></div>
    ${rows}
    <button class="btn sm out" onclick="billItems.push({prod:DB.products[0]?.name||'',qty:1,rate:DB.products[0]?.price||0});drawBill()">+ Add item</button>
@@ -1334,8 +1341,8 @@ function billTotals(){
 function saveBill(){
   const cid=val('b_cust');const c=DB.customers.find(x=>x.id===cid);
   const sub=billItems.reduce((s,it)=>s+it.qty*it.rate,0);const gst=+val('b_gst')||0;const total=sub*(1+gst/100);
-  const bill={id:uid(),no:DB.billNo++,date:today(),cust:cid,custName:c.name,items:JSON.parse(JSON.stringify(billItems)),sub,gst,total};
-  DB.bills.push(bill);save();closeM();toast('Invoice saved');render();printBill(bill.id);
+  const bill={id:uid(),no:DB.billNo++,kind:billKind,date:today(),cust:cid,custName:c.name,items:JSON.parse(JSON.stringify(billItems)),sub,gst,total};
+  DB.bills.push(bill);save();closeM();toast(billKind==='proforma'?'Proforma saved':'Invoice saved');render();printBill(bill.id);
 }
 function printBill(id){
   const b=DB.bills.find(x=>x.id===id);const s=DB.settings;
@@ -1344,7 +1351,7 @@ function printBill(id){
    <div style="font-family:Arial;color:#222;max-width:720px">
     <div style="display:flex;justify-content:space-between;border-bottom:3px solid #2c4d34;padding-bottom:12px">
       <div><div style="font-size:26px;font-weight:800;letter-spacing:1px">${s.shop}</div><div style="color:#666">${s.place}, Tamil Nadu</div>${s.phone?`<div style="color:#666">Ph: ${s.phone}</div>`:''}</div>
-      <div style="text-align:right"><div style="font-size:22px;font-weight:800">INVOICE</div><div># ${b.no}</div><div>${b.date}</div></div>
+      <div style="text-align:right"><div style="font-size:22px;font-weight:800">${b.kind==='proforma'?'PROFORMA INVOICE':'INVOICE'}</div><div># ${b.kind==='proforma'?'PI-':''}${b.no}</div><div>${b.date}</div></div>
     </div>
     <div style="margin:16px 0"><b>Bill To:</b> ${b.custName}</div>
     <table style="width:100%;border-collapse:collapse"><tr style="background:#2c4d34;color:#fff"><th style="padding:8px;text-align:left">Item</th><th style="padding:8px;text-align:right">Qty</th><th style="padding:8px;text-align:right">Rate</th><th style="padding:8px;text-align:right">Amount</th></tr>${rows}</table>
@@ -1353,11 +1360,68 @@ function printBill(id){
       ${b.gst?`<div>GST (${b.gst}%): ₹${(b.sub*b.gst/100).toLocaleString('en-IN')}</div>`:''}
       <div style="font-size:20px;font-weight:800;margin-top:6px">Total: ₹${Math.round(b.total).toLocaleString('en-IN')}</div>
     </div>
-    <div style="margin-top:30px;color:#888;font-size:13px;border-top:1px solid #ddd;padding-top:10px">Thank you for your business! · Branded covers at plain price · Made local in ${s.place}</div>
+    ${b.kind==='proforma'?`<div style="margin-top:22px;padding:12px 14px;background:#f6f1e4;border:1px solid #d8c9a4;font-size:13px"><b>Proforma terms:</b> Valid 15 days · 50% advance to confirm the order · Delivery 3–5 days from confirmation · This is a quotation, not a tax invoice.</div>`:''}
+    <div style="margin-top:${b.kind==='proforma'?'14':'30'}px;color:#888;font-size:13px;border-top:1px solid #ddd;padding-top:10px">Thank you for your business! · Branded covers at plain price · Made local in ${s.place}</div>
    </div>`;
   document.getElementById('invoicePrint').style.display='block';
   window.print();
   setTimeout(()=>document.getElementById('invoicePrint').style.display='none',300);
+}
+
+
+/* ---------- 3-segment price sheet (share with leads/customers) ---------- */
+const SEGMENT_PRICING={
+  direct:{label:'Direct / Shop Rate',rule:p=>p.price,foot:'Standard rates. Bulk quantity? Ask — better slab available.'},
+  reseller:{label:'Reseller Rate',rule:p=>p.unit==='kg'?Math.max(0,+(p.price-RESELLER_COMM_PER_KG).toFixed(2)):+(p.price*0.92).toFixed(2),foot:'Rates net of your reseller margin (₹8/kg ≈ 8%). Resell at shop rate and keep the difference.'},
+  gift:{label:'Gift / Return-Gift (Premium)',rule:p=>+(p.price*1.15).toFixed(2),foot:'Includes premium finish, name/date printing & function-ready packing.'}
+};
+function openPriceSheet(){
+  openM(`<h3>📋 Price Sheet</h3>
+   <div class="fg"><label>Who is this for?</label><select id="ps_seg">
+     <option value="direct">🏪 Direct customer / shop</option>
+     <option value="reseller">📦 Reseller</option>
+     <option value="gift">🎁 Gift / return-gift customer</option></select></div>
+   <div class="fg"><label>Customer name (optional — printed on sheet)</label><input id="ps_name" placeholder="e.g. Sri Bakery"></div>
+   <div class="mbtns">
+     <button class="btn out" onclick="closeM()">Cancel</button>
+     <button class="btn out" onclick="waPriceSheet()">📲 WhatsApp</button>
+     <button class="btn eco" onclick="printPriceSheet()">🖨 Print / PDF</button>
+   </div>`);
+}
+function psRows(seg){
+  return DB.products.map(p=>({name:p.name,size:p.size&&p.size!=='-'?p.size:'',unit:p.unit==='kg'?'per kg':'per pc',rate:SEGMENT_PRICING[seg].rule(p)}));
+}
+function printPriceSheet(){
+  const seg=val('ps_seg'),nm=val('ps_name').trim(),cfg=SEGMENT_PRICING[seg],st=DB.settings;
+  const rows=psRows(seg).map(r=>`<tr><td style="padding:9px 8px;border-bottom:1px solid #ddd">${r.name}${r.size?' <span style="color:#888">('+r.size+')</span>':''}</td><td style="padding:9px 8px;border-bottom:1px solid #ddd;text-align:right;font-weight:700">₹${r.rate}</td><td style="padding:9px 8px;border-bottom:1px solid #ddd;color:#666">${r.unit}</td></tr>`).join('');
+  document.getElementById('invoicePrint').innerHTML=`
+   <div style="font-family:Arial;color:#222;max-width:720px">
+    <div style="display:flex;justify-content:space-between;border-bottom:3px solid #2c4d34;padding-bottom:12px">
+      <div><div style="font-size:26px;font-weight:800;letter-spacing:1px">${st.shop}</div><div style="color:#666">${st.place}, Tamil Nadu</div>${st.phone?`<div style="color:#666">Ph: ${st.phone} · kraftvibe.in</div>`:''}</div>
+      <div style="text-align:right"><div style="font-size:20px;font-weight:800">PRICE LIST</div><div style="color:#2c4d34;font-weight:700">${cfg.label}</div><div>${today()}</div></div>
+    </div>
+    ${nm?`<div style="margin:14px 0 4px"><b>Prepared for:</b> ${nm}</div>`:''}
+    <table style="width:100%;border-collapse:collapse;margin-top:12px"><tr style="background:#2c4d34;color:#fff"><th style="padding:9px 8px;text-align:left">Product</th><th style="padding:9px 8px;text-align:right">Rate</th><th style="padding:9px 8px;text-align:left">Unit</th></tr>${rows}</table>
+    <div style="margin-top:14px;padding:11px 13px;background:#f6f1e4;border:1px solid #d8c9a4;font-size:13px">${cfg.foot}</div>
+    <div style="margin-top:16px;color:#888;font-size:12.5px;border-top:1px solid #ddd;padding-top:9px">Free local delivery (Udumalpet ~30 km) · Free design with your name · Rates valid 30 days · 🌿 100% natural, plastic-free</div>
+   </div>`;
+  document.getElementById('invoicePrint').style.display='block';
+  window.print();
+  setTimeout(()=>document.getElementById('invoicePrint').style.display='none',300);
+}
+function waPriceSheet(){
+  const seg=val('ps_seg'),nm=val('ps_name').trim(),cfg=SEGMENT_PRICING[seg];
+  const L=[];
+  L.push('*'+DB.settings.shop+' — PRICE LIST*');
+  L.push('_'+cfg.label+' · '+today()+'_');
+  if(nm)L.push('For: '+nm);
+  L.push('');
+  psRows(seg).forEach(r=>L.push('▫️ '+r.name+(r.size?' ('+r.size+')':'')+' — *₹'+r.rate+'* '+r.unit));
+  L.push('');
+  L.push(cfg.foot);
+  L.push('✅ Free local delivery · Free design with your name');
+  L.push('📞 '+(DB.settings.phone||'7904505226')+' · kraftvibe.in');
+  window.open('https://wa.me/?text='+encodeURIComponent(L.join(String.fromCharCode(10))),'_blank');
 }
 
 /* ---------- settings + data ---------- */
