@@ -210,16 +210,20 @@ main{max-width:1000px;margin:0 auto;padding:16px}
     </svg>
     <div class="logo-tx">KRAFT<span class="dot">·</span>VIBE<small>BUSINESS MANAGER</small></div>
   </div>
-  <div class="hbtns">
-    <button style="background:var(--eco)" onclick="editOrder()">🛒 Quick Order</button>
-    <button style="background:var(--kraft-deep,#9c6735);color:#fff" onclick="window.open('kraftvibe-designs.html','_blank')">🎨 Designs</button>
-    <button style="background:#12253d;color:#fff" onclick="window.open('kraftvibe-agent.html','_blank')">🧑‍💼 Agent</button>
+  <div class="hbtns" style="position:relative">
+    <button style="background:var(--eco)" onclick="editOrder()">➕ Order</button>
     <button style="background:#5c4a37;color:#fff" onclick="printJobSheet()">🖨 Job Sheet</button>
-    <button onclick="exportData()">⬇ Backup</button>
-    <button onclick="document.getElementById('importFile').click()">⬆ Restore</button>
-    <button onclick="openSettings()">⚙</button>
+    <button onclick="document.getElementById('moreMenu').classList.toggle('on')">⋯</button>
+    <div id="moreMenu" style="display:none;position:absolute;right:0;top:110%;background:var(--cream);border:1.5px solid var(--line);border-radius:12px;box-shadow:0 14px 34px rgba(70,45,20,.25);z-index:60;min-width:200px;overflow:hidden">
+      <button style="display:block;width:100%;text-align:left;background:none;color:var(--ink);border-radius:0" onclick="window.open('kraftvibe-designs.html','_blank');document.getElementById('moreMenu').classList.remove('on')">🎨 Design Studio</button>
+      <button style="display:block;width:100%;text-align:left;background:none;color:var(--ink);border-radius:0" onclick="window.open('kraftvibe-agent.html','_blank');document.getElementById('moreMenu').classList.remove('on')">🧑‍💼 Agent app</button>
+      <button style="display:block;width:100%;text-align:left;background:none;color:var(--ink);border-radius:0" onclick="exportData();document.getElementById('moreMenu').classList.remove('on')">⬇ Backup data</button>
+      <button style="display:block;width:100%;text-align:left;background:none;color:var(--ink);border-radius:0" onclick="document.getElementById('importFile').click();document.getElementById('moreMenu').classList.remove('on')">⬆ Restore data</button>
+      <button style="display:block;width:100%;text-align:left;background:none;color:var(--ink);border-radius:0" onclick="openSettings();document.getElementById('moreMenu').classList.remove('on')">⚙ Settings</button>
+    </div>
     <input type="file" id="importFile" accept="application/json" style="display:none" onchange="importData(this)">
   </div>
+  <style>#moreMenu.on{display:block!important}</style>
 </header>
 
 <nav class="tabs" id="tabs"></nav>
@@ -228,30 +232,53 @@ main{max-width:1000px;margin:0 auto;padding:16px}
   <!-- TODAY JOB CARD -->
   <section class="view on" id="v-today">
     <div class="vhead"><h2>Today</h2><span class="sub" id="todayDate"></span></div>
-    <button class="btn eco" style="width:100%;justify-content:center;margin-bottom:14px" onclick="sendDigest()">📲 WhatsApp me today's digest</button>
-    <div class="panel">
-      <div class="ph">🧑‍💼 New orders from agent <span style="display:flex;gap:8px;align-items:center"><span class="pill due" id="agentOrderCount">0</span><button class="btn sm out" onclick="syncAgentOrders()">↻</button></span></div>
-      <div id="agentOrders"></div>
+
+    <!-- business at a glance -->
+    <div class="kpis" style="grid-template-columns:repeat(4,1fr)">
+      <div class="kpi"><b id="k_month">₹0</b><div class="l">Sales this month</div></div>
+      <div class="kpi"><b id="k_pend">0</b><div class="l">Orders to make</div></div>
+      <div class="kpi"><b id="k_credit" style="color:var(--stamp)">₹0</b><div class="l">To collect (credit)</div></div>
+      <div class="kpi"><b id="k_contact">0</b><div class="l">Shops to contact</div></div>
     </div>
+
+    <!-- 3 big daily actions -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:4px 0 16px">
+      <button class="btn eco" style="justify-content:center;padding:14px 6px" onclick="editOrder()">➕ New Order</button>
+      <button class="btn" style="justify-content:center;padding:14px 6px" onclick="printJobSheet()">🖨 Job Sheet</button>
+      <button class="btn out" style="justify-content:center;padding:14px 6px" onclick="sendDigest()">📲 Digest</button>
+    </div>
+
     <div class="panel">
-      <div class="ph">💰 Payments to collect <span class="pill due" id="payAlertCount">0</span></div>
+      <div class="ph">1️⃣ Collect money <span class="pill due" id="payAlertCount">0</span></div>
       <div id="payAlerts"></div>
     </div>
     <div class="panel">
-      <div class="ph">Contact today <span style="display:flex;gap:8px;align-items:center"><span class="pill soon" id="todayContactCount">0</span><button class="btn sm out" onclick="go('plan')">Daily&#8209;10 list</button><button class="btn sm out" onclick="go('remind')">All follow&#8209;ups</button></span></div>
-      <div id="todayContacts"></div>
+      <div class="ph">2️⃣ Accept agent orders <span style="display:flex;gap:8px;align-items:center"><span class="pill due" id="agentOrderCount">0</span><button class="btn sm out" onclick="syncAgentOrders()">↻</button></span></div>
+      <div id="agentOrders"></div>
     </div>
     <div class="panel">
-      <div class="ph">🧑‍💼 Agent visits today <span style="display:flex;gap:8px;align-items:center"><span class="pill soon" id="agentVisitCount">0</span><button class="btn sm out" onclick="syncAgentVisits()">↻</button></span></div>
-      <div id="agentVisits"></div>
-    </div>
-    <div class="panel">
-      <div class="ph">Produce today <button class="btn sm eco" onclick="openProdLog()">+ Log production</button></div>
+      <div class="ph">3️⃣ Make these (then 🖨 print) <button class="btn sm eco" onclick="openProdLog()">+ Log production</button></div>
       <div id="todayProduce"></div>
     </div>
     <div class="panel">
-      <div class="ph">Logged today</div>
+      <div class="ph">4️⃣ Contact these shops <span style="display:flex;gap:8px;align-items:center"><span class="pill soon" id="todayContactCount">0</span><button class="btn sm out" onclick="go('plan')">Daily&#8209;10</button><button class="btn sm out" onclick="go('remind')">All</button></span></div>
+      <div id="todayContacts"></div>
+    </div>
+    <div class="panel">
+      <div class="ph">5️⃣ Where is my agent? <span style="display:flex;gap:8px;align-items:center"><span class="pill soon" id="agentVisitCount">0</span><button class="btn sm out" onclick="syncAgentVisits()">↻</button></span></div>
+      <div id="agentVisits"></div>
+    </div>
+    <div class="panel">
+      <div class="ph">Made today</div>
       <div id="todayProdLog"></div>
+    </div>
+
+    <div class="panel" style="background:#fffdf7">
+      <div class="ph">❓ How this works — 30 seconds</div>
+      <div style="padding:12px 15px;font-size:13px;line-height:1.8;color:var(--ink-soft)">
+        Every morning open this tab and go top to bottom: <b>collect money → accept agent orders → print the job sheet for workers → message the shops listed</b>. That's the whole routine.<br>
+        Everything else is automatic: agent orders &amp; visits come in by themselves, credit reminders appear 2 days before due, reorder-due shops appear in Contact, and your customer list syncs to the agent app.
+      </div>
     </div>
   </section>
 
@@ -583,11 +610,10 @@ if(DB.dbv<6){
 /* ---------- nav ---------- */
 const TABS=[
  ['today','Today','M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm-2 14l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z'],
- ['dash','Dashboard','M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z'],
- ['contacts','Contacts','M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z'],
  ['order','Orders','M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z'],
- ['stock','Stock','M20 2H4c-1 0-2 .9-2 2v3.01c0 .72.43 1.34 1 1.69V20c0 1.1 1.1 2 2 2h14c.9 0 2-.9 2-2V8.7c.57-.35 1-.97 1-1.69V4c0-1.1-1-2-2-2zm-5 12H9v-2h6v2zm5-7H4V4h16v3z'],
- ['bill','Billing','M19.5 3.5L18 2l-1.5 1.5L15 2l-1.5 1.5L12 2l-1.5 1.5L9 2 7.5 3.5 6 2v20l1.5-1.5L9 22l1.5-1.5L12 22l1.5-1.5L15 22l1.5-1.5L18 22l1.5-1.5V2l-1.5 1.5zM18 18H6v-2h12v2zm0-5H6v-2h12v2zm0-5H6V6h12v2z']
+ ['contacts','Shops','M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z'],
+ ['money','Money','M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1H6.32c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z'],
+ ['stock','Stock','M20 2H4c-1 0-2 .9-2 2v3.01c0 .72.43 1.34 1 1.69V20c0 1.1 1.1 2 2 2h14c.9 0 2-.9 2-2V8.7c.57-.35 1-.97 1-1.69V4c0-1.1-1-2-2-2zm-5 12H9v-2h6v2zm5-7H4V4h16v3z']
 ];
 /* Daily-10 and Follow-ups are folded into the Today tab (see jobCardContacts) —
    still fully working views (go('plan')/go('remind')), reachable via links from Today, just not in the main nav.
@@ -600,8 +626,9 @@ let cur='today';
 function go(v){
   cur=v;
   document.querySelectorAll('.view').forEach(s=>s.classList.remove('on'));
-  document.getElementById('v-'+v).classList.add('on');
-  TABS.forEach(t=>{document.getElementById('tab-'+t[0]).classList.toggle('on',t[0]===v);document.getElementById('bt-'+t[0]).classList.toggle('on',t[0]===v);});
+  if(v==='money'){document.getElementById('v-dash').classList.add('on');document.getElementById('v-bill').classList.add('on');}
+  else document.getElementById('v-'+v).classList.add('on');
+  TABS.forEach(t=>{const nav=t[0]===v||(v==='money'&&t[0]==='money');document.getElementById('tab-'+t[0]).classList.toggle('on',nav);document.getElementById('bt-'+t[0]).classList.toggle('on',nav);});
   window.scrollTo(0,0);render();
 }
 
@@ -629,7 +656,8 @@ function reminderState(c){
 /* ---------- render ---------- */
 function render(){
   document.getElementById('today').textContent=new Date().toDateString();
-  if(cur==='today'){document.getElementById('todayDate').textContent=new Date().toDateString();renderToday();}
+  if(cur==='today'){document.getElementById('todayDate').textContent=new Date().toDateString();renderToday();renderTodayStats();}
+  if(cur==='money'){renderDash();renderBills();}
   if(cur==='dash')renderDash();
   if(cur==='plan')renderPlan();
   if(cur==='contacts')renderContacts();
@@ -807,7 +835,7 @@ function renderToday(){
         <div class="t">${x.prod} <span class="pill customer">${x.qty} pending</span></div>
         <div class="s">${x.material?(x.material.ok?`✅ ${x.material.name} stock sufficient (${x.material.stock} ${x.material.unit})`:`⚠️ ${x.material.name} ${x.material.short} ${x.material.unit} short (stock ${x.material.stock})`):'No BOM set — add "consumes material" in Products'}</div>
       </div>
-    </div>`).join(''):'<div class="empty">Pending orders illa — produce panna onnum illa inaikku.</div>';
+    </div>`).join(''):'<div class="empty">No pending orders — nothing to produce today. 🎉</div>';
   const plog=(DB.production||[]).filter(x=>x.date===today());
   document.getElementById('todayProdLog').innerHTML=plog.length?plog.map(x=>`<div class="row"><div class="meta"><div class="t">${x.prod} × ${x.qty}</div><div class="s">${x.worker?'by '+x.worker:'worker not noted'}</div></div></div>`).join(''):'<div class="empty">Inaikku production log pannalai.</div>';
 }
@@ -1739,6 +1767,17 @@ function renderPayments(){
     :'<div class="empty" style="padding:14px">No credit payments pending. 👍</div>';
 }
 function markPaid(id){const o=DB.orders.find(x=>x.id===id);if(!o)return;o.status='paid';save();render();renderPayments();toast('Marked paid ₹✓');}
+
+/* ---------- Today: business-at-a-glance strip ---------- */
+function renderTodayStats(){
+  const mm=today().slice(0,7);
+  const month=DB.orders.filter(o=>(o.date||'').startsWith(mm)).reduce((s,o)=>s+o.qty*o.rate,0);
+  const pend=DB.orders.filter(o=>o.status==='pending').length;
+  const credit=DB.orders.filter(o=>o.pay==='credit'&&o.status!=='paid').reduce((s,o)=>s+o.qty*o.rate,0);
+  const el=(i,v)=>{const e=document.getElementById(i);if(e)e.textContent=v;};
+  el('k_month',money(month));el('k_pend',pend);el('k_credit',money(credit));
+  el('k_contact',jobCardContacts().length);
+}
 
 /* ---------- agent orders -> manager ---------- */
 let AGENT_ORDERS=[];
