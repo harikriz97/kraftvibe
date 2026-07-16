@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KRAFT·Vibe — Work Orders</title>
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#2c4d34">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#ece0cb;--kraft:#c2925a;--kraft-deep:#9c6735;--ink:#262219;--ink-soft:#5c4a37;
+--eco:#0f6d38;--eco-lt:#17924a;--cream:#f8f0e2;--stamp:#9c1824;--line:rgba(156,103,53,.3)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--paper);color:var(--ink);min-height:100vh;line-height:1.5}
+header{background:linear-gradient(150deg,#0f6d38,#0a3f22);color:var(--cream);padding:16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+header .lg{width:40px;height:40px;border-radius:11px;background:#f79f1f;display:flex;align-items:center;justify-content:center;font-size:22px}
+header h1{font-family:'Anton';font-weight:400;font-size:20px;letter-spacing:.5px}
+header .st{font-family:'DM Mono';font-size:10px;letter-spacing:1px;color:#a8d4b8}
+header .rf{margin-left:auto;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:9px;padding:8px 13px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer}
+main{max-width:560px;margin:0 auto;padding:16px}
+/* tabs */
+.tabs{display:flex;gap:8px;margin-bottom:14px}
+.tab{flex:1;text-align:center;padding:11px;border-radius:11px;font-weight:800;font-size:14px;background:var(--cream);border:1.5px solid var(--line);color:var(--ink-soft);cursor:pointer}
+.tab.on{background:var(--eco);border-color:var(--eco);color:#fff}
+.tab .n{font-family:'DM Mono';font-size:11px;opacity:.85}
+/* order cards */
+.oc{background:var(--cream);border:1px solid var(--line);border-left:6px solid var(--eco);border-radius:14px;padding:15px 16px;margin-bottom:12px;box-shadow:0 4px 12px rgba(70,45,20,.08)}
+.oc.done{border-left-color:#8a8a7a;opacity:.75}
+.oc.doing{border-left-color:#e0a020}
+.oc .top{display:flex;align-items:flex-start;gap:10px}
+.oc .prod{font-weight:800;font-size:17px;flex:1}
+.oc .qty{font-family:'Anton';font-size:26px;color:var(--eco);white-space:nowrap}
+.oc .meta{font-size:12.5px;color:var(--ink-soft);margin-top:5px;font-family:'DM Mono'}
+.oc .note{font-size:13.5px;margin-top:6px;background:#fff;border:1px dashed var(--line);border-radius:8px;padding:7px 10px}
+.oc .btns{display:flex;gap:9px;margin-top:12px}
+.oc button{flex:1;border:0;border-radius:10px;padding:12px;font-family:inherit;font-weight:800;font-size:14.5px;cursor:pointer;transition:.15s}
+.b-start{background:#f3c77e;color:#5c3d12}
+.b-done{background:var(--eco);color:#fff}
+.b-undo{background:transparent;border:1.5px solid var(--line)!important;color:var(--ink-soft)}
+.oc button:active{transform:scale(.97)}
+.pill{font-family:'DM Mono';font-size:10px;letter-spacing:.5px;padding:3px 9px;border-radius:20px;text-transform:uppercase}
+.p-pending{background:#e4efe7;color:var(--eco)}
+.p-doing{background:#fdf0d5;color:#9a6a10}
+.p-done{background:#e8e6dd;color:#6a6a5a}
+.empty{text-align:center;padding:50px 20px;color:var(--ink-soft)}
+.empty .e{font-size:44px;margin-bottom:10px}
+.sync{text-align:center;font-family:'DM Mono';font-size:10.5px;color:var(--ink-soft);margin:8px 0 20px}
+/* gate */
+#gate{position:fixed;inset:0;z-index:99;background:#262219;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center}
+#gate .lg2{font-size:46px}
+#gate h2{font-family:'Anton';font-weight:400;color:#fff;font-size:24px;letter-spacing:1px}
+#gate p{color:#cdbca5;font-family:'DM Mono';font-size:11px;letter-spacing:2px}
+#gatePin{margin-top:6px;padding:13px;border-radius:10px;border:0;font-size:22px;width:180px;text-align:center;letter-spacing:8px;font-family:'DM Mono'}
+#gate button{background:#2c4d34;color:#fff;border:0;border-radius:9px;padding:12px 26px;font-weight:800;font-size:15px;cursor:pointer;font-family:inherit}
+#gErr{color:#e06a55;font-size:13px;height:16px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(16px);background:var(--ink);color:var(--cream);padding:11px 20px;border-radius:30px;font-size:13.5px;font-weight:700;opacity:0;transition:.3s;pointer-events:none;z-index:120}
+.toast.on{opacity:1;transform:translateX(-50%)}
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <div class="lg2">🛍️</div>
+  <h2>KRAFT·VIBE</h2>
+  <p>WORK ORDERS · STAFF ONLY</p>
+  <input id="gatePin" type="tel" inputmode="numeric" maxlength="4" placeholder="PIN">
+  <button onclick="tryPin()">Open</button>
+  <div id="gErr"></div>
+</div>
+
+<header>
+  <div class="lg">🛍️</div>
+  <div><h1>WORK ORDERS</h1><div class="st" id="hdSt">loading…</div></div>
+  <button class="rf" onclick="load(true)">⟳ Refresh</button>
+</header>
+
+<main>
+  <div class="tabs">
+    <div class="tab on" id="tabP" onclick="show('pending')">To Do <span class="n" id="nP"></span></div>
+    <div class="tab" id="tabD" onclick="show('done')">Finished <span class="n" id="nD"></span></div>
+  </div>
+  <div id="list"></div>
+  <div class="sync" id="syncNote">auto-refreshes every 60 seconds</div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SHEET='https://script.google.com/macros/s/AKfycbzPK_p9HNycLOm6o--osMx6JO9IlWle3ZZedjOmwCdbDdqDP7ZNUEh9mgOCwfPHeE5Wuw/exec';
+/* worker PIN (SHA-256). Default PIN: 2026 — ask owner to change */
+const PIN_HASH='158a323a7ba44870f23d96f1516dd70aa48e9a72db4ebb026b0a89e212a208ab';
+let ORDERS=[],VIEW='pending';
+
+async function sha(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));
+  return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');}
+async function tryPin(){
+  const v=document.getElementById('gatePin').value.trim();
+  if(await sha(v)===PIN_HASH){sessionStorage.setItem('kvw','1');document.getElementById('gate').style.display='none';load(true);}
+  else{document.getElementById('gErr').textContent='Wrong PIN';document.getElementById('gatePin').value='';}
+}
+document.getElementById('gatePin').addEventListener('keydown',e=>{if(e.key==='Enter')tryPin();});
+if(sessionStorage.getItem('kvw')==='1'){document.getElementById('gate').style.display='none';}
+
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2000);}
+function esc(s){return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+function dstr(s){try{const d=new Date(s);if(isNaN(d))return s||'';return d.toLocaleDateString('en-IN',{day:'numeric',month:'short'})+' '+d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});}catch(e){return s||'';}}
+
+async function load(manual){
+  if(document.getElementById('gate').style.display!=='none')return;
+  document.getElementById('hdSt').textContent='syncing…';
+  try{
+    const r=await fetch(SHEET+'?action=orders&t='+Date.now());
+    const j=await r.json();
+    ORDERS=(j.orders||[]).reverse();
+    document.getElementById('hdSt').textContent='updated '+new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+    render();
+    if(manual)toast('Updated ✓');
+  }catch(e){
+    document.getElementById('hdSt').textContent='offline — retrying';
+  }
+}
+function show(v){VIEW=v;
+  document.getElementById('tabP').classList.toggle('on',v==='pending');
+  document.getElementById('tabD').classList.toggle('on',v==='done');
+  render();}
+function render(){
+  const pend=ORDERS.filter(o=>o.status!=='done');
+  const done=ORDERS.filter(o=>o.status==='done');
+  document.getElementById('nP').textContent='('+pend.length+')';
+  document.getElementById('nD').textContent='('+done.length+')';
+  const list=VIEW==='pending'?pend:done;
+  const el=document.getElementById('list');
+  if(!list.length){el.innerHTML=`<div class="empty"><div class="e">${VIEW==='pending'?'🎉':'📋'}</div>${VIEW==='pending'?'No pending work — all done!':'Nothing finished yet today.'}</div>`;return;}
+  el.innerHTML=list.map(o=>{
+    const st=o.status==='done'?'done':(o.status==='doing'?'doing':'pending');
+    const pill=st==='done'?'<span class="pill p-done">DONE</span>':st==='doing'?'<span class="pill p-doing">WORKING</span>':'<span class="pill p-pending">NEW</span>';
+    const btns=st==='done'
+      ?`<button class="b-undo" onclick="setSt('${o.id}','pending')">↩ Reopen</button>`
+      :st==='doing'
+        ?`<button class="b-done" onclick="setSt('${o.id}','done')">✅ Finished</button>`
+        :`<button class="b-start" onclick="setSt('${o.id}','doing')">▶ Start</button>
+          <button class="b-done" onclick="setSt('${o.id}','done')">✅ Finished</button>`;
+    return `<div class="oc ${st}">
+      <div class="top"><div class="prod">${esc(o.prod)} ${pill}</div><div class="qty">×${esc(o.qty)}</div></div>
+      <div class="meta">📅 ${dstr(o.created)}${o.due?' · DUE '+esc(o.due):''}</div>
+      ${o.note?`<div class="note">📝 ${esc(o.note)}</div>`:''}
+      <div class="btns">${btns}</div>
+    </div>`;
+  }).join('');
+}
+async function setSt(id,status){
+  const o=ORDERS.find(x=>x.id===id);if(o)o.status=status;render();
+  toast(status==='done'?'Marked finished ✓':status==='doing'?'Started ▶':'Reopened');
+  try{await fetch(SHEET,{method:'POST',mode:'no-cors',body:new URLSearchParams({action:'status',id,status,worker:'Worker'})});}catch(e){}
+}
+setInterval(()=>load(false),60000);
+if(sessionStorage.getItem('kvw')==='1')load(true);
+</script>
+</body>
+</html>

@@ -213,6 +213,7 @@ main{max-width:1000px;margin:0 auto;padding:16px}
   <div class="hbtns">
     <button style="background:var(--eco)" onclick="editOrder()">🛒 Quick Order</button>
     <button style="background:var(--kraft-deep,#9c6735);color:#fff" onclick="window.open('kraftvibe-designs.html','_blank')">🎨 Designs</button>
+    <button style="background:#1c3a5e;color:#fff" onclick="window.open('kraftvibe-worker.html','_blank')">👷 Worker Board</button>
     <button onclick="exportData()">⬇ Backup</button>
     <button onclick="document.getElementById('importFile').click()">⬆ Restore</button>
     <button onclick="openSettings()">⚙</button>
@@ -999,7 +1000,7 @@ function renderOrders(){
   if(!DB.orders.length){t.innerHTML='<tr><td class="empty">No orders. Tap “+ New order”.<br><br>When an order comes on WhatsApp, add it here right away — only then it gets tracked.</td></tr>';return;}
   const SEGLBL={direct:'Direct',reseller:'Reseller',gift:'Gift'};
   t.innerHTML='<tr><th>Date</th><th>Customer</th><th>Product</th><th class="num">Qty</th><th class="num">Amount</th><th>Segment</th><th>Status</th><th></th></tr>'+
-    DB.orders.slice().reverse().map(o=>{const c=DB.customers.find(x=>x.id===o.cust);const seg=o.segment||'direct';const commTxt=(seg==='reseller'&&o.commission)?`<div class="s" style="font-size:10px;color:var(--warn)">comm ${money(o.commission)}</div>`:'';return `<tr><td style="white-space:nowrap">${o.date}</td><td>${c?c.name:'-'}</td><td>${o.prod}</td><td class="num">${o.qty}</td><td class="num">${money(o.qty*o.rate)}</td><td><span class="pill ${seg==='reseller'?'sample':seg==='gift'?'given':'prospect'}">${SEGLBL[seg]}</span>${commTxt}</td><td><button class="pill ${o.status}" style="border:0;cursor:pointer" title="Tap to change status" onclick="advOrder('${o.id}')">${o.status} ▸</button></td><td style="white-space:nowrap">${c&&c.phone?`<a class="ic wa" style="display:inline-flex" target="_blank" title="Confirm on WhatsApp" href="${waLink(c.phone,orderConfirmMsg(o,c))}">${WA_SVG}</a> `:''}<button class="ic del" style="display:inline-flex" onclick="del('orders','${o.id}')"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button></td></tr>`;}).join('');
+    DB.orders.slice().reverse().map(o=>{const c=DB.customers.find(x=>x.id===o.cust);const seg=o.segment||'direct';const commTxt=(seg==='reseller'&&o.commission)?`<div class="s" style="font-size:10px;color:var(--warn)">comm ${money(o.commission)}</div>`:'';const wb=o.wstatus==='done'?' <span class="pill paid" title="Worker finished">👷✓</span>':o.wstatus==='doing'?' <span class="pill sample" title="Worker started">👷…</span>':'';return `<tr><td style="white-space:nowrap">${o.date}</td><td>${c?c.name:'-'}</td><td>${o.prod}${wb}</td><td class="num">${o.qty}</td><td class="num">${money(o.qty*o.rate)}</td><td><span class="pill ${seg==='reseller'?'sample':seg==='gift'?'given':'prospect'}">${SEGLBL[seg]}</span>${commTxt}</td><td><button class="pill ${o.status}" style="border:0;cursor:pointer" title="Tap to change status" onclick="advOrder('${o.id}')">${o.status} ▸</button></td><td style="white-space:nowrap">${c&&c.phone?`<a class="ic wa" style="display:inline-flex" target="_blank" title="Confirm on WhatsApp" href="${waLink(c.phone,orderConfirmMsg(o,c))}">${WA_SVG}</a> `:''}<button class="ic del" style="display:inline-flex" onclick="del('orders','${o.id}')"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button></td></tr>`;}).join('');
 }
 let stockSeg='prod';
 function renderStock(){
@@ -1148,11 +1149,12 @@ function saveOrder(){
     upgradeStage(c,prevOrders>=1?'repeat':'order');
   }
   save();closeM();render();
+  pushOrderToWorker(o,c?c.name:'');
   if(c&&c.phone){
-    toast('Order saved ✓ — confirm message anuppunga');
+    toast('Order saved ✓ — sent to worker board · send confirm message');
     window.open(waLink(c.phone,orderConfirmMsg(o,c)),'_blank');
   }else{
-    toast('Order saved — '+(c&&!c.oneTime?'reorder reminder set':'done'));
+    toast('Order saved ✓ — sent to worker board');
   }
 }
 
@@ -1659,7 +1661,28 @@ function shareSample(){
   },'image/png');
 }
 
+/* ---------- worker board sync (Google Sheet) ---------- */
+const WORKER_SHEET='https://script.google.com/macros/s/AKfycbzPK_p9HNycLOm6o--osMx6JO9IlWle3ZZedjOmwCdbDdqDP7ZNUEh9mgOCwfPHeE5Wuw/exec';
+function pushOrderToWorker(o,custName){
+  try{fetch(WORKER_SHEET,{method:'POST',mode:'no-cors',body:new URLSearchParams({
+    action:'addOrder',id:o.id,prod:o.prod,qty:o.qty,
+    note:custName?('For '+custName):'',due:o.date||''})});}catch(e){}
+}
+async function syncWorker(){
+  try{
+    const r=await fetch(WORKER_SHEET+'?action=orders&t='+Date.now());
+    const j=await r.json();let ch=false;
+    (j.orders||[]).forEach(w=>{
+      const o=DB.orders.find(x=>x.id===w.id);
+      if(o&&o.wstatus!==w.status){o.wstatus=w.status;ch=true;}
+    });
+    if(ch){save();render();}
+  }catch(e){}
+}
+setInterval(syncWorker,120000);
+
 buildNav();go('today');
+syncWorker();
 
 /* ---------- backup nag (data is localStorage-only!) ---------- */
 if(!DB.lastBackup||daysBetween(DB.lastBackup,today())>=7){
