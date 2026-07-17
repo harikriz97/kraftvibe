@@ -401,6 +401,16 @@ main{max-width:1000px;margin:0 auto;padding:16px}
    <button class="btn sm out" onclick="newBill('proforma')">📄 Proforma</button>
    <button class="btn" onclick="newBill()">+ New invoice</button></span></div>
     <div class="panel scroll"><table class="tbl" id="billTbl"></table></div>
+    <div class="kpis" style="grid-template-columns:repeat(4,1fr)" id="profitStrip">
+      <div class="kpi"><b id="pf_sales">₹0</b><div class="l">Sales this month</div></div>
+      <div class="kpi"><b id="pf_purch">₹0</b><div class="l">Purchases</div></div>
+      <div class="kpi"><b id="pf_exp">₹0</b><div class="l">Expenses</div></div>
+      <div class="kpi"><b id="pf_net">₹0</b><div class="l">Net (approx profit)</div></div>
+    </div>
+    <div class="panel">
+      <div class="ph">💸 Expenses <button class="btn sm eco" onclick="addExpense()">+ Add expense</button></div>
+      <div class="scroll"><table class="tbl" id="expTbl"></table></div>
+    </div>
   </section>
 </main>
 
@@ -661,7 +671,7 @@ function reminderState(c){
 function render(){
   document.getElementById('today').textContent=new Date().toDateString();
   if(cur==='today'){document.getElementById('todayDate').textContent=new Date().toDateString();renderToday();renderTodayStats();}
-  if(cur==='money'){renderDash();renderBills();}
+  if(cur==='money'){renderDash();renderBills();renderExpenses();}
   if(cur==='dash')renderDash();
   if(cur==='plan')renderPlan();
   if(cur==='contacts')renderContacts();
@@ -1013,7 +1023,7 @@ function custRow(c,r,full,isLead){
   return `<div class="row">
     ${avatarHtml(c)}
     <div class="meta">
-      <div class="t">${c.name} ${r&&r.s!=='ok'?`<span class="pill ${r.s}">${r.s==='due'?'REORDER DUE':'DUE '+r.left+'d'}</span>`:stPill}${c.oneTime?' <span class="pill tag">1-TIME</span>':''}${samplesGivenTags(c)}</div>
+      <div class="t">${c.name} ${r&&r.s!=='ok'?`<span class="pill ${r.s}">${r.s==='due'?'REORDER DUE':'DUE '+r.left+'d'}</span>`:stPill}${c.oneTime?' <span class="pill tag">1-TIME</span>':''}${(!isLead&&custDue(c)>0)?` <span class="pill due">${money(custDue(c))} due</span>`:''}${samplesGivenTags(c)}</div>
       <div class="s">${c.type} · ${c.area||''} ${c.phone?'· '+c.phone:'· ⚠ no number'}${c.funcDate?' · 🗓 '+c.funcDate:''}${c.src==='Instagram'?' · 📸':''}${c.catalogSent?' · 📋 '+c.catalogSent.slice(5):''}</div>
     </div>
     <div class="acts">
@@ -1022,6 +1032,7 @@ function custRow(c,r,full,isLead){
            ${c.phone?`<a class="ic wa" target="_blank" title="WhatsApp" href="${waLink(c.phone,nextMsg(c))}" onclick="upgradeStage(DB.customers.find(x=>x.id==='${c.id}'),'msg');DB.customers.find(x=>x.id==='${c.id}').lastMsg=today();save()">${WA_SVG}</a>`:''}
            <button class="ic" style="background:var(--eco);border-color:var(--eco)" title="First order vandhaachu → Customer aakku" onclick="convert('${c.id}')"><svg viewBox="0 0 24 24" fill="#fff"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></button>`
         : `<button class="ic" title="New order" style="background:var(--eco);border-color:var(--eco);color:#fff;font-size:15px" onclick="editOrder('${c.id}')">🛒</button>
+           <button class="ic" title="Ledger / balance" style="font-size:14px" onclick="openLedger('${c.id}')">📒</button>
            ${c.phone?`<a class="ic wa" target="_blank" title="WhatsApp" href="${waLink(c.phone,nextMsg(c))}">${WA_SVG}</a>`:''}
            <button class="ic" title="Leads-ku thirumba nagarthu" style="font-size:14px" onclick="revertLead('${c.id}')">↩</button>`
       }
@@ -1045,7 +1056,7 @@ function renderOrders(){
   if(!DB.orders.length){t.innerHTML='<tr><td class="empty">No orders. Tap “+ New order”.<br><br>When an order comes on WhatsApp, add it here right away — only then it gets tracked.</td></tr>';return;}
   const SEGLBL={direct:'Direct',reseller:'Reseller',gift:'Gift'};
   t.innerHTML='<tr><th>Date</th><th>Customer</th><th>Product</th><th class="num">Qty</th><th class="num">Amount</th><th>Segment</th><th>Status</th><th></th></tr>'+
-    DB.orders.slice().reverse().map(o=>{const c=DB.customers.find(x=>x.id===o.cust);const seg=o.segment||'direct';const commTxt=(seg==='reseller'&&o.commission)?`<div class="s" style="font-size:10px;color:var(--warn)">comm ${money(o.commission)}</div>`:'';const wb=o.wstatus==='done'?' <span class="pill paid" title="Worker finished">👷✓</span>':o.wstatus==='doing'?' <span class="pill sample" title="Worker started">👷…</span>':'';const pp=o.pay==='credit'?` <span class="pill ${o.status==='paid'?'paid':'due'}" title="Credit till ${o.payDue||''}">📒${o.status==='paid'?'✓':' '+(o.payDue||'')}</span>`:o.pay==='gpay'?' <span class="pill ok" title="GPay">📱</span>':o.pay==='cash'?' <span class="pill ok" title="Cash">💵</span>':'';return `<tr><td style="white-space:nowrap">${o.date}</td><td>${c?c.name:(o.agentShop||'-')}</td><td>${o.prod}${wb}</td><td class="num">${o.qty}</td><td class="num">${money(o.qty*o.rate)}${pp}</td><td><span class="pill ${seg==='reseller'?'sample':seg==='gift'?'given':'prospect'}">${SEGLBL[seg]}</span>${commTxt}</td><td><button class="pill ${o.status}" style="border:0;cursor:pointer" title="Tap to change status" onclick="advOrder('${o.id}')">${o.status} ▸</button></td><td style="white-space:nowrap">${c&&c.phone?`<a class="ic wa" style="display:inline-flex" target="_blank" title="Confirm on WhatsApp" href="${waLink(c.phone,orderConfirmMsg(o,c))}">${WA_SVG}</a> `:''}<button class="ic del" style="display:inline-flex" onclick="del('orders','${o.id}')"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button></td></tr>`;}).join('');
+    DB.orders.slice().reverse().map(o=>{const c=DB.customers.find(x=>x.id===o.cust);const seg=o.segment||'direct';const commTxt=(seg==='reseller'&&o.commission)?`<div class="s" style="font-size:10px;color:var(--warn)">comm ${money(o.commission)}</div>`:'';const wb=o.wstatus==='done'?' <span class="pill paid" title="Worker finished">👷✓</span>':o.wstatus==='doing'?' <span class="pill sample" title="Worker started">👷…</span>':'';const pp=o.pay==='credit'?` <span class="pill ${o.status==='paid'?'paid':'due'}" title="Credit till ${o.payDue||''}">📒${o.status==='paid'?'✓':' '+(o.payDue||'')}</span>`:o.pay==='gpay'?' <span class="pill ok" title="GPay">📱</span>':o.pay==='cash'?' <span class="pill ok" title="Cash">💵</span>':'';return `<tr><td style="white-space:nowrap">${o.date}</td><td>${c?c.name:(o.agentShop||'-')}</td><td>${o.prod}${wb}</td><td class="num">${o.qty}</td><td class="num">${money(o.qty*o.rate)}${pp}</td><td><span class="pill ${seg==='reseller'?'sample':seg==='gift'?'given':'prospect'}">${SEGLBL[seg]}</span>${commTxt}</td><td><button class="pill ${o.status}" style="border:0;cursor:pointer" title="Tap to change status" onclick="advOrder('${o.id}')">${o.status} ▸</button></td><td style="white-space:nowrap">${c&&c.phone?`<a class="ic wa" style="display:inline-flex" target="_blank" title="Confirm on WhatsApp" href="${waLink(c.phone,orderConfirmMsg(o,c))}">${WA_SVG}</a> `:''}<button class="ic ed" style="display:inline-flex" title="Edit order" onclick="editOrderRow('${o.id}')"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></button> <button class="ic del" style="display:inline-flex" onclick="del('orders','${o.id}')"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button></td></tr>`;}).join('');
 }
 let stockSeg='prod';
 function renderStock(){
@@ -1832,6 +1843,89 @@ function renderPayments(){
     :'<div class="empty" style="padding:14px">No credit payments pending. 👍</div>';
 }
 function markPaid(id){const o=DB.orders.find(x=>x.id===id);if(!o)return;o.status='paid';save();render();renderPayments();toast('Marked paid ₹✓');}
+
+/* ---------- expenses & profit ---------- */
+function addExpense(){
+  if(!DB.expenses)DB.expenses=[];
+  openM(`<h3>💸 Add Expense</h3>
+   <div class="frow">
+     <div class="fg"><label>Date</label><input id="ex_date" type="date" value="${today()}"></div>
+     <div class="fg"><label>Amount ₹</label><input id="ex_amt" type="number" inputmode="numeric" placeholder="500"></div>
+   </div>
+   <div class="fg"><label>Category</label><select id="ex_cat"><option>Transport / Diesel</option><option>Wages</option><option>Raw material</option><option>Rent / EB</option><option>Food / Tea</option><option>Printing / Die</option><option>Other</option></select></div>
+   <div class="fg"><label>Note (optional)</label><input id="ex_note" placeholder="e.g. delivery to Pollachi"></div>
+   <div class="mbtns"><button class="btn out" onclick="closeM()">Cancel</button><button class="btn eco" onclick="saveExpense()">Save</button></div>`);
+}
+function saveExpense(){
+  const amt=+val('ex_amt')||0;if(!amt){toast('Amount needed');return;}
+  DB.expenses.push({id:uid(),date:val('ex_date')||today(),cat:val('ex_cat'),amt,note:val('ex_note').trim()});
+  save();closeM();renderExpenses();toast('Expense saved ✓');
+}
+function renderExpenses(){
+  if(!DB.expenses)DB.expenses=[];
+  const mm=today().slice(0,7);
+  const sales=DB.orders.filter(o=>(o.date||'').startsWith(mm)).reduce((s,o)=>s+o.qty*o.rate,0);
+  const purch=DB.purchases.filter(p=>(p.date||'').startsWith(mm)).reduce((s,p)=>s+p.qty*p.rate,0);
+  const exp=DB.expenses.filter(e=>(e.date||'').startsWith(mm)).reduce((s,e)=>s+e.amt,0);
+  const set=(i,v,c)=>{const el=document.getElementById(i);if(el){el.textContent=v;if(c)el.style.color=c;}};
+  set('pf_sales',money(sales));set('pf_purch',money(purch));set('pf_exp',money(exp));
+  const net=sales-purch-exp;set('pf_net',money(net),net>=0?'var(--eco)':'var(--stamp)');
+  const t=document.getElementById('expTbl');if(!t)return;
+  const rows=DB.expenses.slice().reverse().slice(0,60);
+  t.innerHTML=rows.length?'<tr><th>Date</th><th>Category</th><th>Note</th><th class="num">Amount</th><th></th></tr>'+
+    rows.map(e=>`<tr><td>${e.date}</td><td>${e.cat}</td><td>${e.note||''}</td><td class="num">${money(e.amt)}</td><td><button class="ic del" onclick="del('expenses','${e.id}');renderExpenses()"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button></td></tr>`).join('')
+    :'<tr><td class="empty">No expenses yet. Tap "+ Add expense" — diesel, wages, tea, everything counts for real profit.</td></tr>';
+}
+
+/* ---------- edit an existing order ---------- */
+function editOrderRow(id){
+  const o=DB.orders.find(x=>x.id===id);if(!o)return;
+  const po=DB.products.map(p=>`<option value="${p.name}" ${p.name===o.prod?'selected':''}>${p.name}</option>`).join('')+(DB.products.some(p=>p.name===o.prod)?'':`<option value="${o.prod}" selected>${o.prod}</option>`);
+  openM(`<h3>Edit Order</h3>
+   <div class="fg"><label>Product</label><select id="eo_prod">${po}</select></div>
+   <div class="frow">
+     <div class="fg"><label>Qty</label><input id="eo_qty" type="number" value="${o.qty}"></div>
+     <div class="fg"><label>Rate ₹</label><input id="eo_rate" type="number" step="0.01" value="${o.rate}"></div>
+   </div>
+   <div class="frow">
+     <div class="fg"><label>Status</label><select id="eo_status">${['pending','delivered','paid'].map(x=>`<option ${x===o.status?'selected':''}>${x}</option>`).join('')}</select></div>
+     <div class="fg"><label>Payment</label><select id="eo_pay" onchange="document.getElementById('eo_dueWrap').style.display=this.value==='credit'?'block':'none'">${[['cash','💵 Cash'],['gpay','📱 GPay'],['credit','📒 Credit']].map(([v,l])=>`<option value="${v}" ${v===(o.pay||'cash')?'selected':''}>${l}</option>`).join('')}</select></div>
+   </div>
+   <div class="fg" id="eo_dueWrap" style="display:${(o.pay||'cash')==='credit'?'block':'none'}"><label>Credit due date</label><input id="eo_due" type="date" value="${o.payDue||''}"></div>
+   <div class="mbtns"><button class="btn out" onclick="closeM()">Cancel</button><button class="btn eco" onclick="saveOrderEdit('${o.id}')">Save</button></div>`);
+}
+function saveOrderEdit(id){
+  const o=DB.orders.find(x=>x.id===id);if(!o)return;
+  o.prod=val('eo_prod');o.qty=+val('eo_qty')||0;o.rate=+val('eo_rate')||0;
+  o.status=val('eo_status');o.pay=val('eo_pay');o.payDue=o.pay==='credit'?val('eo_due'):'';
+  save();closeM();render();renderPayments&&renderPayments();toast('Order updated ✓');
+}
+
+/* ---------- customer ledger (khata) ---------- */
+function custDue(c){return DB.orders.filter(o=>o.cust===c.id&&o.pay==='credit'&&o.status!=='paid').reduce((s,o)=>s+o.qty*o.rate,0);}
+function openLedger(id){
+  const c=DB.customers.find(x=>x.id===id);if(!c)return;
+  const os=DB.orders.filter(o=>o.cust===id).slice().reverse();
+  const due=custDue(c);
+  const rows=os.length?os.map(o=>{
+    const amt=o.qty*o.rate;
+    const unpaidCredit=o.pay==='credit'&&o.status!=='paid';
+    return `<div class="row"><div class="meta">
+      <div class="t">${o.prod} × ${o.qty} — <b>${money(amt)}</b> ${unpaidCredit?`<span class="pill due">DUE ${o.payDue||''}</span>`:`<span class="pill ${o.status==='paid'?'paid':'customer'}">${o.pay==='credit'?'credit':o.pay||'cash'} · ${o.status}</span>`}</div>
+      <div class="s">${o.date}${o.src?' · '+o.src:''}</div></div>
+      <div class="acts">${unpaidCredit?`<button class="btn sm eco" onclick="markPaid('${o.id}');openLedger('${id}')">₹ Paid</button>`:''}</div></div>`;
+  }).join(''):'<div class="empty" style="padding:14px">No orders yet.</div>';
+  openM(`<h3>📒 ${c.name} — Ledger</h3>
+   <div style="display:flex;gap:10px;margin-bottom:12px">
+     <div class="kpi" style="flex:1"><b>${money(os.reduce((s,o)=>s+o.qty*o.rate,0))}</b><div class="l">Total business</div></div>
+     <div class="kpi" style="flex:1"><b style="color:${due>0?'var(--stamp)':'var(--eco)'}">${money(due)}</b><div class="l">Outstanding</div></div>
+   </div>
+   <div style="max-height:45vh;overflow-y:auto">${rows}</div>
+   <div class="mbtns" style="margin-top:12px">
+     ${c.phone&&due>0?`<a class="btn wa" style="flex:1;justify-content:center;text-decoration:none" target="_blank" href="${waLink(c.phone,`Hello ${c.name} 🙏 KRAFT·Vibe here. Gentle reminder — outstanding balance ${money(due)}. Please pay by GPay/cash at your convenience. Thank you! 🙏`)}">📲 Remind</a>`:''}
+     <button class="btn out" style="flex:1" onclick="closeM()">Close</button>
+   </div>`);
+}
 
 /* ---------- Today: business-at-a-glance strip ---------- */
 function renderTodayStats(){

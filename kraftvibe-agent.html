@@ -87,6 +87,7 @@ main{max-width:560px;margin:0 auto;padding:14px 14px 60px}
 <header>
   <div class="lg">🧑‍💼</div>
   <div><h1>FIELD AGENT</h1><div class="st" id="hdSt">loading…</div></div>
+  <button class="rf" onclick="openMyDay()">📊</button>
   <button class="rf" onclick="openAddShop()">➕ Shop</button>
   <button class="rf" style="background:var(--eco);border-color:var(--eco)" onclick="openOrder()">🛒 Order</button>
   <button class="rf" onclick="load(true)">⟳</button>
@@ -149,6 +150,18 @@ main{max-width:560px;margin:0 auto;padding:14px 14px 60px}
       <button class="b-go" onclick="saveShop()">✅ Save Shop</button>
     </div>
     <div style="text-align:center;font-family:'DM Mono';font-size:10.5px;color:var(--ink-soft);margin-top:10px">saved to your list now · owner gets it as a new lead too</div>
+  </div>
+</div>
+
+<!-- my day modal -->
+<div class="ov" id="ov3" onclick="if(event.target===this)document.getElementById('ov3').classList.remove('on')">
+  <div class="md">
+    <h3>📊 My Day</h3>
+    <div id="mydayBody" style="font-size:15px;line-height:2.1"></div>
+    <div class="row">
+      <button class="b-x" onclick="document.getElementById('ov3').classList.remove('on')">Close</button>
+      <button class="b-go" id="mydayWA">📲 Send to Owner</button>
+    </div>
   </div>
 </div>
 
@@ -216,6 +229,7 @@ function card(c){
       ${c.phone?`<a class="a-call" href="tel:${esc(c.phone)}">📞 Call</a>
       <a class="a-wa" target="_blank" href="https://wa.me/91${esc(c.phone.replace(/\D/g,'').slice(-10))}">💬</a>`:''}
       <button class="a-vis" onclick="checkin('${c.id}')">${vis?'📍 Again':'📍 Check-in'}</button>
+      ${k!=='wish'?`<button class="a-vis" style="background:#7a5326" onclick="collect('${c.id}')">💰 Collect</button>`:''}
       <button class="a-ord" onclick="openOrder('${c.id}')">🛒 Order</button>
     </div></div>`;
 }
@@ -246,7 +260,7 @@ function checkin(id){
   toast('📍 Signing in at '+c.name+'…');
   const send=(lat,lng)=>{
     fetch(SHEET,{method:'POST',mode:'no-cors',body:new URLSearchParams({action:'visit',custId:id,shop:c.name,note:'',lat:lat||'',lng:lng||''})})
-      .then(()=>{VISITED.add(id);render();toast('✓ Visit logged — '+c.name);})
+      .then(()=>{VISITED.add(id);bumpStat('v');render();toast('✓ Visit logged — '+c.name);})
       .catch(()=>toast('⚠ Network — try again'));
   };
   if(navigator.geolocation){
@@ -278,8 +292,33 @@ function sendOrder(){
   let payDue='';
   if(pay==='credit'){const d=new Date();d.setDate(d.getDate()+(+document.getElementById('m_credDays').value||7));payDue=d.toISOString().slice(0,10);}
   fetch(SHEET,{method:'POST',mode:'no-cors',body:new URLSearchParams({action:'addOrder',id:'ag'+Date.now(),prod,qty,note,pay,payDue})})
-    .then(()=>{closeM();toast('✅ Order sent to production — '+shopName);
+    .then(()=>{closeM();bumpStat('o');toast('✅ Order sent to production — '+shopName);
       if(SEL&&!VISITED.has(SEL.id))checkin(SEL.id);})
+    .catch(()=>toast('⚠ Network — try again'));
+}
+
+/* ---- daily stats (local) ---- */
+function bumpStat(k,amt){
+  const d=today();const all=JSON.parse(localStorage.getItem('kva_stats')||'{}');
+  const st=all[d]||{v:0,o:0,s:0,c:0};
+  st[k]=(st[k]||0)+(amt||1);all[d]=st;
+  localStorage.setItem('kva_stats',JSON.stringify(all));
+}
+function openMyDay(){
+  const st=(JSON.parse(localStorage.getItem('kva_stats')||'{}'))[today()]||{v:0,o:0,s:0,c:0};
+  document.getElementById('mydayBody').innerHTML=
+    `📍 Shop visits: <b>${st.v||0}</b><br>🛒 Orders taken: <b>${st.o||0}</b><br>➕ New shops added: <b>${st.s||0}</b><br>💰 Cash collected: <b>₹${(st.c||0).toLocaleString('en-IN')}</b>`;
+  const msg=`*Agent Day Report — ${today()}*%0A📍 Visits: ${st.v||0}%0A🛒 Orders: ${st.o||0}%0A➕ New shops: ${st.s||0}%0A💰 Collected: ₹${st.c||0}`;
+  document.getElementById('mydayWA').onclick=()=>window.open('https://wa.me/917904505226?text='+msg,'_blank');
+  document.getElementById('ov3').classList.add('on');
+}
+/* ---- payment collected in field ---- */
+function collect(id){
+  const c=CUST.find(x=>x.id===id);if(!c)return;
+  const amt=prompt('₹ How much collected from '+c.name+'?');
+  if(!amt||isNaN(+amt)||+amt<=0)return;
+  fetch(SHEET,{method:'POST',mode:'no-cors',body:new URLSearchParams({action:'visit',custId:id,shop:c.name,note:'💰 COLLECTED ₹'+(+amt).toLocaleString('en-IN'),lat:'',lng:''})})
+    .then(()=>{bumpStat('c',+amt);toast('💰 ₹'+amt+' collected — owner notified');})
     .catch(()=>toast('⚠ Network — try again'));
 }
 
@@ -297,7 +336,7 @@ function saveShop(){
   loc.push(entry);localStorage.setItem('kva_local',JSON.stringify(loc));
   CUST.push(entry);
   fetch(SHEET,{method:'POST',mode:'no-cors',body:new URLSearchParams({name,phone,shop:type+(area?' · '+area:''),source:'Agent — new shop'})}).catch(()=>{});
-  closeShop();render();toast('✅ '+name+' added — owner notified');
+  bumpStat('s');closeShop();render();toast('✅ '+name+' added — owner notified');
   document.getElementById('s_name').value='';document.getElementById('s_phone').value='';document.getElementById('s_area').value='';
 }
 
