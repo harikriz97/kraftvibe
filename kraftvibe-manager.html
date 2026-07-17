@@ -217,7 +217,7 @@ main{max-width:1000px;margin:0 auto;padding:16px}
     <div id="moreMenu" style="display:none;position:absolute;right:0;top:110%;background:var(--cream);border:1.5px solid var(--line);border-radius:12px;box-shadow:0 14px 34px rgba(70,45,20,.25);z-index:60;min-width:200px;overflow:hidden">
       <button style="display:block;width:100%;text-align:left;background:none;color:var(--ink);border-radius:0" onclick="window.open('kraftvibe-designs.html','_blank');document.getElementById('moreMenu').classList.remove('on')">🎨 Design Studio</button>
       <button style="display:block;width:100%;text-align:left;background:none;color:var(--ink);border-radius:0" onclick="window.open('kraftvibe-agent.html','_blank');document.getElementById('moreMenu').classList.remove('on')">🧑‍💼 Agent app</button>
-      <button style="display:block;width:100%;text-align:left;background:none;color:var(--ink);border-radius:0" onclick="syncCustomersToAgent(true);toast('Shop list sent to agent ✓');document.getElementById('moreMenu').classList.remove('on')">🔄 Sync shops to agent</button>
+      <button style="display:block;width:100%;text-align:left;background:none;color:var(--ink);border-radius:0" onclick="verifyAgentSync();document.getElementById('moreMenu').classList.remove('on')">🔄 Sync shops to agent</button>
       <button style="display:block;width:100%;text-align:left;background:none;color:var(--ink);border-radius:0" onclick="exportData();document.getElementById('moreMenu').classList.remove('on')">⬇ Backup data</button>
       <button style="display:block;width:100%;text-align:left;background:none;color:var(--ink);border-radius:0" onclick="document.getElementById('importFile').click();document.getElementById('moreMenu').classList.remove('on')">⬆ Restore data</button>
       <button style="display:block;width:100%;text-align:left;background:none;color:var(--ink);border-radius:0" onclick="openSettings();document.getElementById('moreMenu').classList.remove('on')">⚙ Settings</button>
@@ -1912,6 +1912,18 @@ async function syncWorker(){
     });
     if(ch){save();render();}
   }catch(e){}
+}
+async function verifyAgentSync(){
+  toast('Sending shop list…');
+  try{syncCustomersToAgent(true);}catch(e){}
+  setTimeout(async()=>{
+    try{
+      const r=await fetch(WORKER_SHEET+'?action=agentData&t='+Date.now());
+      const j=await r.json();
+      const n=(j.customers||[]).length;
+      toast(n>0?('✅ Agent now has '+n+' shops'):'⚠ Sync reached 0 shops — refresh this page (Ctrl+Shift+R) & try again');
+    }catch(e){toast('⚠ Could not verify — check internet');}
+  },3500);
 }
 setInterval(syncWorker,120000);
 setInterval(syncAgentVisits,180000);
